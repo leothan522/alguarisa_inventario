@@ -928,9 +928,7 @@ AAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC"/>
                         <h2 class="mt-6 text-xl font-semibold text-gray-900">Sistema de Inventario</h2>
 
                         <p class="mt-4 text-gray-500 text-sm leading-relaxed">
-                            Laravel has wonderful documentation covering every aspect of the framework. Whether you are
-                            a newcomer or have prior experience with Laravel, we recommend reading our documentation
-                            from beginning to end.
+                            Herramienta de control de inventario de los almacenes de Alimentos del Guárico, S.A. (ALGUARISA) que optimiza las labores de distribución de alimentos  para todo nuestro estado como actividad de gestión fundamental para la cual fue  nuestra empresa.
                         </p>
                     </div>
 
@@ -1084,9 +1082,7 @@ c2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg=="/>
                         <h2 class="mt-6 text-xl font-semibold text-gray-900">Sistema de Transporte</h2>
 
                         <p class="mt-4 text-gray-500 text-sm leading-relaxed">
-                            Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development.
-                            Check them out, see for yourself, and massively level up your development skills in the
-                            process.
+                            Sistema creado para la optimización del proceso de salida de cargas de alimentos de nuestros almacenes con la automatización del guiado y registros en base de los datos nominales e históricos de distribución de alimentos.
                         </p>
                     </div>
 
