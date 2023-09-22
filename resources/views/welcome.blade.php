@@ -846,7 +846,7 @@
 
     <div class="max-w-7xl mx-auto p-6 lg:p-8">
         <div class="flex justify-center">
-            
+
             <svg class="gobernacion" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="4500px" height="4500px" viewBox="0 0 4500 4500" enable-background="new 0 0 4500 4500" xml:space="preserve">  <image id="image0" width="4500" height="4500" x="0" y="0"
                                                                                                                                                                                                                                                                      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAEZQAABGUCAYAAADb7YylAAAABGdBTUEAALGPC/xhBQAAACBjSFJN
 AAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAA
