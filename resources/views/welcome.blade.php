@@ -928,7 +928,7 @@ AAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC"/>
                         <h2 class="mt-6 text-xl font-semibold text-gray-900">Sistema de Inventario</h2>
 
                         <p class="mt-4 text-gray-500 text-sm leading-relaxed">
-                            Herramienta de control de inventario de los almacenes de Alimentos del Guárico, S.A. (ALGUARISA) que optimiza las labores de distribución de alimentos  para todo nuestro estado como actividad de gestión fundamental para la cual fue  nuestra empresa.
+                            Herramienta de control de inventario de los almacenes de Alimentos del Guárico, S.A. (ALGUARISA) que optimiza las labores de distribución de alimentos  para todo nuestro estado como actividad de gestión fundamental para la cual fue concebida nuestra empresa.
                         </p>
                     </div>
 
