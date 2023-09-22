@@ -3,8 +3,8 @@
     <p>Sidebar content</p>--}}
 
     <ul class="nav nav-pills flex-column">
-        @livewire('dashboard.dolar-component')
-        <li class="dropdown-divider"></li>
+        {{--@livewire('dashboard.dolar-component')--}}
+        {{--<li class="dropdown-divider"></li>--}}
         <li class="nav-item">
             <span class="text-small text-muted float-right">Extras</span>
         </li>

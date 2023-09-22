@@ -15,11 +15,12 @@ use App\Http\Controllers\Web\WebController;
 |
 */
 
-/*Route::get('/', function () {
-    return view('web.index');
-})->name('web.index');*/
+Route::get('/', function () {
+    //return view('welcome');
+    return redirect()->route('dashboard');
+})->name('web.index');
 
-Route::get('/', [WebController::class, 'index'])->name('web.index');
+/*Route::get('/', [WebController::class, 'index'])->name('web.index');
 Route::get('producto/{id}/detalles', [WebController::class, 'detail'])->name('web.detail');
 Route::get('categoria/{id}/productos', [WebController::class, 'categoria'])->name('web.categoria');
 
@@ -30,7 +31,7 @@ Route::get('/contact', [WebController::class, 'contact'])->name('web.contact');
 Route::get('/recuperar/{token}/{email}', [WebController::class, 'recuperar'])->name('web.recuperar');
 Route::post('/reset', [WebController::class, 'reset'])->name('web.reset');
 
-Route::get('/perfil', [WebController::class, 'perfil'])->name('web.perfil')->middleware('auth');
+Route::get('/perfil', [WebController::class, 'perfil'])->name('web.perfil')->middleware('auth');*/
 
 Route::middleware([
     'auth:sanctum',
