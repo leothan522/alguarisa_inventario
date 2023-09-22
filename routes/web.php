@@ -16,8 +16,8 @@ use App\Http\Controllers\Web\WebController;
 */
 
 Route::get('/', function () {
-    //return view('welcome');
-    return redirect()->route('dashboard');
+    return view('welcome');
+    //return redirect()->route('dashboard');
 })->name('web.index');
 
 /*Route::get('/', [WebController::class, 'index'])->name('web.index');
