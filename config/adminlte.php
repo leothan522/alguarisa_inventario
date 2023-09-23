@@ -354,6 +354,12 @@ return [
             'can'       => ['usuarios', 'parametros'],
             'submenu' => [
                 [
+                    'text' => 'Territorio',
+                    'icon' => 'fas fa-fw fa-globe-americas',
+                    'route'  => 'territorio.index',
+                    'can'  => 'territorio',
+                ],
+                [
                     'text' => 'Usuarios',
                     'icon' => 'fas fa-fw fa-users',
                     'route'  => 'usuarios.index',

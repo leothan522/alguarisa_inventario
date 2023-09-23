@@ -9,6 +9,7 @@ use App\Http\Controllers\Dashboard\EmpresasController;
 use App\Http\Controllers\Dashboard\ArticulosController;
 use App\Http\Controllers\Dashboard\StockController;
 use App\Http\Controllers\Dashboard\OfertasController;
+use App\Http\Controllers\Dashboard\TerritorioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,9 @@ Route::middleware([
     Route::post('export/stock', [StockController::class, 'reporteStock'])->name('stock.reportes');
     Route::post('export/ajustes', [StockController::class, 'reporteAjustes'])->name('ajustes.reportes');
     Route::get('ofertas', [OfertasController::class, 'index'])->name('ofertas.index');
+
+    //alguarisa
+    Route::get('territorio', [TerritorioController::class, 'index'])->name('territorio.index');
 
 });
 

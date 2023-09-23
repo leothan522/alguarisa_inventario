@@ -24,7 +24,7 @@ class UsuariosComponent extends Component
         'selectEmpresas', 'empresasSeleccionadas'
     ];
 
-    public $view = "create", $keyword;
+    public $view = "create", $keyword, $display = null;
     public $name, $email, $password, $role, $usuario_id, $select_empresas, $ver_empresas;
     public $edit_name, $edit_email, $edit_password, $edit_role = 0, $edit_roles_id = 0, $created_at, $estatus = 1, $photo, $empresas_id;
     public $tabla = "usuarios", $tabla_id, $tabla_nombre, $tabla_email, $tabla_permisos;
@@ -461,6 +461,10 @@ class UsuariosComponent extends Component
     public function empresasSeleccionadas($data)
     {
         $this->select_empresas = $data;
+    }
+
+    public function removeForm(){
+        $this->display = "d-none";
     }
 
     public function addRolList()

@@ -7,7 +7,10 @@
             </button>--}}
             {{--<span class="btn btn-tool"><i class="fas fa-list"></i></span>--}}
             {{--<span class="btn btn-tool"><i class="fas fa-ban"></i> Cancelar</span>--}}
-            <span class="btn btn-tool"><i class="fas fa-file"></i></span>
+            {{--<span class="btn btn-tool"><i class="fas fa-file"></i></span>--}}
+            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     </div>
 

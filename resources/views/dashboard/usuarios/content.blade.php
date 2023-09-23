@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
     @if(comprobarPermisos('usuarios.create'))
-        <div class="col-md-3">
+        <div class="col-md-3 {{ $display }}">
             @include('dashboard.usuarios.card_form')
         </div>
     @endif
