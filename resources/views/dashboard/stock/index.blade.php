@@ -71,6 +71,10 @@
             Livewire.emit('limpiarTiposAjuste');
         }
 
+        function verSegmentos() {
+            Livewire.emit('limpiarSegmentos');
+        }
+
         function cambiarEmpresa()
         {
             Livewire.emit('changeEmpresa');

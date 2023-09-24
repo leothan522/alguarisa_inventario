@@ -41,7 +41,7 @@
                         <thead>
                                 <tr class="text-navy">
                                     <th style="width: 5%">#</th>
-                                    <th>Tienda</th>
+                                    <th>Empresa</th>
                                     <th style="width: 10%">Unidad</th>
                                     <th style="width: 10%" class="text-right">Actual</th>
                                     <th style="width: 10%" class="text-right">Comprom.</th>

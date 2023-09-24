@@ -25,9 +25,25 @@
         <div class="col-md-2">
             <label>Descripción:</label>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-5">
             <input type="text" class="form-control form-control-sm @error('ajuste_descripcion') is-invalid @enderror"
                    placeholder="Descripción" wire:model.defer="ajuste_descripcion">
+        </div>
+        <div class="col-md-2">
+            <select class="custom-select custom-select-sm">
+                <option value="">Particular</option>
+                <option value="">Particular</option>
+                <option value="">Instituciones</option>
+                <option value="">Municipios</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select class="custom-select custom-select-sm">
+                <option value="">Particular</option>
+                <option value="">Particular</option>
+                <option value="">Instituciones</option>
+                <option value="">Municipios</option>
+            </select>
         </div>
     </div>
 

@@ -62,6 +62,7 @@
             @include('dashboard.stock.modal')
             @include('dashboard.stock.modal_almacenes')
             @include('dashboard.stock.modal_tipos_ajuste')
+            @include('dashboard.stock.modal_segmentos')
             @include('dashboard.stock.modal_reportes_stock')
             @include('dashboard.stock.modal_reportes_ajustes')
         </div>
@@ -96,7 +97,7 @@
         <div class="callout callout-info">
             <h5><i class="fas fa-info"></i> Nota:</h5>
             Para que este Modulo este <span class="text-bold text-navy">Activo</span>, es Necesario previmente crear una
-            <span class="text-bold @if($modulo_empresa) text-success @else text-danger @endif">Tienda</span>,
+            <span class="text-bold @if($modulo_empresa) text-success @else text-danger @endif">Empresa</span>,
             un <span
                     class="text-bold @if($modulo_empresa) text-success @else text-danger @endif">Almacen</span>
             y Tener Al menos un <span class="text-bold @if($modulo_articulo) text-success @else text-danger @endif">Articulo</span>
@@ -106,7 +107,7 @@
         <div class="callout callout-info">
             <h5><i class="fas fa-info"></i> Nota:</h5>
             El <span class="text-bold text-danger">Usuario</span> actual
-            NO tiene a ninguna empresa. Contacte con su <span class="text-bold text-navy">Administrador</span>.
+            NO tiene acceso a ninguna empresa. Contacte con su <span class="text-bold text-navy">Administrador</span>.
         </div>
     @endif
 @endif

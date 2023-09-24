@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\AjusDetalle;
+use App\Models\AjusSegmento;
 use App\Models\Ajuste;
 use App\Models\AjusTipo;
 use App\Models\Almacen;
@@ -31,6 +32,7 @@ class StockComponent extends Component
         'changeEmpresa',
         'limpiarAlmacenes', 'confirmedAlmacenes',
         'limpiarTiposAjuste', 'confirmedTiposAjuste',
+        'limpiarSegmentos', 'confirmedSegmento',
         'confirmedBorrarAjuste', 'verspinnerOculto', 'buscar'
     ];
 
@@ -48,6 +50,8 @@ class StockComponent extends Component
         $ajuste_tipos_id = [], $ajuste_articulos_id = [], $ajuste_almacenes_id = [], $ajuste_tipos_tipo = [], $ajuste_almacenes_tipo = [],
         $ajusteItem, $ajusteListarArticulos, $keywordAjustesArticulos, $detallesItem, $detalles_id = [], $borraritems = [];
     public $proximo_codigo;
+    public $segmento_id, $segmento_nombre, $keywordSegmento;
+
 
     public function mount()
     {
@@ -143,6 +147,8 @@ class StockComponent extends Component
         $rowsAlmacenes = Almacen::count();
         $tiposAjuste = AjusTipo::buscar($this->keywordTiposAjuste)->orderBy('codigo', 'ASC')->paginate($paginate);
         $rowsTiposAjuste = AjusTipo::count();
+        $segmentos = AjusSegmento::buscar($this->keywordSegmento)->orderBy('id', 'ASC')->paginate($paginate);
+        $rowsSegmento = AjusSegmento::count();
         $ajustes = Ajuste::buscar($this->keywordAjustes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'desc')->paginate($paginate);
         $unidades = Unidad::orderBy('codigo', 'ASC')->pluck('codigo', 'id');
         $articulos = Articulo::where('estatus', 1)->orderBy('codigo', 'asc')->get();
@@ -151,6 +157,8 @@ class StockComponent extends Component
             ->with('rowsAlmacenes', $rowsAlmacenes)
             ->with('listarTiposAjuste', $tiposAjuste)
             ->with('rowsTiposAjuste', $rowsTiposAjuste)
+            ->with('listarSegmentos', $segmentos)
+            ->with('rowsSegmento', $rowsSegmento)
             ->with('listarAjustes', $ajustes)
             ->with('listarStock', $stock)
             ->with('listarUnidades', $unidades)
@@ -491,6 +499,112 @@ class StockComponent extends Component
     {
         //
     }
+
+    // ************************* Tipos de AJuste ********************************************
+
+    public function limpiarSegmentos()
+    {
+        $this->reset([
+            'segmento_id', 'segmento_nombre', 'keywordSegmento'
+        ]);
+    }
+
+    public function saveSegmento()
+    {
+        $rules = [
+            'segmento_nombre' => ['required', 'min:4', 'max:15', 'alpha_num:ascii', Rule::unique('ajustes_segmentos', 'descripcion')->ignore($this->segmento_id)],
+        ];
+        $messages = [
+            'segmento_nombre.required' => 'El campo descripción es obligatorio.',
+            'segmento_nombre.min' => 'El campo descripción debe contener al menos 4 caracteres.',
+            'segmento_nombre.max' => 'El campo descripción no debe ser mayor que 15 caracteres.',
+            'segmento_nombre.alpha_num' => ' El campo descripción sólo debe contener letras y números.',
+            'segmento_nombre.unique' => ' El campo descripción ya ha sido registrado.',
+        ];
+
+        $this->validate($rules, $messages);
+        $message = null;
+        if (is_null($this->segmento_id)) {
+            //nuevo
+            $tipo = new AjusSegmento();
+            $message = "Segmento Creado.";
+        } else {
+            //editar
+            $tipo = AjusSegmento::find($this->segmento_id);
+            $message = "Segmento Actualizado.";
+        }
+        $tipo->descripcion = ucfirst($this->segmento_nombre);
+        $tipo->save();
+
+        $this->editSegmento($tipo->id);
+
+        $this->alert(
+            'success',
+            $message
+        );
+
+    }
+
+    public function editSegmento($id)
+    {
+        $tipo = AjusSegmento::find($id);
+        $this->segmento_id = $tipo->id;
+        $this->segmento_nombre = $tipo->descripcion;
+    }
+
+    public function destroySegmento($id)
+    {
+        $this->segmento_id = $id;
+        $this->confirm('¿Estas seguro?', [
+            'toast' => false,
+            'position' => 'center',
+            'showConfirmButton' => true,
+            'confirmButtonText' => '¡Sí, bórralo!',
+            'text' => '¡No podrás revertir esto!',
+            'cancelButtonText' => 'No',
+            'onConfirmed' => 'confirmedSegmento',
+        ]);
+
+    }
+
+    public function confirmedSegmento()
+    {
+
+        $tipo = AjusSegmento::find($this->segmento_id);
+
+        //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
+        $vinculado = false;
+        $detalles = Ajuste::where('segmentos_id', $tipo->id)->first();
+
+        if ($detalles){
+            $vinculado = true;
+        }
+
+        if ($vinculado) {
+            $this->alert('warning', '¡No se puede Borrar!', [
+                'position' => 'center',
+                'timer' => '',
+                'toast' => false,
+                'text' => 'El registro que intenta borrar ya se encuentra vinculado con otros procesos.',
+                'showConfirmButton' => true,
+                'onConfirmed' => '',
+                'confirmButtonText' => 'OK',
+            ]);
+        } else {
+            $tipo->delete();
+            $this->alert(
+                'success',
+                'Segmento Eliminado.'
+            );
+            $this->limpiarSegmentos();
+        }
+    }
+
+    public function buscarSegmentos()
+    {
+        //
+    }
+
 
     // ************************* Ajustes ********************************************
 
