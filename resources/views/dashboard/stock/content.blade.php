@@ -4,7 +4,7 @@
     <div class="invoice p-3 mb-3" xmlns:wire="http://www.w3.org/1999/xhtml">
 
         <!-- title row -->
-        <div class="row mb-3">
+        <div class="row {{--@if($view != "ajustes") mb-3 @endif--}}{{--mb-3--}}">
             <div class="col-12">
                 <h3>
                     <i class="fas fa-store-alt"></i> {{ $empresa->nombre }}
@@ -20,7 +20,7 @@
         </div>
 
         <!-- Button row -->
-        <div class="row invoice-info">
+        <div class="row invoice-info d-none">
             <div class="col-12 mb-3">
                 {{--<button type="button" class="btn btn-default btn-sm">
                     <i class="fas fa-plus-circle"></i> Stock
@@ -42,24 +42,23 @@
                 @endif
 
                 <!-- Right -->
-                <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
+                <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1" id="content_btn_ajustes"
                         wire:click="verAjustes" @if($view == "ajustes" || !comprobarPermisos('ajustes.index')) disabled @endif>
                     <i class="fas fa-list"></i> Ajustes
                 </button>
-                <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
+                <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1" id="content_btn_existencias"
                         wire:click="verAjustes" @if($view == "stock") disabled @endif>
                     <i class="fas fa-boxes"></i> Existencias
                 </button>
-                <button type="button" wire:click="show" class="btn btn-default btn-sm float-right ml-1 mr-1" {{--style="margin-right: 5px;"--}}>
+                <button type="button" wire:click="show" class="btn btn-default btn-sm float-right ml-1 mr-1" id="content_btn_actualizar" {{--style="margin-right: 5px;"--}}>
                     <i class="fas fa-sync"></i> Actualizar
                 </button>
             </div>
-
         </div>
 
         <!-- Table row -->
         <div class="row">
-            @include('dashboard.stock.table_stock')
+            {{--@include('dashboard.stock.table_stock')--}}
             @include('dashboard.stock.modal')
             @include('dashboard.stock.modal_almacenes')
             @include('dashboard.stock.modal_tipos_ajuste')
@@ -67,7 +66,7 @@
             @include('dashboard.stock.modal_reportes_ajustes')
         </div>
 
-        <div class="overlay-wrapper" wire:loading wire:target="empresa_id, setEstatus, show, verAjustes">
+        <div class="overlay-wrapper" wire:loading wire:target="empresa_id{{--, setEstatus, show, verAjustes--}}">
             <div class="overlay">
                 <div class="spinner-border text-navy" role="status">
                     <span class="sr-only">Loading...</span>

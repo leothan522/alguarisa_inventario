@@ -18,7 +18,7 @@ class EmpresasComponent extends Component
 
     protected $listeners = ['buscar', 'confirmed'];
 
-    public $view = "show", $keyword, $title = "Datos de la Tienda", $btn_cancelar = false, $footer = true;
+    public $view = "show", $keyword, $title = "Datos de la Empresa", $btn_cancelar = false, $footer = true;
     public $empresa_id, $empresa_default, $verDefault, $verImagen, $img_borrar_principal, $img_principal;
     public $rif, $nombre, $jefe, $moneda, $telefonos, $email, $direccion, $photo, $default = 0, $permisos;
     public $horario, $horario_id, $lunes, $martes, $miercoles, $jueves, $viernes, $sabado, $domingo, $apertura, $cierre;
@@ -55,7 +55,7 @@ class EmpresasComponent extends Component
     public function create()
     {
         $this->limpiar();
-        $this->title = "Nueva Tienda";
+        $this->title = "Nueva Empresa";
         $this->btn_cancelar = true;
         $this->view = "form";
         $this->footer = false;
@@ -191,7 +191,7 @@ class EmpresasComponent extends Component
 
     public function edit()
     {
-        $this->title = "Editar Tienda";
+        $this->title = "Editar Empresa";
         $this->btn_cancelar = true;
         $this->view = "form";
     }
@@ -254,7 +254,7 @@ class EmpresasComponent extends Component
             borrarImagenes($imagen, 'empresas');
             $this->alert(
                 'success',
-                'Tienda Eliminada.'
+                'Empresa Eliminada.'
             );
             $this->show($this->empresa_default);
         }
@@ -308,7 +308,7 @@ class EmpresasComponent extends Component
             $this->cierre = null;
         }
 
-        $this->title = "Datos de la Tienda";
+        $this->title = "Datos de la Empresa";
         $this->btn_cancelar = true;
         $this->view = "horario";
     }
@@ -449,11 +449,11 @@ class EmpresasComponent extends Component
             if ($parametro->valor == 1){
                 $parametro->valor = 0;
                 $tipo = 'info';
-                $message = 'Tienda Cerrada.';
+                $message = 'Empresa Cerrada.';
             }else{
                 $parametro->valor = 1;
                 $tipo = 'success';
-                $message = 'Tienda Abierta.';
+                $message = 'Empresa Abierta.';
             }
             $parametro->update();
         }else{
@@ -463,7 +463,7 @@ class EmpresasComponent extends Component
             $parametro->valor = 1;
             $parametro->save();
             $tipo = 'success';
-            $message = 'Tienda Abierta.';
+            $message = 'Empresa Abierta.';
         }
 
         $this->alert(

@@ -3,7 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    <h1><i class="fas fa-tachometer-alt"></i> Dashboard</h1>
 @endsection
 
 @section('content')

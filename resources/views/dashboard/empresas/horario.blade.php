@@ -6,7 +6,7 @@
             <div class="card card-outline card-navy">
 
                 <div class="card-header">
-                    <h5 class="card-title">Horario de la Tienda</h5>
+                    <h5 class="card-title">Horario de la Empresa</h5>
                     <div class="card-tools">
                         <div class="custom-control custom-switch custom-switch-on-success float-right">
                             <input type="checkbox" class="custom-control-input" id="customSwitchHours"

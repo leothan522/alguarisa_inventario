@@ -75,7 +75,7 @@
                         <div class="row col-12 justify-content-center mb-3 mt-3">
                             <div class="col-8">
                                 <img class="img-thumbnail" src="{{ asset(verImagen($verImagen)) }}"
-                                     {{--width="101" height="100"--}}  alt="Logo Tienda"/>
+                                     {{--width="101" height="100"--}}  alt="Logo Empresa"/>
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@
                         @if($verDefault)
                             <ul class="list-group text-sm">
                                 <li class="list-group-item bg-warning text-bold">
-                                    Tienda Default
+                                    Empresa Default
                                     <span class="float-right text-bold"><i
                                                 class="fas fa-certificate text-muted text-xs"></i></span>
                                 </li>

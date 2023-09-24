@@ -1,7 +1,7 @@
 <div class="card {{--card-outline--}} card-navy" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card-header">
         <h3 class="card-title">
-            Tiendas
+            Empresas
         </h3>
 
         <div class="card-tools">
@@ -41,7 +41,7 @@
                 @else
                 <tr class="text-center">
                     <td colspan="2">
-                        <span>Aún se se ha creado una Tienda.</span>
+                        <span>Aún se ha creado una Empresa.</span>
                     </td>
                 </tr>
             @endif

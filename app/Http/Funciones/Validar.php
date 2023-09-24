@@ -25,28 +25,6 @@ function comprobarAccesoEmpresa($permisos, $user_id)
 function allPermisos()
 {
     $permisos = [
-        'Usuarios' => [
-            'route' => 'usuarios.index',
-            'submenu' => [
-                'Crear Usuarios' => 'usuarios.create',
-                'Editar Usuarios' => 'usuarios.edit',
-                'Suspender Usuarios' => 'usuarios.estatus',
-                'Reestablecer Contraseña' => 'usuarios.password',
-                'Descargar Excel' => 'usuarios.excel',
-                'Eliminar Usuarios' => 'usuarios.destroy',
-            ]
-        ],
-        'Tiendas' => [
-            'route' => 'empresas.index',
-            'submenu' => [
-                'Crear Tiendas' => 'empresas.create',
-                '[Abrir][Cerrar] Tiendas' => 'empresas.estatus',
-                'Definir Horarios' => 'empresas.horario',
-                'Editar Tiendas' => 'empresas.edit',
-                'Borrar Tiendas' => 'empresas.destroy'
-
-            ]
-        ],
         'Stock' => [
             'route' => 'stock.index',
             'submenu' => [
@@ -86,6 +64,28 @@ function allPermisos()
                 'Crear unidades' => 'unidades.create',
                 'Editar unidades' => 'unidades.edit',
                 'Borrar unidades' => 'unidades.destroy'
+
+            ]
+        ],
+        'Usuarios' => [
+            'route' => 'usuarios.index',
+            'submenu' => [
+                'Crear Usuarios' => 'usuarios.create',
+                'Editar Usuarios' => 'usuarios.edit',
+                'Suspender Usuarios' => 'usuarios.estatus',
+                'Reestablecer Contraseña' => 'usuarios.password',
+                'Descargar Excel' => 'usuarios.excel',
+                'Eliminar Usuarios' => 'usuarios.destroy',
+            ]
+        ],
+        'Empresas' => [
+            'route' => 'empresas.index',
+            'submenu' => [
+                'Crear Empresas' => 'empresas.create',
+                '[Abrir][Cerrar] Empresas' => 'empresas.estatus',
+                'Definir Horarios' => 'empresas.horario',
+                'Editar Empresas' => 'empresas.edit',
+                'Borrar Empresas' => 'empresas.destroy'
 
             ]
         ],

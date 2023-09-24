@@ -329,7 +329,7 @@ return [
                 ]
             ],
         ],
-        [
+        /*[
             'text'      => 'E-commerce',
             'icon'      => 'fas fa-fw fa-store ',
             'can'       => ['empresas', 'ofertas'],
@@ -341,29 +341,35 @@ return [
                     'can' => 'ofertas',
                 ],
                 [
-                    'text' => 'Tiendas',
+                    'text' => 'Empresas',
                     'icon' => 'fas fa-fw fa-store-alt',
                     'route'  => 'empresas.index',
                     'can'  => 'empresas',
                 ]
             ],
-        ],
+        ],*/
         [
             'text'      => 'Configuración',
             'icon'      => 'fas fa-fw fa-cogs',
             'can'       => ['usuarios', 'parametros'],
             'submenu' => [
                 [
-                    'text' => 'Territorio',
-                    'icon' => 'fas fa-fw fa-globe-americas',
-                    'route'  => 'territorio.index',
-                    'can'  => 'territorio',
-                ],
-                [
                     'text' => 'Usuarios',
                     'icon' => 'fas fa-fw fa-users',
                     'route'  => 'usuarios.index',
                     'can'  => 'usuarios',
+                ],
+                [
+                    'text' => 'Empresas',
+                    'icon' => 'fas fa-fw fa-store-alt',
+                    'route'  => 'empresas.index',
+                    'can'  => 'empresas',
+                ],
+                [
+                    'text' => 'Territorio',
+                    'icon' => 'fas fa-fw fa-globe-americas',
+                    'route'  => 'territorio.index',
+                    'can'  => 'territorio',
                 ],
                 [
                     'text' => 'Parametros',
