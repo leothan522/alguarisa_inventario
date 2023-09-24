@@ -36,7 +36,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="form-group form-group-sm">
+                            <div class="form-group form-group-sm d-none">
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
@@ -44,8 +44,8 @@
                                         </span>
                                     </div>
                                     <select class="form-control form-group-sm" name="tipo">
-                                        <option value="all"></option>
                                         <option value="actual">Actual</option>
+                                        <option value="all"></option>
                                         <option value="disponible">Disponible</option>
                                         <option value="comprometido">Comprometido</option>
                                         <option value="vendido">Vendido</option>

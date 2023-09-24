@@ -9,7 +9,7 @@
                    @if(!$proximo_codigo['editable']) readonly @endif>
         </div>
         <div class="col-md-3">
-            &nbsp;
+            &nbsp; @error('ajuste_codigo') {{ $message }} @endif
         </div>
         <div class="col-md-2 text-md-right">
             <label>Fecha:</label>
@@ -30,19 +30,18 @@
                    placeholder="Descripción" wire:model.defer="ajuste_descripcion">
         </div>
         <div class="col-md-2">
-            <select class="custom-select custom-select-sm">
-                <option value="">Particular</option>
-                <option value="">Particular</option>
-                <option value="">Instituciones</option>
-                <option value="">Municipios</option>
+            <select class="custom-select custom-select-sm @error('ajuste_segmento') is-invalid @enderror" wire:model.defer="ajuste_segmento">
+                @foreach($selectSegmentos as $segmento)
+                    <option value="{{ $segmento->id }}">{{ $segmento->descripcion }}</option>
+                @endforeach
             </select>
         </div>
         <div class="col-md-3">
-            <select class="custom-select custom-select-sm">
-                <option value="">Particular</option>
-                <option value="">Particular</option>
-                <option value="">Instituciones</option>
-                <option value="">Municipios</option>
+            <select class="custom-select custom-select-sm @error('ajuste_municipio') is-invalid @enderror" wire:model.defer="ajuste_municipio">
+                <option value="">Seleccione</option>
+                @foreach($selectMunicipios as $municipio)
+                    <option value="{{ $municipio->id }}">{{ $municipio->mini }}</option>
+                @endforeach
             </select>
         </div>
     </div>

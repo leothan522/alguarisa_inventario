@@ -47,4 +47,9 @@ class Ajuste extends Model
         return $this->belongsTo(AjusSegmento::class, 'segmentos_id', 'id');
     }
 
+    public function municipios(): BelongsTo
+    {
+        return $this->belongsTo(Municipio::class, 'municipios_id', 'id');
+    }
+
 }

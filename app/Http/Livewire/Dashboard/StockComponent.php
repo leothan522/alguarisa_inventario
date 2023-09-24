@@ -10,6 +10,7 @@ use App\Models\Almacen;
 use App\Models\Articulo;
 use App\Models\ArtUnid;
 use App\Models\Empresa;
+use App\Models\Municipio;
 use App\Models\Parametro;
 use App\Models\Precio;
 use App\Models\Stock;
@@ -43,7 +44,9 @@ class StockComponent extends Component
     public $tipos_ajuste_id, $tipos_ajuste_codigo, $tipos_ajuste_nombre, $tipos_ajuste_tipo = 1, $keywordTiposAjuste;
     public $view = "stock";
     public $view_ajustes = 'show', $footer = false, $new_ajuste = false, $btn_nuevo = true, $btn_editar = false, $btn_cancelar = false;
-    public $ajuste_id, $ajuste_codigo, $ajuste_fecha, $ajuste_descripcion, $ajuste_contador = 1, $listarDetalles, $opcionDestroy, $ajuste_estatus, $keywordAjustes;
+    public $ajuste_id, $ajuste_codigo, $ajuste_fecha, $ajuste_descripcion, $ajuste_contador = 1, $listarDetalles,
+        $opcionDestroy, $ajuste_estatus, $keywordAjustes, $ajuste_segmento = 1, $ajuste_municipio,
+        $ajuste_label_segmento, $ajuste_label_municipio;
     public $ajusteTipo = [], $classTipo = [],
         $ajusteArticulo = [], $classArticulo = [], $ajusteDescripcion = [], $ajusteUnidad = [], $selectUnidad = [],
         $ajusteAlmacen = [], $classAlmacen = [], $ajusteCantidad = [],
@@ -60,11 +63,7 @@ class StockComponent extends Component
 
     public function render()
     {
-        if (numRowsPaginate() < 10) {
-            $paginate = 10;
-        } else {
-            $paginate = numRowsPaginate();
-        }
+        if (numRowsPaginate() < 10) { $paginate = 10; } else { $paginate = numRowsPaginate(); }
         $this->proximo_codigo = nextCodigoAjuste($this->empresa_id);
 
         $empresa = Empresa::find($this->empresa_id);
@@ -149,9 +148,11 @@ class StockComponent extends Component
         $rowsTiposAjuste = AjusTipo::count();
         $segmentos = AjusSegmento::buscar($this->keywordSegmento)->orderBy('id', 'ASC')->paginate($paginate);
         $rowsSegmento = AjusSegmento::count();
-        $ajustes = Ajuste::buscar($this->keywordAjustes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'desc')->paginate($paginate);
+        $ajustes = Ajuste::buscar($this->keywordAjustes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'desc')->paginate($paginate, ['*'], 'pag');
         $unidades = Unidad::orderBy('codigo', 'ASC')->pluck('codigo', 'id');
         $articulos = Articulo::where('estatus', 1)->orderBy('codigo', 'asc')->get();
+        $selectSegmentos = AjusSegmento::orderBy('id', 'ASC')->get();
+        $selectMunicipios = Municipio::where('estatus', 1)->orderBy('nombre', 'ASC')->get();
         return view('livewire.dashboard.stock-component')
             ->with('listarAlmacenes', $almacenes)
             ->with('rowsAlmacenes', $rowsAlmacenes)
@@ -162,7 +163,10 @@ class StockComponent extends Component
             ->with('listarAjustes', $ajustes)
             ->with('listarStock', $stock)
             ->with('listarUnidades', $unidades)
-            ->with('listarArticulos', $articulos);
+            ->with('listarArticulos', $articulos)
+            ->with('selectSegmentos', $selectSegmentos)
+            ->with('selectMunicipios', $selectMunicipios)
+            ;
     }
 
     public function getEmpresaDefault()
@@ -630,7 +634,8 @@ class StockComponent extends Component
             'ajusteTipo', 'classTipo', 'ajusteArticulo', 'classArticulo', 'ajusteDescripcion', 'ajusteUnidad',
             'selectUnidad', 'ajusteAlmacen', 'ajusteCantidad', 'ajusteListarArticulos', 'keywordAjustesArticulos', 'ajusteItem',
             'ajuste_tipos_id', 'ajuste_articulos_id', 'ajuste_almacenes_id', 'tipos_ajuste_tipo', 'ajuste_almacenes_tipo',
-            'listarDetalles', 'detallesItem', 'detalles_id', 'borraritems', 'ajuste_estatus'
+            'listarDetalles', 'detallesItem', 'detalles_id', 'borraritems', 'ajuste_estatus',
+            'ajuste_segmento', 'ajuste_municipio', 'ajuste_label_segmento', 'ajuste_label_municipio'
         ]);
         $this->resetErrorBag();
     }
@@ -726,9 +731,10 @@ class StockComponent extends Component
     protected function rules()
     {
         return [
-            'ajuste_codigo' => ['nullable', 'min:4', 'alpha_num:ascii', Rule::unique('ajustes', 'codigo')->ignore($this->ajuste_id)],
+            'ajuste_codigo' => ['nullable', 'min:4', 'alpha_dash:ascii', Rule::unique('ajustes', 'codigo')->ignore($this->ajuste_id)],
             'ajuste_fecha' => 'nullable',
             'ajuste_descripcion' => 'required|min:4',
+            'ajuste_municipio' => 'required_if:ajuste_segmento,1',
             'ajusteTipo.*' => ['required', Rule::exists('ajustes_tipos', 'codigo')],
             'ajusteArticulo.*' => ['required', Rule::exists('articulos', 'codigo')],
             'ajusteUnidad.*' => 'required',
@@ -781,6 +787,8 @@ class StockComponent extends Component
             $ajuste->empresas_id = $this->empresa_id;
             $ajuste->codigo = $this->ajuste_codigo;
             $ajuste->descripcion = $this->ajuste_descripcion;
+            $ajuste->segmentos_id = $this->ajuste_segmento;
+            $ajuste->municipios_id = $this->ajuste_municipio;
             $date = new \DateTime($this->ajuste_fecha);
             $ajuste->fecha = $date->format('Y-m-d H:i');
             $ajuste->save();
@@ -951,6 +959,13 @@ class StockComponent extends Component
         $this->ajuste_codigo = $ajuste->codigo;
         $this->ajuste_fecha = $ajuste->fecha;
         $this->ajuste_descripcion = $ajuste->descripcion;
+        $this->ajuste_segmento = $ajuste->segmentos_id;
+        $this->ajuste_municipio = $ajuste->municipios_id;
+        $this->ajuste_label_segmento = $ajuste->segmentos->descripcion;
+        if ($ajuste->municipios_id)
+        {
+            $this->ajuste_label_municipio = $ajuste->municipios->mini;
+        }
         $this->ajuste_estatus = $ajuste->estatus;
         $this->listarDetalles = AjusDetalle::where('ajustes_id', $this->ajuste_id)->get();
         $this->ajuste_contador = AjusDetalle::where('ajustes_id', $this->ajuste_id)->count();
@@ -1018,6 +1033,8 @@ class StockComponent extends Component
         $db_codigo = $ajuste->codigo;
         $db_fecha = $ajuste->fecha;
         $db_descripcion = $ajuste->descripcion;
+        $db_segmento = $ajuste->segmentos_id;
+        $db_municipio = $ajuste->municipios_id;
 
         if ($db_codigo != $this->ajuste_codigo) {
             $procesar_ajuste = true;
@@ -1032,6 +1049,20 @@ class StockComponent extends Component
         if ($db_descripcion != $this->ajuste_descripcion) {
             $procesar_ajuste = true;
             $ajuste->descripcion = $this->ajuste_descripcion;
+        }
+
+        if ($db_segmento != $this->ajuste_segmento) {
+            $procesar_ajuste = true;
+            $ajuste->segmentos_id = $this->ajuste_segmento;
+        }
+
+        if ($db_municipio != $this->ajuste_municipio) {
+            $procesar_ajuste = true;
+            if (!empty($this->ajuste_municipio)){
+                $ajuste->municipios_id = $this->ajuste_municipio;
+            }else{
+                $ajuste->municipios_id = null;
+            }
         }
 
         //***** Detalles ******

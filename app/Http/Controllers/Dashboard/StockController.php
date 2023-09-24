@@ -6,6 +6,7 @@ use App\Exports\AjustesExport;
 use App\Exports\StockExport;
 use App\Http\Controllers\Controller;
 use App\Models\AjusDetalle;
+use App\Models\AjusSegmento;
 use App\Models\Ajuste;
 use App\Models\AjusTipo;
 use App\Models\Almacen;
@@ -37,6 +38,8 @@ class StockController extends Controller
             ->with('ajuste_codigo', $ajuste->codigo)
             ->with('ajuste_fecha', $ajuste->fecha)
             ->with('ajuste_descripcion', $ajuste->descripcion)
+            ->with('ajuste_label_segmento', $ajuste->segmentos->descripcion)
+            ->with('ajuste_label_municipio', $ajuste->municipios->mini)
             ->with('listarDetalles', $listarDetalles);
     }
 
@@ -181,6 +184,8 @@ class StockController extends Controller
         $articulo = $request->articulo;
         $almacen = $request->almacen;
         $anulado = $request->anulado;
+        $segmento = $request->segmento;
+        $municipio = $request->municipio;
 
         $hoy = Carbon::now()->format('d-m-Y h:i:s a');
         $label = str_replace(':', '-', $hoy);
@@ -241,8 +246,10 @@ class StockController extends Controller
             ->with('tipo', $tipo)
             ->with('articulo', $articulo)
             ->with('almacen', $almacen)
+            ->with('segmento', $segmento)
+            ->with('municipio', $municipio)
             ;*/
 
-        return Excel::download(new AjustesExport($reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen), 'Ajustes '.$label.'.xlsx');
+        return Excel::download(new AjustesExport($reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen, $segmento, $municipio), 'Ajustes '.$label.'.xlsx');
     }
 }

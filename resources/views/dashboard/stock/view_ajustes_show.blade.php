@@ -18,8 +18,16 @@
         <div class="col-md-2">
             <label>Descripción:</label>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-5">
             <span class="border badge-pill">{{ $ajuste_descripcion }}</span>
+        </div>
+        <div class="col-md-2">
+            <span class="border badge-pill">{{ $ajuste_label_segmento }}</span>
+        </div>
+        <div class="col-md-3">
+            @if($ajuste_label_municipio)
+                <span class="border badge-pill">{{ $ajuste_label_municipio }}</span>
+            @endif
         </div>
     </div>
 

@@ -76,6 +76,53 @@
                                 <div class="input-group input-group-sm">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">
+                                            Segmento
+                                        </span>
+                                    </div>
+                                    <select class="form-control form-control-sm" name="segmento">
+                                        <option value="all"></option>
+                                        @if($selectSegmentos->isNotEmpty())
+                                            @foreach($selectSegmentos as $segmento)
+                                                <option value="{{ $segmento->id }}">{{ $segmento->descripcion }}</option>
+                                            @endforeach
+                                        @endif
+
+                                    </select>
+                                    @error('segmento')
+                                    <span class="col-sm-12 text-sm text-bold text-danger">
+                                        <i class="icon fas fa-exclamation-triangle"></i>
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            Municipio
+                                        </span>
+                                    </div>
+                                    <select class="form-control form-control-sm" name="municipio">
+                                        <option value="all"></option>
+                                        @if($selectMunicipios->isNotEmpty())
+                                            @foreach($selectMunicipios as $municipios)
+                                                <option value="{{ $municipios->id }}">{{ $municipios->nombre }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                    @error('municipio')
+                                    <span class="col-sm-12 text-sm text-bold text-danger">
+                                        <i class="icon fas fa-exclamation-triangle"></i>
+                                        {{ $message }}
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
                                             Articulo
                                         </span>
                                     </div>

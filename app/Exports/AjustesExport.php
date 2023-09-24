@@ -15,8 +15,9 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class AjustesExport implements FromView, ShouldAutoSize, WithTitle, WithColumnFormatting, WithStyles
 {
-    private $reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen;
-    public function __construct($reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen)
+    private $reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen, $segmento, $municipio;
+
+    public function __construct($reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen, $segmento, $municipio)
     {
         $this->reporte = $reporte;
         $this->empresa = $empresa;
@@ -28,6 +29,8 @@ class AjustesExport implements FromView, ShouldAutoSize, WithTitle, WithColumnFo
         $this->tipo = $tipo;
         $this->articulo = $articulo;
         $this->almacen = $almacen;
+        $this->segmento = $segmento;
+        $this->municipio = $municipio;
     }
 
     public function view(): View
@@ -43,6 +46,8 @@ class AjustesExport implements FromView, ShouldAutoSize, WithTitle, WithColumnFo
             ->with('tipo', $this->tipo)
             ->with('articulo', $this->articulo)
             ->with('almacen', $this->almacen)
+            ->with('segmento', $this->segmento)
+            ->with('municipio', $this->municipio)
             ;
     }
 

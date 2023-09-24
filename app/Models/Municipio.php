@@ -22,6 +22,11 @@ class Municipio extends Model
         return $this->hasMany(Parroquia::class, 'municipios_id', 'id');
     }
 
+    public function ajustes(): HasMany
+    {
+        return $this->hasMany(Ajuste::class, 'municipios_id', 'id');
+    }
+
     public function scopeBuscar($query, $keyword)
     {
         return $query->where('nombre', 'LIKE', "%$keyword%")

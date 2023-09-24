@@ -14,15 +14,15 @@
 
 <table>
     <tr>
-        <td colspan="3">Tienda</td>
+        <td colspan="4">Empresa</td>
         <td colspan="{{ $columnas }}" style="text-align: end">Usuario:</td>
     </tr>
     <tr>
-        <td colspan="3">{{ $empresa->nombre }}</td>
+        <td colspan="4">{{ $empresa->nombre }}</td>
         <td colspan="{{ $columnas }}" style="text-align: end">{{ auth()->user()->email }}</td>
     </tr>
     <tr>
-        <td colspan="3">R.I.F: {{ $empresa->rif }}</td>
+        <td colspan="4">R.I.F: {{ $empresa->rif }}</td>
         <td colspan="{{ $columnas }}" style="text-align: end">
             Fecha: {{ $fecha }}</td>
     </tr>
@@ -66,7 +66,7 @@
         <td style="{{ $color }}{{ $border }}">Articulo</td>
         <td style="{{ $color }}{{ $border }}">Unidad</td>
         @if($tipo == "all" || $tipo == "actual")
-            <td style="{{ $color }}{{ $border }}">Actual</td>
+            <td style="{{ $color }}{{ $border }}">Stock</td>
         @endif
         @if($tipo == "all" || $tipo == "comprometido")
             <td style="{{ $color }}{{ $border }}">Comprometido</td>

@@ -1,6 +1,6 @@
 @extends('layouts.adminlte_print')
 
-@section('title', 'Tienda: '. $empresa)
+@section('title', 'Empresa: '. $empresa)
 
 @section('content')
 
@@ -12,7 +12,7 @@
                 Ajustes de Entrada y Salida
             </h3>
             <div class="card-tools">
-                Tienda: {{ $empresa }}
+                Empresa: {{ $empresa }}
             </div>
         </div>
 
@@ -39,8 +39,16 @@
                     <div class="col-2">
                         <label>Descripción:</label>
                     </div>
-                    <div class="col-10">
+                    <div class="col-5">
                         <span class="border badge-pill">{{ $ajuste_descripcion }}</span>
+                    </div>
+                    <div class="col-2">
+                        <span class="border badge-pill">{{ $ajuste_label_segmento }}</span>
+                    </div>
+                    <div class="col-3">
+                        @if($ajuste_label_municipio)
+                            <span class="border badge-pill">{{ $ajuste_label_municipio }}</span>
+                        @endif
                     </div>
                 </div>
 
