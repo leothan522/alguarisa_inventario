@@ -51,30 +51,20 @@
                     <div class="form-group">
                         <label for="email">Tipo:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-object-ungroup"></i></span>
-                                </div>
-                                <select id="select_articulos_tipos"></select>
-                            </div>
+                            <div class="input-group mb-3" id="div_select_articulos_tipos"></div>
                         </div>
                         @error('articulo_tipos_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
-                                    <i class="icon fas fa-exclamation-triangle"></i>
-                                    {{ $message }}
-                                </span>
+                            <i class="icon fas fa-exclamation-triangle"></i>
+                            {{ $message }}
+                        </span>
                         @enderror
                     </div>
 
                     <div class="form-group">
                         <label for="email">Categoría:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-tags"></i></span>
-                                </div>
-                                <select id="select_articulos_categorias"></select>
-                            </div>
+                            <div class="input-group mb-3" id="div_select_articulos_categorias"></div>
                         </div>
                         @error('articulo_categorias_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
@@ -87,12 +77,7 @@
                     <div class="form-group">
                         <label for="email">Procedencia:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-object-ungroup"></i></span>
-                                </div>
-                                <select id="select_articulos_procedencias"></select>
-                            </div>
+                            <div class="input-group mb-3" id="div_select_articulos_procedencias"></div>
                         </div>
                         @error('articulo_procedencias_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
@@ -105,12 +90,7 @@
                     <div class="form-group">
                         <label for="email">I.V.A.:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-coins"></i></span>
-                                </div>
-                                <select id="select_articulos_tributarios"></select>
-                            </div>
+                            <div class="input-group mb-3" id="div_select_articulos_tributarios"></div>
                         </div>
                         @error('articulo_tributarios_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">

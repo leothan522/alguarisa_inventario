@@ -1611,7 +1611,7 @@ class ArticulosComponent extends Component
         $procedencias = dataSelect2(Procedencia::get());
         $tributarios = dataSelect2(Tributario::get());
         $this->emit('setSelectFormArticulos', $tipos, $categorias, $procedencias, $tributarios);
-        if ($editar){
+        if ($this->articulo_id || $editar){
             $this->emit('setSelectFormEditar', $this->articulo_tipos_id, $this->articulo_categorias_id, $this->articulo_procedencias_id, $this->articulo_tributarios_id);
         }
     }

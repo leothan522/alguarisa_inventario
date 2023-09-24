@@ -67,10 +67,19 @@
 
         function select_2(id, data, opcion)
         {
+            let html = '<div class="input-group-prepend">' +
+                '<span class="input-group-text">' +
+                '<i class="fas fa-object-ungroup"></i>' +
+                '</span>' +
+                '</div> ' +
+                '<select id="'+ id +'"></select>';
+            $('#div_' + id).html(html);
+
             $('#'  + id).select2({
                 theme: 'bootstrap4',
                 data: data,
-                placeholder: 'Seleccione'
+                placeholder: 'Seleccione',
+                /*allowClear: true*/
             });
             $('#'  + id).val(null).trigger('change');
             $('#'  + id).on('change', function() {
