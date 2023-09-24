@@ -48,9 +48,9 @@ return new class extends Migration
         DB::table("users")
             ->insert([
                 "name" => "Administrador",
-                "email" => "admin@tienda.com",
+                "email" => "admin@alguarisa.com",
                 "email_verified_at" => \Carbon\Carbon::now(),
-                "password" => \Illuminate\Support\Facades\Hash::make("20025623"),
+                "password" => \Illuminate\Support\Facades\Hash::make("Aileen.522"),
                 "role" => 1,
                 "created_at" => \Carbon\Carbon::now(),
                 "updated_at" => \Carbon\Carbon::now(),

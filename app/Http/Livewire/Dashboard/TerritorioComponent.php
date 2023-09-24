@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Municipio;
+use App\Models\Parroquia;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
@@ -16,34 +17,45 @@ class TerritorioComponent extends Component
 
     protected $listeners = [
         'cerrarModal', 'buscar',
-        'limpiarMunicipio', 'confirmedMunicipio'
+        'limpiarMunicipios', 'confirmedMunicipio', 'confirmedParroquia',
+        'selectMunicipios', 'limpiarParroquias', 'municipioSeleccionado', 'editSelectMunicipio'
         ];
 
-    public $viewMunicipio = "create", $keywordMunicipios;
+    public $viewMunicipio = "create", $keywordMunicipios, $viewParroquia = 'create', $keywordParroquia, $idMunicipio;
     public $municipio_id, $municipioNombre, $municipioAbreviatura;
+    public $parroquia_id, $parroquiaNombre, $parroquiaAbreviatura, $parroquiaMunicipio;
 
     public function render()
     {
         if (numRowsPaginate() < 15){ $paginate = 15; }else{ $paginate = numRowsPaginate(); }
 
-        //$paginate = 3;
+        //$paginate = 2;
 
-        $listarMunicpios = Municipio::buscar($this->keywordMunicipios)->orderBy('nombre', 'ASC')->paginate($paginate, ['*'], 'pageMun');
-
+        $listarMunicipios = Municipio::buscar($this->keywordMunicipios)->orderBy('nombre', 'ASC')->paginate($paginate, ['*'], 'pageMun');
         if (isset($this->pageMun) && $this->pageMun > 1){
-            $numero = $this->pageMun * $paginate;
-            $numero = $numero - $paginate;
-            $itemMunicipio = $numero;
+            $itemMunicipio = ($this->pageMun * $paginate) - $paginate;
         }else{
             $itemMunicipio = 0;
         }
 
+        $listarParroquias = Parroquia::buscar($this->keywordParroquia, $this->idMunicipio)->orderBy('nombre', 'ASC')->paginate($paginate, ['*'], 'pagePar');
+        if (isset($this->pagePar) && $this->pagePar > 1){
+            $itemParroquia = ($this->pagePar * $paginate) - $paginate;
+        }else{
+            $itemParroquia = 0;
+        }
+
         return view('livewire.dashboard.territorio-component')
-            ->with('listarMunicipios', $listarMunicpios)
-            ->with('itemMunicipio', $itemMunicipio);
+            ->with('listarMunicipios', $listarMunicipios)
+            ->with('itemMunicipio', $itemMunicipio)
+            ->with('listarParroquias', $listarParroquias)
+            ->with('itemParroquia', $itemParroquia)
+            ;
     }
 
-    public function limpiarMunicipio()
+    /* ****************************** MUNICIPIOS ***************************************** */
+
+    public function limpiarMunicipios()
     {
         $this->resetErrorBag();
         $this->reset([
@@ -94,7 +106,7 @@ class TerritorioComponent extends Component
 
     public function editMunicipio($id)
     {
-        $this->limpiarMunicipio();
+        $this->limpiarMunicipios();
         $this->viewMunicipio = "edit";
         $municipio = Municipio::find($id);
         $this->municipio_id = $municipio->id;
@@ -155,17 +167,194 @@ class TerritorioComponent extends Component
             $municipio = Municipio::find($this->municipio_id);
             $nombre = $municipio->mini;
             $municipio->delete();
-            $this->limpiarMunicipio();
+            $this->limpiarMunicipios();
             $this->alert('success',$nombre. ' Eliminado.');
         }
     }
 
+    /* ****************************** PARROQUIAS ***************************************** */
+
+    public function limpiarParroquias()
+    {
+        $this->resetErrorBag();
+        $this->reset([
+            'viewParroquia', 'parroquia_id', 'parroquiaNombre', 'parroquiaAbreviatura', 'parroquiaMunicipio',
+            'keywordParroquia', 'idMunicipio'
+        ]);
+        $municipios = dataSelect2(Municipio::orderBy('nombre', 'ASC')->get());
+        $this->emit('selectMunicipios', $municipios);
+    }
+
+    public function saveParroquia()
+    {
+        $rules = [
+            'parroquiaMunicipio' => 'required',
+            'parroquiaNombre' => ['required', 'min:6', Rule::unique('parroquias', 'nombre')->ignore($this->parroquia_id)],
+            'parroquiaAbreviatura' => ['nullable', 'min:4', Rule::unique('parroquias', 'mini')->ignore($this->parroquia_id)],
+        ];
+
+        $messages = [
+            'parroquiaMunicipio.required' => 'El municipio es obligatorio.',
+            'parroquiaNombre.required' => 'El nombre de la parroquia es obligatorio.',
+            'parroquiaNombre.min' => 'El nombre debe contener al menos 6 caracteres.',
+            'parroquiaNombre.alpha_num' => 'El nombre sólo debe contener letras y números. ',
+            'parroquiaNombre.unique' => 'El nombre de la parroquia ya ha sido registrado.',
+            'parroquiaAbreviatura.required' => 'La Abreviatura es obligatoria.',
+            'parroquiaAbreviatura.min' => 'La Abreviatura debe contener al menos 4 caracteres.',
+            'parroquiaAbreviatura.alpha_num' => 'La Abreviatura sólo debe contener letras y números.',
+            'parroquiaAbreviatura.unique' => 'La Abreviatura ya ha sido registrada.'
+        ];
+
+        $this->validate($rules, $messages);
+
+        if (is_null($this->parroquia_id)){
+            //nuevo
+            $parroquia = new Parroquia();
+            $message = "Parroquia Creada.";
+        }else{
+            //editar
+            $parroquia = Parroquia::find($this->parroquia_id);
+            $anterior = $parroquia->municipios_id;
+            $message = "Parroquia Actualizada." ;
+        }
+
+        $parroquia->nombre = ucfirst($this->parroquiaNombre);
+        if (!empty($this->parroquiaAbreviatura)){
+            $parroquia->mini = ucfirst($this->parroquiaAbreviatura);
+        }
+        $parroquia->municipios_id = $this->parroquiaMunicipio;
+        $parroquia->save();
+
+        if (is_null($this->parroquia_id)){
+            //nuevo
+            $municipio = Municipio::find($this->parroquiaMunicipio);
+            $cantidad = $municipio->parroquias + 1;
+            $municipio->parroquias = $cantidad;
+            $municipio->save();
+        }else{
+            //editar
+            if ($anterior != $this->parroquiaMunicipio){
+                //resto anterior
+                $municipio = Municipio::find($anterior);
+                $cantidad = $municipio->parroquias - 1;
+                $municipio->parroquias = $cantidad;
+                $municipio->save();
+                //sumo nuevo
+                $municipio = Municipio::find($this->parroquiaMunicipio);
+                $cantidad = $municipio->parroquias + 1;
+                $municipio->parroquias = $cantidad;
+                $municipio->save();
+            }
+
+        }
+
+        $this->emit('cerrarModal', 'parroquia_btn_cerrar');
+        $this->alert('success', $message);
+    }
+
+    public function estatusParroquia($id)
+    {
+        $parroquia = Parroquia::find($id);
+        if ($parroquia->estatus){
+            $parroquia->estatus = 0;
+            $type = 'info';
+            $message = $parroquia->nombre." Inactivo.";
+        }else{
+            $parroquia->estatus = 1;
+            $type = 'success';
+            $message = $parroquia->nombre." Activo.";
+
+        }
+        $parroquia->save();
+        $this->alert($type, $message);
+    }
+
+    public function editParroquia($id)
+    {
+        $this->limpiarParroquias();
+        $this->viewParroquia = "edit";
+        $parroquia = Parroquia::find($id);
+        $this->parroquia_id = $parroquia->id;
+        $this->parroquiaNombre = $parroquia->nombre;
+        $this->parroquiaAbreviatura = $parroquia->mini;
+        $this->parroquiaMunicipio = $parroquia->municipios_id;
+        $this->emit('editSelectMunicipio', $this->parroquiaMunicipio);
+    }
+
+    public function destroyParroquia($id)
+    {
+        $this->parroquia_id = $id;
+        $this->confirm('¿Estas seguro?', [
+            'toast' => false,
+            'position' => 'center',
+            'showConfirmButton' => true,
+            'confirmButtonText' => '¡Sí, bórralo!',
+            'text' => '¡No podrás revertir esto!',
+            'cancelButtonText' => 'No',
+            'onConfirmed' => 'confirmedParroquia',
+        ]);
+    }
+
+    public function confirmedParroquia()
+    {
+        // Example code inside confirmed callback
+        $validar = false;
+
+        if ($validar) {
+
+            $this->alert('warning', '¡No se puede Borrar!', [
+                'position' => 'center',
+                'timer' => '',
+                'toast' => false,
+                'text' => 'El registro que intenta borrar ya se encuentra vinculado con otros procesos.',
+                'showConfirmButton' => true,
+                'onConfirmed' => '',
+                'confirmButtonText' => 'OK',
+            ]);
+
+        } else {
+            $parroquia = Parroquia::find($this->parroquia_id);
+            $anterior = $parroquia->municipios_id;
+            $nombre = $parroquia->nombre;
+            $parroquia->delete();
+            $municipio = Municipio::find($anterior);
+            $cantidad = $municipio->parroquias - 1;
+            $municipio->parroquias = $cantidad;
+            $municipio->save();
+            $this->limpiarParroquias();
+            $this->alert('success',$nombre. ' Eliminado.');
+        }
+    }
+
+    public function filtrarParroquias($id)
+    {
+        $this->reset(['keywordParroquia']);
+        $this->idMunicipio = $id;
+    }
+
+    // *********************************** Complementos ***************************************
+
     public function buscar($keyword)
     {
         $this->keywordMunicipios = $keyword;
+        $this->keywordParroquia = $keyword;
+    }
+
+    public function municipioSeleccionado($municipio){
+        $this->parroquiaMunicipio = $municipio;
     }
 
     public function cerrarModal($selector)
+    {
+        //JS
+    }
+
+    public function selectMunicipios($municipios)
+    {
+        //JS
+    }
+
+    public function editSelectMunicipio($municipio)
     {
         //JS
     }

@@ -21,4 +21,16 @@ class Parroquia extends Model
     {
         return $this->belongsTo(Municipio::class, 'municipios_id', 'id');
     }
+
+    public function scopeBuscar($query, $keyword, $idMunicipio = null)
+    {
+        if (is_null($idMunicipio)){
+            return $query->where('nombre', 'LIKE', "%$keyword%")
+                ->orWhere('mini', 'LIKE', "%$keyword%")
+                ;
+        }else{
+            return $query->where('municipios_id', '=', $idMunicipio);
+        }
+    }
+
 }

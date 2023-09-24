@@ -3,7 +3,7 @@
         <h3 class="card-title">
             @if($keywordMunicipios)
                 Resultados de la Busqueda { <b class="text-danger">{{ $keywordMunicipios }}</b> }
-                <button class="btn btn-tool text-danger" wire:click="limpiarMunicipio"><i class="fas fa-times-circle"></i>
+                <button class="btn btn-tool text-danger" wire:click="limpiarMunicipios"><i class="fas fa-times-circle"></i>
                 </button>
             @else
                 Municipios
@@ -36,7 +36,7 @@
                         <td>{{ $municipio->nombre }}</td>
                         <td>{{ $municipio->mini }}</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-success btn-sm">
+                            <button type="button" class="btn btn-success btn-sm" wire:click="filtrarParroquias({{ $municipio->id }})">
                                 {{ $municipio->parroquias }}
                             </button>
                         </td>

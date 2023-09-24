@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('parroquias', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('mini');
+            $table->string('mini')->nullable();
             $table->bigInteger('municipios_id')->unsigned();
             $table->integer('estatus')->default(1);
             $table->foreign('municipios_id')->references('id')->on('municipios')->cascadeOnDelete();

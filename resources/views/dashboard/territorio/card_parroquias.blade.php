@@ -1,22 +1,24 @@
 <div class="card card-outline card-navy" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card-header">
         <h3 class="card-title">
-            @if(/*$keyword*/ false)
-                Resultados de la Busqueda { <b class="text-danger">{{ $keyword }}</b> }
-                <button class="btn btn-tool text-danger" wire:click="limpiar"><i class="fas fa-times-circle"></i>
-                </button>
+            @if($keywordParroquia || $idMunicipio)
+                @if($keywordParroquia)
+                    Resultados de la Busqueda { <b class="text-danger">{{ $keywordParroquia }}</b> }
+                    <button class="btn btn-tool text-danger" wire:click="limpiarParroquias"><i class="fas fa-times-circle"></i>
+                    </button>
+                @else
+                    Filtrando por municipio{{-- { <b class="text-danger">{{ $keywordParroquia }}</b> }--}}
+                    <button class="btn btn-tool text-danger" wire:click="limpiarParroquias"><i class="fas fa-times-circle"></i>
+                    </button>
+                @endif
             @else
                 Parroquias
             @endif
         </h3>
 
         <div class="card-tools">
-            <ul class="pagination pagination-sm float-right">
-                <li class="page-item"><a class="page-link" href="#">«</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">»</a></li>
+            <ul class="pagination pagination-sm float-right m-1">
+                {{ $listarParroquias->links() }}
             </ul>
         </div>
     </div>
@@ -31,27 +33,48 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">1</td>
-                <td>Valle de La pascua</td>
-                <td class="text-center">
-                    Infante
-                </td>
-                <td class="justify-content-end">
-                    <div class="btn-group">
-                        <button {{--wire:click="destroy({{ $parametro->id }})"--}} class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button {{--wire:click="edit({{ $parametro->id }})"--}} class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-parroquias">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button {{--wire:click="destroy({{ $parametro->id }})"--}} class="btn btn-primary btn-sm">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
+
+            @if($listarParroquias->isNotEmpty())
+                @foreach($listarParroquias as $parroquia)
+                    @php($itemParroquia++)
+                    <tr>
+                        <td class="text-center">{{ $itemParroquia }}</td>
+                        <td>{{ $parroquia->nombre }}</td>
+                        <td class="text-center">
+                            {{ $parroquia->municipio->mini }}
+                        </td>
+                        <td class="justify-content-end">
+                            <div class="btn-group">
+                                <button wire:click="estatusParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm">
+                                    @if($parroquia->estatus)
+                                        <i class="fas fa-eye"></i>
+                                    @else
+                                        <i class="fas fa-eye-slash"></i>
+                                    @endif
+                                </button>
+                                <button wire:click="editParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-parroquias">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button wire:click="destroyParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            @else
+                <tr class="text-center">
+                    <td colspan="5">
+                        @if($keywordMunicipios)
+                            <span>Sin resultados</span>
+                        @else
+                            <span>Sin registros guardados</span>
+                        @endif
+                    </td>
+                </tr>
+            @endif
             </tbody>
         </table>
     </div>
+    {!! verSpinner() !!}
 </div>

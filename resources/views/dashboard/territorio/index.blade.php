@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+@section('plugins.Select2', true)
+
 @section('title', 'Territorio')
 
 @section('content_header')
@@ -38,23 +40,50 @@
     <script src="{{ asset("js/app.js") }}"></script>
     <script>
 
-        /*function search(){
-            let input = $("#navbarSearch");
-            let keyword  = input.val();
-            if (keyword.length > 0){
-                input.blur();
-                alert('Falta vincular con el componente Livewire');
-                //Livewire.emit('increment', keyword);
-            }
-            return false;
-        }*/
-
         function nuevoMunicipio() {
-            Livewire.emit('limpiarMunicipio');
+            Livewire.emit('limpiarMunicipios');
+        }
+
+        function nuevaParroquia() {
+            Livewire.emit('limpiarParroquias');
         }
 
         Livewire.on('cerrarModal', selector => {
             $('#' + selector).click();
+        });
+
+        function select_2(data) {
+
+            let html = '<div class="input-group-prepend">' +
+                '<span class="input-group-text text-bold">Municipio</span>' +
+                '</div>' +
+                '<select id="parroquias_select_municipios"></select>';
+            $('#parroquias_div_select').html(html);
+
+            $('#parroquias_select_municipios')
+                .select2({
+                    theme: 'bootstrap4',
+                    data: data,
+                    placeholder: 'Seleccione',
+                    allowClear: true
+                })
+                .val(null)
+                .trigger('change');
+
+            $('#parroquias_select_municipios').on('change', function () {
+                let val = $(this).val();
+                Livewire.emit('municipioSeleccionado', val);
+            });
+        }
+
+        Livewire.on('selectMunicipios', municipios => {
+            select_2(municipios);
+        });
+
+        Livewire.on('editSelectMunicipio', municipio =>{
+            $('#parroquias_select_municipios')
+                .val(municipio)
+                .trigger('change');
         });
 
         console.log('Hi!');
