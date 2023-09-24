@@ -52,10 +52,12 @@
                                         <i class="fas fa-eye-slash"></i>
                                     @endif
                                 </button>
-                                <button wire:click="editParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-parroquias">
+                                <button wire:click="editParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-parroquias"
+                                        @if(!comprobarPermisos('parroquias.edit')) disabled @endif >
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button wire:click="destroyParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm">
+                                <button wire:click="destroyParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm"
+                                        @if(!comprobarPermisos('parroquias.destroy')) disabled @endif >
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>

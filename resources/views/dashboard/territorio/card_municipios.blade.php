@@ -48,12 +48,13 @@
                                     @else
                                         <i class="fas fa-eye-slash"></i>
                                     @endif
-
                                 </button>
-                                <button wire:click="editMunicipio({{ $municipio->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-municipios">
+                                <button wire:click="editMunicipio({{ $municipio->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-municipios"
+                                        @if(!comprobarPermisos('municipios.edit')) disabled @endif >
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button wire:click="destroyMunicipio({{ $municipio->id }})" class="btn btn-primary btn-sm">
+                                <button wire:click="destroyMunicipio({{ $municipio->id }})" class="btn btn-primary btn-sm"
+                                        @if(!comprobarPermisos('municipios.destroy')) disabled @endif >
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>

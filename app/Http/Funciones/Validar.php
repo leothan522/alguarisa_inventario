@@ -89,6 +89,17 @@ function allPermisos()
 
             ]
         ],
+        'Territorio' => [
+            'route' => 'municipios.index',
+            'submenu' => [
+                'Crear Municipios' => 'municipios.create',
+                'Editar Municipios' => 'municipios.edit',
+                'Borrar Municipios' => 'municipios.destroy',
+                'Crear Parroquias' => 'parroquias.create',
+                'Editar Parroquias' => 'parroquias.edit',
+                'Borrar Parroquias' => 'parroquias.destroy'
+            ]
+        ],
         /*'Procedencias' => [
             'route' => 'procedencias.index',
             'submenu' => [
