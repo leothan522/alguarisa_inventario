@@ -57,6 +57,7 @@
             @include('dashboard.stock.modal_segmentos')
             @include('dashboard.stock.modal_reportes_stock')
             @include('dashboard.stock.modal_reportes_ajustes')
+            @include('dashboard.stock.modal_compartir_qr')
         </div>
 
         <div class="overlay-wrapper" wire:loading wire:target="empresa_id{{--, setEstatus, show, verAjustes--}}">

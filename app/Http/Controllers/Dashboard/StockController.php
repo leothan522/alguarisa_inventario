@@ -12,6 +12,7 @@ use App\Models\AjusTipo;
 use App\Models\Almacen;
 use App\Models\Articulo;
 use App\Models\Empresa;
+use App\Models\Parametro;
 use App\Models\Stock;
 use App\Models\Unidad;
 use Carbon\Carbon;
@@ -255,5 +256,17 @@ class StockController extends Controller
             ;*/
 
         return Excel::download(new AjustesExport($reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen, $segmento, $municipio), 'Ajustes '.$label.'.xlsx');
+    }
+
+    public function campartirQr($empresa, $token)
+    {
+        $parametro = Parametro::where('nombre', 'compartir_qr')->first();
+        if ($parametro){
+            if ($parametro->valor == $token){
+                return view('dashboard.stock.compartir')
+                    ->with('empresa_id', $empresa);
+            }
+        }
+        return redirect()->route('cerrar');
     }
 }

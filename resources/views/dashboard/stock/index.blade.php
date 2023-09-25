@@ -80,6 +80,10 @@
             Livewire.emit('changeEmpresa');
         }
 
+        function compartirQr() {
+            Livewire.emit('compartirQr');
+        }
+
         Livewire.on('verspinnerOculto', valor => {
             $('.cargar_buscar').removeClass('d-none');
         });

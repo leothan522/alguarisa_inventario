@@ -34,7 +34,8 @@ class StockComponent extends Component
         'limpiarAlmacenes', 'confirmedAlmacenes',
         'limpiarTiposAjuste', 'confirmedTiposAjuste',
         'limpiarSegmentos', 'confirmedSegmento',
-        'confirmedBorrarAjuste', 'verspinnerOculto', 'buscar'
+        'confirmedBorrarAjuste', 'verspinnerOculto', 'buscar',
+        'compartirQr'
     ];
 
     public $modulo_activo = false, $modulo_empresa, $modulo_articulo;
@@ -54,6 +55,7 @@ class StockComponent extends Component
         $ajusteItem, $ajusteListarArticulos, $keywordAjustesArticulos, $detallesItem, $detalles_id = [], $borraritems = [];
     public $proximo_codigo;
     public $segmento_id, $segmento_nombre, $keywordSegmento;
+    public $compartirQr;
 
 
     public function mount()
@@ -66,8 +68,7 @@ class StockComponent extends Component
         if (numRowsPaginate() < 10) { $paginate = 10; } else { $paginate = numRowsPaginate(); }
         $this->proximo_codigo = nextCodigoAjuste($this->empresa_id);
 
-        $empresa = Empresa::find($this->empresa_id);
-        $this->empresa = $empresa;
+        $this->empresa = Empresa::find($this->empresa_id);
         $this->getEmpresas();
         $almacenes = Almacen::buscar($this->keywordAlmacenes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'ASC')->paginate($paginate);
         $rowsAlmacenes = Almacen::count();
@@ -1628,6 +1629,24 @@ class StockComponent extends Component
         }
     }
 
-
+    public function compartirQr($borrar = false)
+    {
+        $parametro = Parametro::where('nombre','compartir_qr')->first();
+        $token = generarStringAleatorio(30);
+        if ($parametro){
+            if (!$borrar){
+                $this->compartirQr = route('stock.compartirqr', [$this->empresa_id, $parametro->valor]);
+            }else{
+                $parametro->delete();
+                $this->reset(['compartirQr']);
+            }
+        }else{
+            $parametro = new Parametro();
+            $parametro->nombre = 'compartir_qr';
+            $parametro->valor = $token;
+            $parametro->save();
+            $this->compartirQr = route('stock.compartirqr', [$this->empresa_id, $parametro->valor]);
+        }
+    }
 
 }
