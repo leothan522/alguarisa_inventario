@@ -7,7 +7,7 @@
         <div class="row {{--@if($view != "ajustes") mb-3 @endif--}}{{--mb-3--}}">
             <div class="col-12">
                 <h3>
-                    <i class="fas fa-store-alt"></i> {{ $empresa->nombre }}
+                    <i class="fas fa-store-alt"></i> <span class="text-uppercase">{{ $empresa->nombre }}</span>
                     <small class="float-right">
                         <select class="custom-select" wire:model="empresa_id" onchange="cambiarEmpresa()">
                             @foreach($listarEmpresas as $empresa)
@@ -22,9 +22,6 @@
         <!-- Button row -->
         <div class="row invoice-info d-none">
             <div class="col-12 mb-3">
-                {{--<button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-plus-circle"></i> Stock
-                </button>--}}
                 <span class="btn" style="cursor: default;">
                     @if($view != "stock")
                         Mostrando Ajustes
@@ -32,7 +29,6 @@
                         Mostrando Existencias
                     @endif
                 </span>
-
                 @if(!empty($keywordStock) && $view == "stock")
                     <span class="btn">
                     Resultados de la Búsqueda { <b class="text-danger">{{ $keywordAjustes }}</b> }
@@ -55,11 +51,7 @@
                 </button>
             </div>
         </div>
-
-        <!-- Table row -->
-        <div class="row">
-            {{--@include('dashboard.stock.table_stock')--}}
-            @include('dashboard.stock.modal')
+        <div {{--class="row"--}}>
             @include('dashboard.stock.modal_almacenes')
             @include('dashboard.stock.modal_tipos_ajuste')
             @include('dashboard.stock.modal_segmentos')
@@ -84,6 +76,12 @@
         </div>
 
     </div>
+    {{-- VISTAS STOCK --}}
+    <div class="row justify-content-around @if($view != "stock") d-none @endif">
+        @include('dashboard.stock.show_stock')
+    </div>
+
+    {{-- VISTAS AJUSTES--}}
     <div class="row @if($view != "ajustes") d-none @endif">
         <div class="col-md-4">
             @include('dashboard.stock.table_ajustes')
@@ -92,6 +90,7 @@
             @include('dashboard.stock.show_ajustes')
         </div>
     </div>
+
 @else
     @if(!$modulo_empresa || !$modulo_articulo)
         <div class="callout callout-info">

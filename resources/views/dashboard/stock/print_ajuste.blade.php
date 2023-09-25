@@ -12,7 +12,7 @@
                 Ajustes de Entrada y Salida
             </h3>
             <div class="card-tools">
-                Empresa: {{ $empresa }}
+                Empresa: <span class="text-uppercase">{{ $empresa }}</span>
             </div>
         </div>
 
@@ -25,7 +25,7 @@
                         <label>Código:</label>
                     </div>
                     <div class="col-5 mb-2">
-                        <span class="border badge-pill">{{ $ajuste_codigo }}</span>
+                        <span class="border badge-pill text-uppercase">{{ $ajuste_codigo }}</span>
                     </div>
                     <div class="col-2 text-md-right">
                         <label>Fecha:</label>
@@ -40,14 +40,14 @@
                         <label>Descripción:</label>
                     </div>
                     <div class="col-5">
-                        <span class="border badge-pill">{{ $ajuste_descripcion }}</span>
+                        <span class="border badge-pill text-uppercase">{{ $ajuste_descripcion }}</span>
                     </div>
                     <div class="col-2">
-                        <span class="border badge-pill">{{ $ajuste_label_segmento }}</span>
+                        <span class="border badge-pill text-uppercase">{{ $ajuste_label_segmento }}</span>
                     </div>
                     <div class="col-3">
                         @if($ajuste_label_municipio)
-                            <span class="border badge-pill">{{ $ajuste_label_municipio }}</span>
+                            <span class="border badge-pill text-uppercase">{{ $ajuste_label_municipio }}</span>
                         @endif
                     </div>
                 </div>
@@ -86,11 +86,11 @@
                                                     @foreach($listarDetalles as $detalle)
                                                         <tr>
                                                             <td>{{ $i + 1 }}</td>
-                                                            <td>{{ $detalle->tipo->codigo }}</td>
-                                                            <td>{{ $detalle->articulo->codigo }}</td>
-                                                            <td>{{ $detalle->articulo->descripcion }}</td>
-                                                            <td>{{ $detalle->almacen->codigo }}</td>
-                                                            <td>{{ $detalle->unidad->codigo }}</td>
+                                                            <td class="text-uppercase">{{ $detalle->tipo->codigo }}</td>
+                                                            <td class="text-uppercase">{{ $detalle->articulo->codigo }}</td>
+                                                            <td class="text-uppercase">{{ $detalle->articulo->descripcion }}</td>
+                                                            <td class="text-uppercase">{{ $detalle->almacen->codigo }}</td>
+                                                            <td class="text-uppercase">{{ $detalle->unidad->codigo }}</td>
                                                             <td class="text-right">
                                                                 @if($detalle->tipo->tipo == 2)
                                                                     <span>-</span>

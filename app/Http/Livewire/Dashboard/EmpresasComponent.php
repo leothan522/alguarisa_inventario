@@ -115,8 +115,8 @@ class EmpresasComponent extends Component
         }
 
         $empresa->rif = strtoupper($this->rif);
-        $empresa->nombre = strtoupper($this->nombre);
-        $empresa->supervisor = strtoupper($this->jefe);
+        $empresa->nombre = $this->nombre;
+        $empresa->supervisor = $this->jefe;
         $empresa->moneda = $this->moneda;
         $empresa->telefono = $this->telefonos;
         $empresa->email = strtolower($this->email);

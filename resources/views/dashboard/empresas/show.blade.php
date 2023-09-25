@@ -5,7 +5,7 @@
         <div class="card card-outline card-navy">
 
             <div class="card-body box-profile">
-                <h1 class="profile-username text-center text-bold">
+                <h1 class="profile-username text-center text-bold text-uppercase">
                     {{ $nombre }}
                 </h1>
                 <ul class="list-group list-group-unbordered mt-3">

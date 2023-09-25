@@ -1,4 +1,4 @@
-<tr>
+<tr xmlns:wire="http://www.w3.org/1999/xhtml">
     <th scope="row">
         @if($ajuste_contador == 1)
             <span class="btn btn-default btn-xs disabled">

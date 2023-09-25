@@ -25,7 +25,7 @@
                         <td>
                             <button type="button" class="btn @if($empresa_id == $tienda->id) text-bold @endif"
                                     wire:click="show({{ $tienda->id }})">
-                                 @if($tienda->default) <i class="fas fa-certificate text-muted text-xs"></i> @endif {{ $tienda->nombre }}
+                                 @if($tienda->default) <i class="fas fa-certificate text-muted text-xs"></i> @endif <span class="text-uppercase">{{ $tienda->nombre }}</span>
                             </button>
                         </td>
                         <td class="justify-content-center pt-3" style="width: 5%;">

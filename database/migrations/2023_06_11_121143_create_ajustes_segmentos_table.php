@@ -42,6 +42,13 @@ return new class extends Migration
                 "created_at" => \Carbon\Carbon::now(),
                 "updated_at" => \Carbon\Carbon::now(),
             ]);
+        DB::table("ajustes_segmentos")
+            ->insert([
+                "descripcion" => "Recepción",
+                "tipo" => 0,
+                "created_at" => \Carbon\Carbon::now(),
+                "updated_at" => \Carbon\Carbon::now(),
+            ]);
     }
 
     /**

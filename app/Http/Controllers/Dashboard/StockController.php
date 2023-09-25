@@ -32,6 +32,10 @@ class StockController extends Controller
             return redirect()->route('stock.index');
         }
         $listarDetalles = AjusDetalle::where('ajustes_id', $ajuste->id)->get();
+        $municipio = null;
+        if ($ajuste->municipios_id){
+            $municipio = $ajuste->municipios->mini;
+        }
         return view('dashboard.stock.print_ajuste')
             ->with('ajuste_id', $id)
             ->with('empresa', $ajuste->empresas->nombre)
@@ -39,7 +43,7 @@ class StockController extends Controller
             ->with('ajuste_fecha', $ajuste->fecha)
             ->with('ajuste_descripcion', $ajuste->descripcion)
             ->with('ajuste_label_segmento', $ajuste->segmentos->descripcion)
-            ->with('ajuste_label_municipio', $ajuste->municipios->mini)
+            ->with('ajuste_label_municipio', $municipio)
             ->with('listarDetalles', $listarDetalles);
     }
 

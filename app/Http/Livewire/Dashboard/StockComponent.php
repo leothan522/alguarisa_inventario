@@ -68,79 +68,6 @@ class StockComponent extends Component
 
         $empresa = Empresa::find($this->empresa_id);
         $this->empresa = $empresa;
-
-        $stock = Stock::select(['empresas_id', 'articulos_id', 'unidades_id'])
-            ->groupBy('empresas_id', 'articulos_id', 'unidades_id')
-            ->having('empresas_id', $this->empresa_id)
-            ->orderBy('articulos_id', 'asc')
-            ->paginate(100);
-        $stock->each(function ($stock) {
-
-            $articulo = Articulo::find($stock->articulos_id);
-            $unidad = Unidad::find($stock->unidades_id);
-
-            $stock->activo = $articulo->estatus;
-            $stock->codigo = $articulo->codigo;
-            $stock->articulo = $articulo->descripcion;
-            $stock->unidad = $unidad->codigo;
-
-            $resultado = calcularPrecios($stock->empresas_id, $stock->articulos_id, $articulo->tributarios_id, $stock->unidades_id);
-            $stock->moneda = $resultado['moneda_base'];
-            $stock->dolares = $resultado['precio_dolares'];
-            $stock->bolivares = $resultado['precio_bolivares'];
-            $stock->iva_dolares = $resultado['iva_dolares'];
-            $stock->iva_bolivares = $resultado['iva_bolivares'];
-            $stock->neto_dolares = $resultado['neto_dolares'];
-            $stock->neto_bolivares = $resultado['neto_bolivares'];
-            $stock->oferta_dolares = $resultado['oferta_dolares'];
-            $stock->oferta_bolivares = $resultado['oferta_bolivares'];
-            $stock->porcentaje = $resultado['porcentaje'];
-
-            $existencias = Stock::where('empresas_id', $stock->empresas_id)
-                ->where('articulos_id', $articulo->id)
-                ->where('unidades_id', $unidad->id)
-                ->get();
-            $array = array();
-            $actual = 0;
-            $comprometido = 0;
-            $disponible = 0;
-            $vendido = 0;
-            $estatus = array();
-            foreach ($existencias as $existencia) {
-                $array[] = [
-                    'id' => $existencia->id,
-                    'almacen' => $existencia->almacen->codigo,
-                    'actual' => $existencia->actual,
-                    'comprometido' => $existencia->comprometido,
-                    'disponible' => $existencia->disponible
-                ];
-                $actual = $actual + $existencia->actual;
-                $comprometido = $comprometido + $existencia->comprometido;
-                $disponible = $disponible + $existencia->disponible;
-                $vendido = $vendido + $existencia->vendido;
-
-                if ($existencia->almacen_principal){
-                    if ($existencia->estatus){
-                        $estatus[] = true;
-                    }
-                }
-
-            }
-
-            $stock->actual = $actual;
-            $stock->comprometido = $comprometido;
-            $stock->disponible = $disponible;
-            $stock->existencias = $array;
-            $stock->vendido = $vendido;
-
-            if (!empty($estatus)){
-                $stock->estatus = 1;
-            }else{
-                $stock->estatus = 0;
-            }
-
-        });
-
         $this->getEmpresas();
         $almacenes = Almacen::buscar($this->keywordAlmacenes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'ASC')->paginate($paginate);
         $rowsAlmacenes = Almacen::count();
@@ -153,6 +80,15 @@ class StockComponent extends Component
         $articulos = Articulo::where('estatus', 1)->orderBy('codigo', 'asc')->get();
         $selectSegmentos = AjusSegmento::orderBy('id', 'ASC')->get();
         $selectMunicipios = Municipio::where('estatus', 1)->orderBy('nombre', 'ASC')->get();
+
+        //stock
+        $stockAlmacenes = Almacen::where('empresas_id', $this->empresa_id)->get();
+        $stockAlmacenes->each(function ($almacen){
+            $stock = Stock::where('empresas_id', $this->empresa_id)
+                ->where('almacenes_id', $almacen->id)->orderBy('actual', 'DESC')->limit(100)->get();
+            $almacen->stock = $stock;
+        });
+
         return view('livewire.dashboard.stock-component')
             ->with('listarAlmacenes', $almacenes)
             ->with('rowsAlmacenes', $rowsAlmacenes)
@@ -161,11 +97,11 @@ class StockComponent extends Component
             ->with('listarSegmentos', $segmentos)
             ->with('rowsSegmento', $rowsSegmento)
             ->with('listarAjustes', $ajustes)
-            ->with('listarStock', $stock)
             ->with('listarUnidades', $unidades)
             ->with('listarArticulos', $articulos)
             ->with('selectSegmentos', $selectSegmentos)
             ->with('selectMunicipios', $selectMunicipios)
+            ->with('stockAlmacenes', $stockAlmacenes)
             ;
     }
 
@@ -316,7 +252,7 @@ class StockComponent extends Component
             $message = "Almacen Actualizado.";
         }
         $almacen->empresas_id = $this->empresa_id;
-        $almacen->codigo = $this->almacen_codigo;
+        $almacen->codigo = strtoupper($this->almacen_codigo);
         $almacen->nombre = $this->almacen_nombre;
         $almacen->save();
 

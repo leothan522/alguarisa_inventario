@@ -34,7 +34,7 @@
                             @if(!$ajuste->estatus)
                                 <span class="btn-xs"><i class="fas fa-ban"></i></span>
                             @endif
-                            {{ $ajuste->descripcion }}
+                            <span class="text-uppercase">{{ $ajuste->descripcion }}</span>
                         </td>
                         <td class="justify-content-end">
                             <div class="btn-group">
