@@ -66,13 +66,13 @@ class TerritorioComponent extends Component
     public function saveMunicipio()
     {
         $rules = [
-            'municipioNombre' => ['required', 'min:6', Rule::unique('municipios', 'nombre')->ignore($this->municipio_id)],
+            'municipioNombre' => ['required', 'min:4', Rule::unique('municipios', 'nombre')->ignore($this->municipio_id)],
             'municipioAbreviatura' => ['required', 'min:4', Rule::unique('municipios', 'mini')->ignore($this->municipio_id)],
         ];
 
         $messages = [
             'municipioNombre.required' => 'El nombre del municipio es obligatorio.',
-            'municipioNombre.min' => 'El nombre debe contener al menos 6 caracteres.',
+            'municipioNombre.min' => 'El nombre debe contener al menos 4 caracteres.',
             'municipioNombre.alpha_num' => 'El nombre sólo debe contener letras y números. ',
             'municipioNombre.unique' => 'El nombre del municipio ya ha sido registrado.',
             'municipioAbreviatura.required' => 'La Abreviatura es obligatoria.',
@@ -189,14 +189,14 @@ class TerritorioComponent extends Component
     {
         $rules = [
             'parroquiaMunicipio' => 'required',
-            'parroquiaNombre' => ['required', 'min:6', Rule::unique('parroquias', 'nombre')->ignore($this->parroquia_id)],
+            'parroquiaNombre' => ['required', 'min:4', Rule::unique('parroquias', 'nombre')->ignore($this->parroquia_id)],
             'parroquiaAbreviatura' => ['nullable', 'min:4', Rule::unique('parroquias', 'mini')->ignore($this->parroquia_id)],
         ];
 
         $messages = [
             'parroquiaMunicipio.required' => 'El municipio es obligatorio.',
             'parroquiaNombre.required' => 'El nombre de la parroquia es obligatorio.',
-            'parroquiaNombre.min' => 'El nombre debe contener al menos 6 caracteres.',
+            'parroquiaNombre.min' => 'El nombre debe contener al menos 4 caracteres.',
             'parroquiaNombre.alpha_num' => 'El nombre sólo debe contener letras y números. ',
             'parroquiaNombre.unique' => 'El nombre de la parroquia ya ha sido registrado.',
             'parroquiaAbreviatura.required' => 'La Abreviatura es obligatoria.',
