@@ -61,8 +61,13 @@
                                                 @continue
                                             @endif--}}
                                             <tr>
-                                                <td class="text-uppercase">{{ $stock->almacen->nombre }}</td>
-                                                <td class="text-right">{{ formatoMillares($stock->actual, 0) }}</td>{{--
+                                                <td>
+                                                    <span class="text-uppercase">{{ $stock->almacen->nombre }}</span><br>
+                                                    <em class="text-xs text-muted"><i class="fas fa-history"></i> {{ verFecha($stock->updated_at, 'd/m/Y h:t a') }}</em>
+                                                </td>
+                                                <td class="text-right">
+                                                    {{ formatoMillares($stock->actual, 0) }}
+                                                </td>{{--
                                                 <td class="text-right">{{ formatoMillares($existencia->comprometido, 3) }}</td>
                                                 <td class="text-right">{{ formatoMillares($existencia->disponible, 3) }}</td>--}}
                                             </tr>
