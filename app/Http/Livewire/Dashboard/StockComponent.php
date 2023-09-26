@@ -56,6 +56,7 @@ class StockComponent extends Component
     public $proximo_codigo;
     public $segmento_id, $segmento_nombre, $keywordSegmento;
     public $compartirQr;
+    public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
 
 
     public function mount()
@@ -152,7 +153,7 @@ class StockComponent extends Component
         $this->limpiarTiposAjuste();
         $this->limpiarAlmacenes();
         $this->reset([
-            'ajuste_id'
+            'ajuste_id', 'modalEmpresa', 'modalStock', 'modalArticulo', 'modalUnidad'
         ]);
     }
 
@@ -1656,6 +1657,18 @@ class StockComponent extends Component
             $parametro->save();
             $this->compartirQr = route('stock.compartirqr', $parametro->valor);
         }
+    }
+
+    public function verArticulo($id, $unidad)
+    {
+        $this->modalEmpresa = $this->empresa;
+        $this->modalArticulo = Articulo::find($id);
+        $this->modalUnidad = Unidad::find($unidad);
+        $this->modalStock = Stock::where('empresas_id', $this->empresa_id)
+            ->where('articulos_id', $id)
+            ->where('unidades_id', $unidad)
+            ->get();
+
     }
 
 }

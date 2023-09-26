@@ -3,7 +3,7 @@
         {{--<span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>--}}
 
         <div class="info-box-content">
-            <span class="info-box-text"><i class="fas fa-boxes"></i> {{ $empresa->nombre }}</span>
+            <span class="info-box-text text-uppercase"><i class="fas fa-store-alt"></i> {{ $empresa->nombre }}</span>
             <span class="info-box-number">
                 <button type="button" wire:click="actualizar" class="btn btn-default btn-xs float-right"
                         id="header_btn_actualizar" {{--style="margin-right: 5px;"--}}>

@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Dashboard;
 
 use App\Models\Almacen;
+use App\Models\Articulo;
 use App\Models\Empresa;
 use App\Models\Stock;
+use App\Models\Unidad;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Component;
 
@@ -13,6 +15,7 @@ class CompartirComponent extends Component
     use LivewireAlert;
 
     public $empresa_id, $empresa;
+    public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
 
     public function mount($empresa_id)
     {
@@ -38,4 +41,17 @@ class CompartirComponent extends Component
     {
         //$this->alert('success', 'Stock Actualizado.');
     }
+
+    public function verArticulo($id, $unidad)
+    {
+        $this->modalEmpresa = $this->empresa;
+        $this->modalArticulo = Articulo::find($id);
+        $this->modalUnidad = Unidad::find($unidad);
+        $this->modalStock = Stock::where('empresas_id', $this->empresa_id)
+            ->where('articulos_id', $id)
+            ->where('unidades_id', $unidad)
+            ->get();
+
+    }
+
 }

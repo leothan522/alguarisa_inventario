@@ -50,7 +50,7 @@ return new class extends Migration
                 "name" => "Administrador",
                 "email" => "admin@alguarisa.com",
                 "email_verified_at" => \Carbon\Carbon::now(),
-                "password" => \Illuminate\Support\Facades\Hash::make("Aileen.522"),
+                "password" => \Illuminate\Support\Facades\Hash::make("Alguarisa2023.*"),
                 "role" => 1,
                 "created_at" => \Carbon\Carbon::now(),
                 "updated_at" => \Carbon\Carbon::now(),

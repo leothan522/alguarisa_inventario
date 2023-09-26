@@ -1,6 +1,6 @@
 @if($stockAlmacenes->isNotEmpty())
     @foreach($stockAlmacenes as $almacen)
-        <div class="col-md-3">
+        <div class="col-md-3" xmlns:wire="http://www.w3.org/1999/xhtml">
             <!-- Profile Image -->
             <div class="card card-navy card-outline direct-chat">
                 <div class="card-body box-profile">
@@ -15,9 +15,10 @@
                         <div class="direct-chat-messages">
                             @if($almacen->stock->isNotEmpty())
                                 @foreach($almacen->stock as $stock)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center"
+                                        wire:click="verArticulo({{ $stock->articulo->id }}, {{ $stock->unidades_id }})" data-toggle="modal" data-target="#modal-lg-stock-nuevo" style="cursor: pointer;">
                                         <b class="text-uppercase">{{ $stock->articulo->descripcion }}</b>
-                                        <a class="">{{ formatoMillares($stock->actual, 0) }}</a>
+                                        <a class="">{{ formatoMillares($stock->actual, 0) }} {{ $stock->unidad->codigo }}</a>
                                     </li>
                                 @endforeach
                             @else
@@ -43,4 +44,5 @@
             <!-- /.card -->
         </div>
     @endforeach
+    @include('dashboard.stock.modal_stock')
 @endif
