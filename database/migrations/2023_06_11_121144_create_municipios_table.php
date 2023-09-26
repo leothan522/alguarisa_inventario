@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,6 +20,20 @@ return new class extends Migration
             $table->integer('estatus')->default(1);
             $table->timestamps();
         });
+
+        foreach (dataMunicipiosParroquias()[0] as $municipio){
+            DB::table("municipios")
+                ->insert([
+                    "id" => $municipio['id'],
+                    "nombre" => $municipio['nombre'],
+                    "mini" => $municipio['mini'],
+                    "parroquias" => $municipio['parroquias'],
+                    "created_at" => \Carbon\Carbon::now(),
+                    "updated_at" => \Carbon\Carbon::now(),
+                ]);
+        }
+
+
     }
 
     /**

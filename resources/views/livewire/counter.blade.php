@@ -1,7 +1,7 @@
 <div xmlns:wire="http://www.w3.org/1999/xhtml">
     {{-- Do your work, then step back. --}}
     <h1>Hello World!</h1>
-    <div style="text-align: center">
+    {{--<div style="text-align: center">
 
         <h1>{{ $count }}</h1>
 
@@ -21,6 +21,18 @@
         </select>
     </div>
     <br>
-    <p>{!! $select !!}</p>
+    <p>{!! $select !!}</p>--}}
+
+    <button wire:click="generarArray" class="btn btn-primary">Generar Array</button>
+    <br><br>
+    <h1>Municipios</h1>
+    {!! $arrayMunicipios !!}
+    <br><br>
+    <h1>Parroquias</h1>
+
+    {{ $arrayParroquias }}
+
+
+
 
 </div>

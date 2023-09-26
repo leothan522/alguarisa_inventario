@@ -673,6 +673,14 @@ function generarStringAleatorio($largo = 10, $espacio = false): string
     return $string;
 }
 
+
+function dataMunicipiosParroquias(): array
+{
+    $municipios = array();
+    $parroquias = array();
+    return [$municipios, $parroquias];
+}
+
 //***********************************************************************************
 
 

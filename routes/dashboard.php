@@ -57,7 +57,7 @@ Route::get('stock/{token}', [StockController::class, 'campartirQr'])->middleware
 Route::get('/prueba', function () {
     //Alert::alert('Title', 'Message', 'Type');
     return view('dashboard._componentes.home');
-})->middleware(['user.permisos'])->name("prueba");
+})->middleware(['auth', 'user.permisos'])->name("prueba");
 
 
 
