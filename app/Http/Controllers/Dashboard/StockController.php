@@ -258,13 +258,13 @@ class StockController extends Controller
         return Excel::download(new AjustesExport($reporte, $empresa, $hoy, $desde, $hasta, $ajustes, $anulado, $tipo, $articulo, $almacen, $segmento, $municipio), 'Ajustes '.$label.'.xlsx');
     }
 
-    public function campartirQr($empresa, $token)
+    public function campartirQr($token)
     {
-        $parametro = Parametro::where('nombre', 'compartir_qr')->first();
+        $parametro = Parametro::where('nombre', 'compartir_stock_qr')->first();
         if ($parametro){
             if ($parametro->valor == $token){
                 return view('dashboard.stock.compartir')
-                    ->with('empresa_id', $empresa);
+                    ->with('empresa_id', $parametro->tabla_id);
             }
         }
         return redirect()->route('cerrar');

@@ -1631,21 +1631,30 @@ class StockComponent extends Component
 
     public function compartirQr($borrar = false)
     {
-        $parametro = Parametro::where('nombre','compartir_qr')->first();
+        $parametro = Parametro::where('nombre','compartir_stock_qr')->where('tabla_id', $this->empresa_id)->first();
         $token = generarStringAleatorio(30);
         if ($parametro){
             if (!$borrar){
-                $this->compartirQr = route('stock.compartirqr', [$this->empresa_id, $parametro->valor]);
+                $this->compartirQr = route('stock.compartirqr', $parametro->valor);
             }else{
                 $parametro->delete();
                 $this->reset(['compartirQr']);
             }
         }else{
+
+            do{
+                $parametro = Parametro::where('nombre','compartir_stock_qr')->where('valor', $token)->first();
+                if ($parametro){
+                    $token = generarStringAleatorio(30);
+                }
+            }while($parametro);
+
             $parametro = new Parametro();
-            $parametro->nombre = 'compartir_qr';
+            $parametro->nombre = 'compartir_stock_qr';
+            $parametro->tabla_id = $this->empresa_id;
             $parametro->valor = $token;
             $parametro->save();
-            $this->compartirQr = route('stock.compartirqr', [$this->empresa_id, $parametro->valor]);
+            $this->compartirQr = route('stock.compartirqr', $parametro->valor);
         }
     }
 
