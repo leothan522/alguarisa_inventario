@@ -31,6 +31,7 @@
         </div>
         <div class="col-md-2">
             <select class="custom-select custom-select-sm @error('ajuste_segmento') is-invalid @enderror" wire:model.defer="ajuste_segmento">
+                <option value="">Seleccione</option>
                 @foreach($selectSegmentos as $segmento)
                     <option value="{{ $segmento->id }}">{{ $segmento->descripcion }}</option>
                 @endforeach
@@ -83,7 +84,7 @@
                                     <th>Tipo</th>
                                     <th>Articulo</th>
                                     <th>Descripción</th>
-                                    <th>Almacen</th>
+                                    <th>Almacén</th>
                                     <th>Unidad</th>
                                     <th>Cantidad</th>
                                 </tr>

@@ -29,8 +29,8 @@
             @if($listarAlmacenes->isNotEmpty())
                 @foreach($listarAlmacenes as $almacen)
                     <tr>
-                        <td>{{ $almacen->codigo }}</td>
-                        <td>{{ $almacen->nombre }}</td>
+                        <td class="text-uppercase">{{ $almacen->codigo }}</td>
+                        <td class="text-uppercase">{{ $almacen->nombre }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">
                                 <button wire:click="editAlmacen({{ $almacen->id }})" class="btn btn-primary btn-sm"

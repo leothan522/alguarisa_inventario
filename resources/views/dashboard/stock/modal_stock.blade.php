@@ -47,7 +47,7 @@
                                 <table class="table {{--table-head-fixed--}} table-hover text-nowrap">
                                     <thead>
                                     <tr class="text-navy">
-                                        <th>Almacen</th>
+                                        <th>Almacén</th>
                                         <th class="text-right">Actual</th>{{--
                                         <th class="text-right">Comprom.</th>
                                         <th class="text-right">Disponible</th>--}}

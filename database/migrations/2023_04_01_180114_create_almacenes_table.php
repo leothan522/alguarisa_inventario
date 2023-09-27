@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,6 +21,15 @@ return new class extends Migration
             $table->foreign('empresas_id')->references('id')->on('empresas')->cascadeOnDelete();
             $table->timestamps();
         });
+        DB::table("almacenes")
+            ->insert([
+                "empresas_id" => 1,
+                "codigo" => "ALMP",
+                "nombre" => "Almacén Principal",
+                "tipo" => 1,
+                "created_at" => \Carbon\Carbon::now(),
+                "updated_at" => \Carbon\Carbon::now(),
+            ]);
     }
 
     /**

@@ -19,6 +19,8 @@ class Stock extends Model
         'comprometido',
         'disponible',
         'vendido',
+        'entrada',
+        'salida',
         'estatus',
         'almacen_principal',
         'auditoria'

@@ -46,7 +46,7 @@ class StockComponent extends Component
     public $view = "stock";
     public $view_ajustes = 'show', $footer = false, $new_ajuste = false, $btn_nuevo = true, $btn_editar = false, $btn_cancelar = false;
     public $ajuste_id, $ajuste_codigo, $ajuste_fecha, $ajuste_descripcion, $ajuste_contador = 1, $listarDetalles,
-        $opcionDestroy, $ajuste_estatus, $keywordAjustes, $ajuste_segmento = 1, $ajuste_municipio,
+        $opcionDestroy, $ajuste_estatus, $keywordAjustes, $ajuste_segmento, $ajuste_municipio,
         $ajuste_label_segmento, $ajuste_label_municipio;
     public $ajusteTipo = [], $classTipo = [],
         $ajusteArticulo = [], $classArticulo = [], $ajusteDescripcion = [], $ajusteUnidad = [], $selectUnidad = [],
@@ -442,7 +442,7 @@ class StockComponent extends Component
         //
     }
 
-    // ************************* Tipos de AJuste ********************************************
+    // ************************* Tipos de Segmentos ********************************************
 
     public function limpiarSegmentos()
     {
@@ -672,6 +672,7 @@ class StockComponent extends Component
             'ajuste_codigo' => ['nullable', 'min:4', 'alpha_dash:ascii', Rule::unique('ajustes', 'codigo')->ignore($this->ajuste_id)],
             'ajuste_fecha' => 'nullable',
             'ajuste_descripcion' => 'required|min:4',
+            'ajuste_segmento' => 'required',
             'ajuste_municipio' => 'required_if:ajuste_segmento,1',
             'ajusteTipo.*' => ['required', Rule::exists('ajustes_tipos', 'codigo')],
             'ajusteArticulo.*' => ['required', Rule::exists('articulos', 'codigo')],

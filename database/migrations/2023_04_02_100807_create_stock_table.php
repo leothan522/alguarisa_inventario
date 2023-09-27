@@ -21,6 +21,8 @@ return new class extends Migration
             $table->decimal('comprometido', 12,3)->nullable();
             $table->decimal('disponible', 12,3)->nullable();
             $table->decimal('vendido', 12,3)->nullable();
+            $table->decimal('entrada', 12,3)->nullable();
+            $table->decimal('salida', 12,3)->nullable();
             $table->integer('estatus')->default(0);
             $table->integer('almacen_principal')->default(0);
             $table->text('auditoria')->nullable();

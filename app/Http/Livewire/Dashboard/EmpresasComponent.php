@@ -156,7 +156,7 @@ class EmpresasComponent extends Component
             $almacen = new Almacen();
             $almacen->empresas_id = $empresa->id;
             $almacen->codigo = "ALMP";
-            $almacen->nombre = "Almacen Principal";
+            $almacen->nombre = "Almacén Principal";
             $almacen->tipo = 1;
             $almacen->save();
         }

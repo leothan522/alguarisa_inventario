@@ -54,7 +54,7 @@
                                         <th>Tipo</th>
                                         <th>Articulo</th>
                                         <th>Descripción</th>
-                                        <th>Almacen</th>
+                                        <th>Almacén</th>
                                         <th>Unidad</th>
                                         <th class="text-right">Cantidad</th>
                                     </tr>

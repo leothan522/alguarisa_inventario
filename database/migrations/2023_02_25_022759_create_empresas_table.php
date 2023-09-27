@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -29,6 +30,19 @@ return new class extends Migration
             $table->text('permisos')->nullable();
             $table->timestamps();
         });
+
+        DB::table("empresas")
+            ->insert([
+                "rif" => "G-20012864-0",
+                "nombre" => "Alimentos del Guárico S.A.",
+                "direccion" => "San Juan de los Morros, Edo. Guárico",
+                "telefono" => "(0424)338.66.00",
+                "email" => "admin@alguarisa.com",
+                "supervisor" => "Humberto Albani",
+                "default" => 1,
+                "created_at" => \Carbon\Carbon::now(),
+                "updated_at" => \Carbon\Carbon::now(),
+            ]);
     }
 
     /**

@@ -22,7 +22,7 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li class="list-group-item d-flex justify-content-center align-items-center text-muted">
+                                <li class="list-group-item d-flex justify-content-center align-items-center text-muted" wire:click="verArticulo(0,0)" style="cursor:pointer;">
                                     Sin Stock
                                 </li>
                             @endif
@@ -44,5 +44,5 @@
             <!-- /.card -->
         </div>
     @endforeach
-    @include('dashboard.stock.modal_stock')
 @endif
+@include('dashboard.stock.modal_stock')
