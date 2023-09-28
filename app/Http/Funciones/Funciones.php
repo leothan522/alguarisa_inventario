@@ -696,10 +696,14 @@ function diaEspanol($fecha){
     return $dia;
 }
 
-function mesEspanol($numMes){
+function mesEspanol($numMes = null){
     $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-    $mes = $meses[$numMes - 1];
-    return $mes;
+    if (!is_null($numMes)){
+        $mes = $meses[$numMes - 1];
+        return $mes;
+    }else{
+        return $meses;
+    }
 }
 
 //calculo de porcentaje

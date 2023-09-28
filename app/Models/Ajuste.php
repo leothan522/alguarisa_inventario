@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Ajuste extends Model
@@ -50,6 +51,11 @@ class Ajuste extends Model
     public function municipios(): BelongsTo
     {
         return $this->belongsTo(Municipio::class, 'municipios_id', 'id');
+    }
+
+    public function cuota(): HasOne
+    {
+        return $this->hasOne(Cuota::class, 'codigo', 'codigo');
     }
 
 }

@@ -39,14 +39,16 @@
 
                 <!-- Right -->
                 <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1" id="content_btn_ajustes"
-                        wire:click="verAjustes" @if($view == "ajustes" || !comprobarPermisos('ajustes.index')) disabled @endif>
+                        wire:click="verAjustes"
+                        @if($view == "ajustes" || !comprobarPermisos('ajustes.index')) disabled @endif>
                     <i class="fas fa-list"></i> Ajustes
                 </button>
                 <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1" id="content_btn_existencias"
                         wire:click="verAjustes" @if($view == "stock") disabled @endif>
                     <i class="fas fa-boxes"></i> Existencias
                 </button>
-                <button type="button" wire:click="show" class="btn btn-default btn-sm float-right ml-1 mr-1" id="content_btn_actualizar" {{--style="margin-right: 5px;"--}}>
+                <button type="button" wire:click="show" class="btn btn-default btn-sm float-right ml-1 mr-1"
+                        id="content_btn_actualizar" {{--style="margin-right: 5px;"--}}>
                     <i class="fas fa-sync"></i> Actualizar
                 </button>
             </div>
@@ -58,6 +60,7 @@
             @include('dashboard.stock.modal_reportes_stock')
             @include('dashboard.stock.modal_reportes_ajustes')
             @include('dashboard.stock.modal_compartir_qr')
+            @include('dashboard.stock.modal_cuotas')
         </div>
 
         <div class="overlay-wrapper" wire:loading wire:target="empresa_id{{--, setEstatus, show, verAjustes--}}">
@@ -78,8 +81,11 @@
 
     </div>
     {{-- VISTAS STOCK --}}
-    <div class="row justify-content-around @if($view != "stock") d-none @endif">
+    <div class="row justify-content-around @if($view != "stock" || $viewMovimientos) d-none @endif">
         @include('dashboard.stock.show_stock')
+    </div>
+    <div class="row justify-content-center @if($view != "stock" || !$viewMovimientos) d-none @endif">
+        @include('dashboard.stock.show_movimientos')
     </div>
 
     {{-- VISTAS AJUSTES--}}
@@ -99,7 +105,7 @@
             Para que este Modulo este <span class="text-bold text-navy">Activo</span>, es Necesario previmente crear una
             <span class="text-bold @if($modulo_empresa) text-success @else text-danger @endif">Empresa</span>,
             un <span
-                    class="text-bold @if($modulo_empresa) text-success @else text-danger @endif">Almacen</span>
+                class="text-bold @if($modulo_empresa) text-success @else text-danger @endif">Almacen</span>
             y Tener Al menos un <span class="text-bold @if($modulo_articulo) text-success @else text-danger @endif">Articulo</span>
             Registrado.
         </div>

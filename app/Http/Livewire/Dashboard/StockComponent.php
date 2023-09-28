@@ -9,6 +9,7 @@ use App\Models\AjusTipo;
 use App\Models\Almacen;
 use App\Models\Articulo;
 use App\Models\ArtUnid;
+use App\Models\Cuota;
 use App\Models\Empresa;
 use App\Models\Municipio;
 use App\Models\Parametro;
@@ -35,7 +36,7 @@ class StockComponent extends Component
         'limpiarTiposAjuste', 'confirmedTiposAjuste',
         'limpiarSegmentos', 'confirmedSegmento',
         'confirmedBorrarAjuste', 'verspinnerOculto', 'buscar',
-        'compartirQr'
+        'compartirQr', 'confirmedCuota', 'selectCuotasCodigo', 'limpiarCuota', 'cuotaSeleccionada', 'setCuotaSelect'
     ];
 
     public $modulo_activo = false, $modulo_empresa, $modulo_articulo;
@@ -43,7 +44,7 @@ class StockComponent extends Component
     public $getStock = [], $keywordStock = [];
     public $almacen_id, $almacen_codigo, $almacen_nombre, $keywordAlmacenes;
     public $tipos_ajuste_id, $tipos_ajuste_codigo, $tipos_ajuste_nombre, $tipos_ajuste_tipo = 1, $keywordTiposAjuste;
-    public $view = "stock";
+    public $view = "stock", $viewMovimientos = false;
     public $view_ajustes = 'show', $footer = false, $new_ajuste = false, $btn_nuevo = true, $btn_editar = false, $btn_cancelar = false;
     public $ajuste_id, $ajuste_codigo, $ajuste_fecha, $ajuste_descripcion, $ajuste_contador = 1, $listarDetalles,
         $opcionDestroy, $ajuste_estatus, $keywordAjustes, $ajuste_segmento, $ajuste_municipio,
@@ -57,6 +58,7 @@ class StockComponent extends Component
     public $segmento_id, $segmento_nombre, $keywordSegmento;
     public $compartirQr;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
+    public $cuota_id, $cuota_mes, $cuota_codigo, $cuota_fecha, $keywordCuota;
 
 
     public function mount()
@@ -75,6 +77,8 @@ class StockComponent extends Component
         $rowsAlmacenes = Almacen::count();
         $tiposAjuste = AjusTipo::buscar($this->keywordTiposAjuste)->orderBy('codigo', 'ASC')->paginate($paginate);
         $rowsTiposAjuste = AjusTipo::count();
+        $cuotas = Cuota::buscar($this->keywordCuota)->orderBy('codigo', 'DESC')->paginate($paginate);
+        $rowsCuotas = AjusTipo::count();
         $segmentos = AjusSegmento::buscar($this->keywordSegmento)->orderBy('id', 'ASC')->paginate($paginate);
         $rowsSegmento = AjusSegmento::count();
         $ajustes = Ajuste::buscar($this->keywordAjustes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'desc')->paginate($paginate, ['*'], 'pag');
@@ -96,6 +100,8 @@ class StockComponent extends Component
             ->with('rowsAlmacenes', $rowsAlmacenes)
             ->with('listarTiposAjuste', $tiposAjuste)
             ->with('rowsTiposAjuste', $rowsTiposAjuste)
+            ->with('listarCuotas', $cuotas)
+            ->with('rowsCuotas', $rowsCuotas)
             ->with('listarSegmentos', $segmentos)
             ->with('rowsSegmento', $rowsSegmento)
             ->with('listarAjustes', $ajustes)
@@ -159,6 +165,13 @@ class StockComponent extends Component
 
     //************************************ STOCK **************************************************
 
+    public function limpiarStock()
+    {
+        $this->reset([
+            'view', 'viewMovimientos'
+        ]);
+    }
+
     public function show($modal = false)
     {
         if (!$modal){
@@ -187,35 +200,21 @@ class StockComponent extends Component
         }
     }
 
-    public function showModal($articulos_id, $unidades_id, $vendido, $estatus, $existencias, $dolares, $bolivares, $activo, $porcentaje, $oferta_dolares, $oferta_bolivares)
+    public function verArticulo($id, $unidad)
     {
-        $empresa = Empresa::find($this->empresa_id);
-        $articulo = Articulo::find($articulos_id);
-        $unidad = Unidad::find($unidades_id);
-        $this->getStock['empresa'] = $empresa->nombre;
-        $this->getStock['imagen'] = $articulo->detail;
-        $this->getStock['vendido'] = $vendido;
-        $this->getStock['unidad'] = $unidad->codigo;
-        $this->getStock['articulo'] = $articulo->descripcion;
-        $this->getStock['codigo'] = $articulo->codigo;
-        $this->getStock['categoria'] = $articulo->categoria->nombre;
-        $this->getStock['unidad_principal'] = $articulo->unidad->codigo;
-        $this->getStock['tipo'] = $articulo->tipo->nombre;
-        $this->getStock['procedencia'] = $articulo->procedencia->nombre;
-        $this->getStock['tributario'] = $articulo->tributario->codigo;
-        $this->getStock['taza'] = $articulo->tributario->taza;
-        $this->getStock['marca'] = $articulo->marca;
-        $this->getStock['modelo'] = $articulo->modelo;
-        $this->getStock['referencia'] = $articulo->referencia;
-        $this->getStock['articulo_estatus'] = $articulo->estatus;
-        $this->getStock['estatus'] = $estatus;
-        $this->getStock['existencias'] = json_decode($existencias);
-        $this->getStock['dolares'] = $dolares;
-        $this->getStock['bolivares'] = $bolivares;
-        $this->getStock['activo'] = $activo;
-        $this->getStock['porcentaje'] = $porcentaje;
-        $this->getStock['oferta_dolares'] = $oferta_dolares;
-        $this->getStock['oferta_bolivares'] = $oferta_bolivares;
+        $this->modalEmpresa = $this->empresa;
+        $this->modalArticulo = Articulo::find($id);
+        $this->modalUnidad = Unidad::find($unidad);
+        $this->modalStock = Stock::where('empresas_id', $this->empresa_id)
+            ->where('articulos_id', $id)
+            ->where('unidades_id', $unidad)
+            ->get();
+
+    }
+
+    public function verMovimientos()
+    {
+        $this->viewMovimientos = true;
     }
 
     // ************************* Almacenes ********************************************
@@ -546,7 +545,6 @@ class StockComponent extends Component
     {
         //
     }
-
 
     // ************************* Ajustes ********************************************
 
@@ -1660,16 +1658,139 @@ class StockComponent extends Component
         }
     }
 
-    public function verArticulo($id, $unidad)
+    // ************************* CUOTAS ********************************************
+
+    public function limpiarCuota()
     {
-        $this->modalEmpresa = $this->empresa;
-        $this->modalArticulo = Articulo::find($id);
-        $this->modalUnidad = Unidad::find($unidad);
-        $this->modalStock = Stock::where('empresas_id', $this->empresa_id)
-            ->where('articulos_id', $id)
-            ->where('unidades_id', $unidad)
-            ->get();
+        $this->resetErrorBag();
+        $this->reset([
+            'cuota_id', 'cuota_mes', 'cuota_codigo', 'cuota_fecha', 'keywordCuota'
+        ]);
+        $ajustes = Ajuste::where('estatus', 1)->orderBy('codigo', 'ASC')->get();
+        $data = array();
+        foreach ($ajustes as $row){
+            $option = [
+                'id' => $row->codigo,
+                'text' => $row->codigo
+            ];
+            array_push($data, $option);
+        }
+        $this->emit('selectCuotasCodigo', $data);
+    }
+
+    public function saveCuota()
+    {
+        $rules = [
+            'cuota_codigo' => ['required', 'min:2', 'max:8', 'alpha_dash:ascii', Rule::unique('cuotas', 'codigo')->ignore($this->cuota_id)],
+            'cuota_mes' => 'required',
+            'cuota_fecha' => 'required',
+        ];
+        $messages = [
+            'cuota_codigo.required' => 'El codigo es obligatorio.',
+            'cuota_codigo.min' => 'El codigo debe contener al menos 2 caracteres.',
+            'cuota_codigo.max' => 'El codigo no debe ser mayor que 6 caracteres.',
+            'cuota_codigo.alpha_num' => 'El codigo sólo debe contener letras, números, guiones y guiones bajos.',
+            'cuota_mes.required' => 'El mes es obligatorio.',
+            'cuota_fecha.required' => 'La fecha es obligatoria.',
+        ];
+
+        $this->validate($rules, $messages);
+        $message = null;
+        if (is_null($this->cuota_id)) {
+            //nuevo
+            $cuota = new Cuota();
+            $message = "Nueva Cuota Creada.";
+        } else {
+            //editar
+            $cuota = Cuota::find($this->cuota_id);
+            $message = "Cuota Actualizada.";
+        }
+        $cuota->codigo = $this->cuota_codigo;
+        $cuota->mes = $this->cuota_mes;
+        $cuota->fecha = $this->cuota_fecha;
+        $cuota->save();
+
+        $this->editCuota($cuota->id);
+
+        $this->alert(
+            'success',
+            $message
+        );
 
     }
+
+    public function editCuota($id)
+    {
+        $cuota = Cuota::find($id);
+        $this->cuota_id = $cuota->id;
+        $this->cuota_mes = $cuota->mes;
+        $this->cuota_codigo = $cuota->codigo;
+        $this->cuota_fecha = $cuota->fecha;
+        $this->emit('setCuotaSelect', $this->cuota_codigo);
+    }
+
+    public function destroyCuota($id)
+    {
+        $this->cuota_id = $id;
+        $this->confirm('¿Estas seguro?', [
+            'toast' => false,
+            'position' => 'center',
+            'showConfirmButton' => true,
+            'confirmButtonText' => '¡Sí, bórralo!',
+            'text' => '¡No podrás revertir esto!',
+            'cancelButtonText' => 'No',
+            'onConfirmed' => 'confirmedCuota',
+        ]);
+
+    }
+
+    public function confirmedCuota()
+    {
+
+        $cuota = Cuota::find($this->cuota_id);
+
+        //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
+        $vinculado = false;
+
+        if ($vinculado) {
+            $this->alert('warning', '¡No se puede Borrar!', [
+                'position' => 'center',
+                'timer' => '',
+                'toast' => false,
+                'text' => 'El registro que intenta borrar ya se encuentra vinculado con otros procesos.',
+                'showConfirmButton' => true,
+                'onConfirmed' => '',
+                'confirmButtonText' => 'OK',
+            ]);
+        } else {
+            $cuota->delete();
+            $this->alert(
+                'success',
+                'Cuota Eliminada.'
+            );
+            $this->limpiarCuota();
+        }
+    }
+
+    public function cuotaSeleccionada($codigo)
+    {
+        $this->cuota_codigo = $codigo;
+    }
+
+    public function buscarCuota()
+    {
+        //
+    }
+
+    public function selectCuotasCodigo($codigos)
+    {
+        //JS
+    }
+
+    public function setCuotaSelect($cogido)
+    {
+        //JS
+    }
+
 
 }

@@ -16,4 +16,10 @@
 
 @section('js')
     {{--<script src="../../dist/js/adminlte.min.js"></script>--}}
+    <script !src="">
+        function cerrarInventarios() {
+            $('.cerra_inventarios').click();
+        }
+        console.log('hi!');
+    </script>
 @endsection

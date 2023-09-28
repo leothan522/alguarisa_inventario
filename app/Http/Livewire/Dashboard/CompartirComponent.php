@@ -15,6 +15,7 @@ class CompartirComponent extends Component
     use LivewireAlert;
 
     public $empresa_id, $empresa;
+    public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
 
     public function mount($empresa_id)
@@ -37,6 +38,13 @@ class CompartirComponent extends Component
             ->with('stockAlmacenes', $stockAlmacenes);
     }
 
+    public function limpiarStock()
+    {
+        $this->reset([
+            'view', 'viewMovimientos'
+        ]);
+    }
+
     public function actualizar()
     {
         //$this->alert('success', 'Stock Actualizado.');
@@ -52,6 +60,11 @@ class CompartirComponent extends Component
             ->where('unidades_id', $unidad)
             ->get();
 
+    }
+
+    public function verMovimientos()
+    {
+        $this->viewMovimientos = true;
     }
 
 }

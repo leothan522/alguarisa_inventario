@@ -17,6 +17,9 @@
 </div>
 
 {{-- VISTAS STOCK --}}
-<div class="row justify-content-around">
+<div class="row justify-content-around @if($viewMovimientos) d-none @endif">
     @include('dashboard.stock.show_stock')
+</div>
+<div class="row justify-content-center @if(!$viewMovimientos) d-none @endif">
+    @include('dashboard.stock.show_movimientos')
 </div>

@@ -75,6 +75,10 @@
             Livewire.emit('limpiarSegmentos');
         }
 
+        function verCuotas() {
+            Livewire.emit('limpiarCuota');
+        }
+
         function cambiarEmpresa()
         {
             Livewire.emit('changeEmpresa');
@@ -100,6 +104,43 @@
                 $('#' + header).addClass('disabled');
             }
         }
+
+        function cerrarInventarios() {
+            $('.cerra_inventarios').click();
+        }
+
+        function select_2(id, data)
+        {
+            let html = '<div class="input-group-prepend">' +
+                '<span class="input-group-text">' +
+                '<i class="fas fa-code"></i>' +
+                '</span>' +
+                '</div> ' +
+                '<select id="'+ id +'"></select>';
+            $('#div_' + id).html(html);
+
+            $('#'  + id).select2({
+                dropdownParent: $('#modal-cuotas'),
+                theme: 'bootstrap4',
+                data: data,
+                placeholder: 'Seleccione',
+                /*allowClear: true*/
+            });
+            $('#'  + id).val(null).trigger('change');
+            $('#'  + id).on('change', function() {
+                var val = $(this).val();
+                Livewire.emit('cuotaSeleccionada', val);
+            });
+        }
+
+        Livewire.on('selectCuotasCodigo', codigos => {
+            select_2('select_cuotas_codigo', codigos);
+        });
+
+        Livewire.on('setCuotaSelect', codigo => {
+            $('#select_cuotas_codigo').val(codigo).trigger('change');
+        });
+
 
         console.log('Hi!');
     </script>
