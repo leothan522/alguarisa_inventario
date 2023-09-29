@@ -1,7 +1,7 @@
 <div class="col-md-12" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card">
         <div class="card-header border-0">
-            <h3 class="card-title">Products</h3>
+            <h3 class="card-title">Almacen Principal</h3>
             <div class="card-tools">
                 <a href="#" class="btn btn-tool btn-sm">
                     <i class="fas fa-download"></i>
@@ -18,85 +18,76 @@
             <table class="table table-striped table-valign-middle">
                 <thead>
                 <tr>
-                    <th>Product</th>
-                    <th>Price</th>
-                    <th>Sales</th>
-                    <th class="text-center" style="width: 5%">More</th>
+                    <th class="d-none d-md-table-cell text-center">Tipo</th>
+                    <th class="d-none d-md-table-cell text-center">Fecha</th>
+                    <th>Articulo</th>
+                    <th>Segmento</th>
+                    <th class="d-none d-md-table-cell text-right">Unidad</th>
+                    <th class="text-right">Cantidad</th>
+                    <th class="d-none d-md-table-cell text-right">Saldo</th>
+                    <th class="text-center" style="width: 2%">Más</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td>
-                        <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                        Some Product
+                    <td class="d-none d-md-table-cell text-center">E01</td>
+                    <td class="d-none d-md-table-cell text-center">28/09/2023</td>
+                    <td class="text-uppercase">
+                        Modulos CLAPS
                     </td>
-                    <td>$13 USD</td>
-                    <td>
+                    <td class="text-uppercase">Recepcion</td>
+                    <td class="d-none d-md-table-cell text-right">UND</td>
+                    <td class="text-right">
+                        <span class="d-inline-flex">
                         <small class="text-success mr-1">
+                            <i class="fas fa-arrow-up"></i>
+                            {{--12%--}}
+                        </small>
+                        999.999
+                        </span>
+                    </td>
+                    <td class="d-none d-md-table-cell text-right">
+                        <span class="d-inline-flex">
+                        {{--<small class="text-success mr-1">
                             <i class="fas fa-arrow-up"></i>
                             12%
-                        </small>
-                        12,000 Sold
+                        </small>--}}
+                        9.999.999
+                        </span>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a href="#" class="text-muted">
                             <i class="fas fa-search"></i>
                         </a>
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                        Another Product
+                    <td class="d-none d-md-table-cell text-center">E01</td>
+                    <td class="d-none d-md-table-cell text-center">28/09/2023</td>
+                    <td class="text-uppercase">
+                        Modulos CLAPS
                     </td>
-                    <td>$29 USD</td>
-                    <td>
-                        <small class="text-warning mr-1">
+                    <td class="text-uppercase">Recepcion</td>
+                    <td class="d-none d-md-table-cell text-right">UND</td>
+                    <td class="text-right">
+                        <span class="d-inline-flex">
+                        <small class="text-primary mr-1">
                             <i class="fas fa-arrow-down"></i>
-                            0.5%
+                            {{--12%--}}
                         </small>
-                        123,234 Sold
+                        999.999
+                        </span>
                     </td>
-                    <td>
-                        <a href="#" class="text-muted">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                        Amazing Product
-                    </td>
-                    <td>$1,230 USD</td>
-                    <td>
-                        <small class="text-danger mr-1">
-                            <i class="fas fa-arrow-down"></i>
-                            3%
-                        </small>
-                        198 Sold
-                    </td>
-                    <td>
-                        <a href="#" class="text-muted">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="dist/img/default-150x150.png" alt="Product 1" class="img-circle img-size-32 mr-2">
-                        Perfect Item
-                        <span class="badge bg-danger">NEW</span>
-                    </td>
-                    <td>$199 USD</td>
-                    <td>
-                        <small class="text-success mr-1">
+                    <td class="d-none d-md-table-cell text-right">
+                        <span class="d-inline-flex">
+                        {{--<small class="text-success mr-1">
                             <i class="fas fa-arrow-up"></i>
-                            63%
-                        </small>
-                        87 Sold
+                            12%
+                        </small>--}}
+                        9.999.999
+                        </span>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <a href="#" class="text-muted">
                             <i class="fas fa-search"></i>
                         </a>
