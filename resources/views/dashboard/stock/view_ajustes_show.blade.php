@@ -74,7 +74,7 @@
                                                     @if($detalle->tipo->tipo == 2)
                                                         <span>-</span>
                                                     @endif
-                                                    {{ formatoMillares($detalle->cantidad, 3) }}
+                                                    {{ formatoMillares($detalle->cantidad, 0) }}
                                                 </td>
                                             </tr>
                                             @php($i++)
