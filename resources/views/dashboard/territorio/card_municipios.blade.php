@@ -23,7 +23,8 @@
                 <th class="text-center">#</th>
                 <th>Nombre</th>
                 <th>Abreviatura</th>
-                <th class="text-center">Parroquias</th>
+                <th class="text-center" style="width: 5%;">Familias</th>
+                <th class="text-center" style="width: 5%;">Parroquias</th>
                 <th style="width: 5%;">&nbsp;</th>
             </tr>
             </thead>
@@ -35,6 +36,7 @@
                         <td class="text-center">{{ $itemMunicipio }}</td>
                         <td>{{ $municipio->nombre }}</td>
                         <td>{{ $municipio->mini }}</td>
+                        <td class="text-center">{{ formatoMillares($municipio->familias, 0) }}</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-success btn-sm" wire:click="filtrarParroquias({{ $municipio->id }})">
                                 {{ $municipio->parroquias }}

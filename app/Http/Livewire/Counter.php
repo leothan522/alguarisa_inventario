@@ -71,6 +71,7 @@ class Counter extends Component
                 'nombre' => $municipio->nombre,
                 'mini' => $municipio->mini,
                 'parroquias' => $municipio->parroquias,
+                'familias' => $municipio->familias,
             ];
         }
 

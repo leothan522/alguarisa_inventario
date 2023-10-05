@@ -22,7 +22,7 @@ class TerritorioComponent extends Component
         ];
 
     public $viewMunicipio = "create", $keywordMunicipios, $viewParroquia = 'create', $keywordParroquia, $idMunicipio;
-    public $municipio_id, $municipioNombre, $municipioAbreviatura;
+    public $municipio_id, $municipioNombre, $municipioAbreviatura, $municipioFamilias;
     public $parroquia_id, $parroquiaNombre, $parroquiaAbreviatura, $parroquiaMunicipio;
 
     public function render()
@@ -59,7 +59,7 @@ class TerritorioComponent extends Component
     {
         $this->resetErrorBag();
         $this->reset([
-            'viewMunicipio', 'municipio_id', 'municipioNombre', 'municipioAbreviatura', 'keywordMunicipios'
+            'viewMunicipio', 'municipio_id', 'municipioNombre', 'municipioAbreviatura', 'keywordMunicipios', 'municipioFamilias'
         ]);
     }
 
@@ -68,6 +68,7 @@ class TerritorioComponent extends Component
         $rules = [
             'municipioNombre' => ['required', 'min:4', Rule::unique('municipios', 'nombre')->ignore($this->municipio_id)],
             'municipioAbreviatura' => ['required', 'min:4', Rule::unique('municipios', 'mini')->ignore($this->municipio_id)],
+            'municipioFamilias' => 'required|integer'
         ];
 
         $messages = [
@@ -78,7 +79,9 @@ class TerritorioComponent extends Component
             'municipioAbreviatura.required' => 'La Abreviatura es obligatoria.',
             'municipioAbreviatura.min' => 'La Abreviatura debe contener al menos 4 caracteres.',
             'municipioAbreviatura.alpha_num' => 'La Abreviatura sólo debe contener letras y números.',
-            'municipioAbreviatura.unique' => 'La Abreviatura ya ha sido registrada.'
+            'municipioAbreviatura.unique' => 'La Abreviatura ya ha sido registrada.',
+            'municipioFamilias.required' => 'El campo familias es obligatorio.',
+            'municipioFamilias.integer' => 'El campo familias debe ser un número entero.',
         ];
 
         $this->validate($rules, $messages);
@@ -96,6 +99,7 @@ class TerritorioComponent extends Component
 
         $municipio->nombre = ucwords($this->municipioNombre);
         $municipio->mini = ucfirst($this->municipioAbreviatura);
+        $municipio->familias = $this->municipioFamilias;
         $municipio->save();
 
         $this->emit('cerrarModal', 'municipio_btn_cerrar');
@@ -112,6 +116,7 @@ class TerritorioComponent extends Component
         $this->municipio_id = $municipio->id;
         $this->municipioNombre = $municipio->nombre;
         $this->municipioAbreviatura = $municipio->mini;
+        $this->municipioFamilias = $municipio->familias;
     }
 
     public function estatusMunicipio($id)

@@ -14,6 +14,7 @@ class Municipio extends Model
       'nombre',
       'mini',
       'parroquias',
+      'familias',
       'estatus'
     ];
 
