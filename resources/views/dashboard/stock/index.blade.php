@@ -141,6 +141,11 @@
             $('#select_cuotas_codigo').val(codigo).trigger('change');
         });
 
+        function irAjuste() {
+            $('#header_btn_existencias').removeClass('disabled');
+            $('#header_btn_ajustes').addClass('disabled');
+        }
+
 
         console.log('Hi!');
     </script>

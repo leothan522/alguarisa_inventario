@@ -14,8 +14,8 @@
                 </button>
             </div>
         </div>
-        <div class="card-body table-responsive p-0">
-            <table class="table table-striped table-valign-middle">
+        <div class="card-body table-responsive p-0" style="height: 550px;">
+            <table class="table table-head-fixed table-striped table-valign-middle table-sm">
                 <thead>
                 <tr>
                     <th class="d-none d-md-table-cell text-center">Tipo</th>
@@ -29,70 +29,57 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td class="d-none d-md-table-cell text-center">E01</td>
-                    <td class="d-none d-md-table-cell text-center">28/09/2023</td>
-                    <td class="text-uppercase">
-                        Modulos CLAPS
-                    </td>
-                    <td class="text-uppercase">Recepcion</td>
-                    <td class="d-none d-md-table-cell text-right">UND</td>
-                    <td class="text-right">
-                        <span class="d-inline-flex">
-                        <small class="text-success mr-1">
-                            <i class="fas fa-arrow-up"></i>
-                            {{--12%--}}
-                        </small>
-                        999.999
-                        </span>
-                    </td>
-                    <td class="d-none d-md-table-cell text-right">
-                        <span class="d-inline-flex">
-                        {{--<small class="text-success mr-1">
-                            <i class="fas fa-arrow-up"></i>
-                            12%
-                        </small>--}}
-                        9.999.999
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <a href="#" class="text-muted">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="d-none d-md-table-cell text-center">E01</td>
-                    <td class="d-none d-md-table-cell text-center">28/09/2023</td>
-                    <td class="text-uppercase">
-                        Modulos CLAPS
-                    </td>
-                    <td class="text-uppercase">Recepcion</td>
-                    <td class="d-none d-md-table-cell text-right">UND</td>
-                    <td class="text-right">
-                        <span class="d-inline-flex">
-                        <small class="text-primary mr-1">
-                            <i class="fas fa-arrow-down"></i>
-                            {{--12%--}}
-                        </small>
-                        999.999
-                        </span>
-                    </td>
-                    <td class="d-none d-md-table-cell text-right">
-                        <span class="d-inline-flex">
-                        {{--<small class="text-success mr-1">
-                            <i class="fas fa-arrow-up"></i>
-                            12%
-                        </small>--}}
-                        9.999.999
-                        </span>
-                    </td>
-                    <td class="text-center">
-                        <a href="#" class="text-muted">
-                            <i class="fas fa-search"></i>
-                        </a>
-                    </td>
-                </tr>
+                @if($getAjustes)
+                    @foreach($getAjustes as $ajuste)
+                        @if($ajuste->detalles->isNotEmpty())
+                            @foreach($ajuste->detalles as $detalle)
+                                <tr>
+                            <td class="d-none d-md-table-cell text-center">{{ $detalle->tipo->codigo }}</td>
+                            <td class="d-none d-md-table-cell text-center">{{ verFecha($ajuste->fecha) }}</td>
+                            <td class="text-uppercase">{{ $detalle->articulo->descripcion }}</td>
+                            <td class="text-uppercase">
+                                @if($ajuste->segmentos->tipo)
+                                    {{ $ajuste->municipios->mini }}
+                                @else
+                                    {{ $ajuste->segmentos->descripcion }}
+                                @endif
+                            </td>
+                            <td class="d-none d-md-table-cell text-right">{{ $detalle->unidad->codigo }}</td>
+                            <td class="text-right">
+                                <span class="d-inline-flex">
+                                    @if($detalle->tipo->tipo == 1)
+                                        <small class="text-success mr-1">
+                                        <i class="fas fa-arrow-up"></i>
+                                        {{--12%--}}
+                                        </small>
+                                    @else
+                                        <small class="text-danger mr-1">
+                                        <i class="fas fa-arrow-down"></i>
+                                        {{--12%--}}
+                                        </small>
+                                    @endif
+                                    &nbsp; {{ formatoMillares($detalle->cantidad, 0) }}
+                                </span>
+                            </td>
+                            <td class="d-none d-md-table-cell text-right">
+                                <span class="d-inline-flex">
+                                {{--<small class="text-success mr-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    12%
+                                </small>--}}
+                                --
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-link text-muted" wire:click="irAjuste({{ $ajuste->id }})" onclick="irAjuste()">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </td>
+                        </tr>
+                            @endforeach
+                        @endif
+                    @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

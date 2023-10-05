@@ -39,10 +39,10 @@
             @endif
         </button>
 
-        <button type="button" class="btn btn-default btn-sm" wire:click="destroyAjustes()"
+        {{--<button type="button" class="btn btn-default btn-sm" wire:click="destroyAjustes()"
                 @if(!comprobarPermisos() || !$ajuste_estatus) disabled @endif>
             <i class="fas fa-trash-alt"></i> Borrar
-        </button>
+        </button>--}}
 
     </div>
 

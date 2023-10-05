@@ -59,6 +59,7 @@ class StockComponent extends Component
     public $compartirQr;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $cuota_id, $cuota_mes, $cuota_codigo, $cuota_fecha, $keywordCuota;
+    public $getAjustes, $getAlmacen;
 
 
     public function mount()
@@ -159,7 +160,7 @@ class StockComponent extends Component
         $this->limpiarTiposAjuste();
         $this->limpiarAlmacenes();
         $this->reset([
-            'ajuste_id', 'modalEmpresa', 'modalStock', 'modalArticulo', 'modalUnidad'
+            'ajuste_id', 'modalEmpresa', 'modalStock', 'modalArticulo', 'modalUnidad', 'getAjustes', 'getAjustes'
         ]);
     }
 
@@ -168,7 +169,7 @@ class StockComponent extends Component
     public function limpiarStock()
     {
         $this->reset([
-            'view', 'viewMovimientos'
+            'view', 'viewMovimientos', 'getAjustes', 'getAjustes'
         ]);
     }
 
@@ -212,10 +213,21 @@ class StockComponent extends Component
 
     }
 
-    public function verMovimientos($id)
+    public function verMovimientos($almacen)
     {
-
+        $this->getAlmacen = $almacen;
+        $this->getAjustes = Ajuste::where('empresas_id', $this->empresa_id)->orderBy('fecha', 'DESC')->limit(50)->get();
+        $this->getAjustes->each( function ($ajuste){
+            $ajuste->detalles = AjusDetalle::where('ajustes_id', $ajuste->id)->where('almacenes_id', $this->getAlmacen)->get();
+        });
         $this->viewMovimientos = true;
+    }
+
+    public function irAjuste($id)
+    {
+        $this->verAjustes();
+        $this->showAjustes($id);
+        $this->emit('buscar', $this->ajuste_codigo);
     }
 
     // ************************* Almacenes ********************************************
@@ -560,6 +572,7 @@ class StockComponent extends Component
             $this->view = "ajustes";
         } else {
             $this->view = "stock";
+            //$this->reset(['viewMovimientos', 'getAjustes', 'getAlmacen']);
         }
     }
 

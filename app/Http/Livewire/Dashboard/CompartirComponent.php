@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\AjusDetalle;
+use App\Models\Ajuste;
 use App\Models\Almacen;
 use App\Models\Articulo;
 use App\Models\Empresa;
@@ -17,6 +19,7 @@ class CompartirComponent extends Component
     public $empresa_id, $empresa;
     public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
+    public $getAjustes, $getAlmacen;
 
     public function mount($empresa_id)
     {
@@ -41,7 +44,7 @@ class CompartirComponent extends Component
     public function limpiarStock()
     {
         $this->reset([
-            'view', 'viewMovimientos'
+            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen'
         ]);
     }
 
@@ -62,9 +65,22 @@ class CompartirComponent extends Component
 
     }
 
-    public function verMovimientos()
+    public function verMovimientos($almacen)
     {
+        $this->getAlmacen = $almacen;
+        $this->getAjustes = Ajuste::where('empresas_id', $this->empresa_id)->orderBy('fecha', 'DESC')->limit(50)->get();
+        $this->getAjustes->each( function ($ajuste){
+            $ajuste->detalles = AjusDetalle::where('ajustes_id', $ajuste->id)->where('almacenes_id', $this->getAlmacen)->get();
+        });
         $this->viewMovimientos = true;
+    }
+
+    public function irAjuste($id)
+    {
+        /*$this->verAjustes();
+        $this->showAjustes($id);
+        $this->emit('buscar', $this->ajuste_codigo);*/
+        $this->limpiarStock();
     }
 
 }
