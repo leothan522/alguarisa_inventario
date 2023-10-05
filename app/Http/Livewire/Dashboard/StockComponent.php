@@ -212,8 +212,9 @@ class StockComponent extends Component
 
     }
 
-    public function verMovimientos()
+    public function verMovimientos($id)
     {
+
         $this->viewMovimientos = true;
     }
 

@@ -36,7 +36,7 @@
                 <!-- /.card-body -->
                 <div class="card-footer pb-0">
                     <div class="small-box bg-primary">
-                        <a class="small-box-footer" style="cursor:pointer;" wire:click="verMovimientos" onclick="cerrarInventarios()">
+                        <a class="small-box-footer" style="cursor:pointer;" wire:click="verMovimientos({{ $almacen->id }})" onclick="cerrarInventarios()">
                             Más información
                             <i class="fas fa-arrow-circle-right"></i>
                         </a>
