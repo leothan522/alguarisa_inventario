@@ -176,15 +176,9 @@ class StockComponent extends Component
 
     public function show($modal = false)
     {
-        /*if (!$modal){
-            $this->reset([
-                'getStock', 'keywordStock', 'keywordAjustes'
-            ]);
-        }else{
-            $this->reset([
-                'getStock'
-            ]);
-        }*/
+        $this->reset([
+            'getStock', 'keywordStock', 'keywordAjustes'
+        ]);
         if ($this->getAlmacen){
             $this->verMovimientos($this->getAlmacen);
         }

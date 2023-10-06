@@ -24,7 +24,7 @@
                     <th>Segmento</th>
                     <th class="d-none d-md-table-cell text-right">Unidad</th>
                     <th class="text-right">Cantidad</th>
-                    <th class="text-right">Saldo</th>
+                    <th class="text-right"><span class="mr-2">Saldo</span></th>
                     <th class="d-none d-md-table-cell text-center" style="width: 2%">Más</th>
                 </tr>
                 </thead>
@@ -72,7 +72,7 @@
                                         </span>
                                     </td>
                                     <td class="text-right">
-                                        <span class="text-nowrap">
+                                        <span class="text-nowrap mr-2">
                                             {{ formatoMillares($arraySaldo[$detalle->articulo->codigo], 0) }}
                                         </span>
                                     </td>
