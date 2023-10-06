@@ -59,7 +59,7 @@ class StockComponent extends Component
     public $compartirQr;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $cuota_id, $cuota_mes, $cuota_codigo, $cuota_fecha, $keywordCuota;
-    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15;
+    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $modulo = 'stock';
 
 
     public function mount()

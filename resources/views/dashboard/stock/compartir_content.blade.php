@@ -26,3 +26,5 @@
 <div class="row justify-content-center @if(!$viewMovimientos) d-none @endif">
     @include('dashboard.stock.show_movimientos')
 </div>
+
+@include('dashboard.stock.modal_compartir_ver_ajuste')

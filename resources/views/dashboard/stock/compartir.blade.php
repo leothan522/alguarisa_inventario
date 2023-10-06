@@ -20,6 +20,11 @@
         function cerrarInventarios() {
             $('.cerra_inventarios').click();
         }
+
+        function verAjuste(id) {
+            $('#btn_ver_modal_ajuste').click();
+        }
+
         console.log('hi!');
     </script>
 @endsection

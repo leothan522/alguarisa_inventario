@@ -19,7 +19,7 @@ class CompartirComponent extends Component
     public $empresa_id, $empresa;
     public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
-    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15;
+    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $modulo = 'compartir';
 
     public function mount($empresa_id)
     {
@@ -91,14 +91,6 @@ class CompartirComponent extends Component
             });
         });
         $this->viewMovimientos = true;
-    }
-
-    public function irAjuste($id)
-    {
-        /*$this->verAjustes();
-        $this->showAjustes($id);
-        $this->emit('buscar', $this->ajuste_codigo);*/
-        $this->limpiarStock();
     }
 
     public function aumetarLimit()

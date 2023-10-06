@@ -24,8 +24,8 @@
                     <th>Segmento</th>
                     <th class="d-none d-md-table-cell text-right">Unidad</th>
                     <th class="text-right">Cantidad</th>
-                    <th class="d-none d-md-table-cell text-right">Saldo</th>
-                    <th class="text-center" style="width: 2%">Más</th>
+                    <th class="text-right">Saldo</th>
+                    <th class="d-none d-md-table-cell text-center" style="width: 2%">Más</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,12 +42,12 @@
                                 @if(!array_key_exists($detalle->articulo->codigo,$arraySaldo))
                                     @php($arraySaldo[$detalle->articulo->codigo] = $detalle->stock)
                                 @endif
-                                <tr>
+                                <tr @if($modulo == 'compartir') onclick="verAjuste({{ $ajuste->id }})" style="cursor: pointer;" @endif >
                                     <td class="d-none d-md-table-cell text-center">{{ $detalle->tipo->codigo }}</td>
                                     <td class="d-none d-md-table-cell text-center">{{ verFecha($ajuste->fecha) }}</td>
                                     <td class="text-uppercase">
                                         <span class="d-none d-md-table-cell">{{ $detalle->articulo->descripcion }}</span>
-                                        <small class="d-md-none">{{ $detalle->articulo->descripcion }}</small>
+                                        <small class="d-md-none">{{ $detalle->articulo->codigo }}</small>
                                     </td>
                                     <td class="text-uppercase">
                                         @if($ajuste->segmentos->tipo)
@@ -58,34 +58,27 @@
                                     </td>
                                     <td class="d-none d-md-table-cell text-right">{{ $detalle->unidad->codigo }}</td>
                                     <td class="text-right">
-                                <span class="{{--d-inline-flex--}}text-nowrap">
-                                    @if($detalle->tipo->tipo == 1)
-                                        <small class="text-success mr-1">
-                                        <i class="fas fa-arrow-up"></i>
-                                        {{--12%--}}
-                                        </small>
-                                    @else
-                                        <small class="text-danger mr-1">
-                                        <i class="fas fa-arrow-down"></i>
-                                        {{--12%--}}
-                                        </small>
-                                    @endif
-                                    &nbsp;{{ formatoMillares($detalle->cantidad, 0) }}
-                                </span>
+                                        <span class="text-nowrap">
+                                            @if($detalle->tipo->tipo == 1)
+                                                <small class="text-success mr-1">
+                                                <i class="fas fa-arrow-up"></i>
+                                                </small>
+                                            @else
+                                                <small class="text-danger mr-1">
+                                                <i class="fas fa-arrow-down"></i>
+                                                </small>
+                                            @endif
+                                            {{ formatoMillares($detalle->cantidad, 0) }}
+                                        </span>
                                     </td>
-                                    <td class="d-none d-md-table-cell text-right">
-                                <span class="d-inline-flex">
-                                {{--<small class="text-success mr-1">
-                                    <i class="fas fa-arrow-up"></i>
-                                    12%
-                                </small>--}}
-                                    {{ formatoMillares($arraySaldo[$detalle->articulo->codigo], 0) }}
-                                    {{--{{ json_encode($arraySaldo) }}--}}
-                                </span>
+                                    <td class="text-right">
+                                        <span class="text-nowrap">
+                                            {{ formatoMillares($arraySaldo[$detalle->articulo->codigo], 0) }}
+                                        </span>
                                     </td>
-                                    <td class="text-center">
+                                    <td class="d-none d-md-table-cell text-center">
                                         <button type="button" class="btn btn-link text-muted"
-                                                wire:click="irAjuste({{ $ajuste->id }})" onclick="irAjuste()">
+                                                @if($modulo == 'stock') wire:click="irAjuste({{ $ajuste->id }})" onclick="irAjuste()" @endif >
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </td>
