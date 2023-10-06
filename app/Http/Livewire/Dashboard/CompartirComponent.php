@@ -19,7 +19,7 @@ class CompartirComponent extends Component
     public $empresa_id, $empresa;
     public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
-    public $getAjustes, $getAlmacen;
+    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15;
 
     public function mount($empresa_id)
     {
@@ -44,13 +44,16 @@ class CompartirComponent extends Component
     public function limpiarStock()
     {
         $this->reset([
-            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen'
+            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen', 'getLimit', 'getNombre'
         ]);
     }
 
     public function actualizar()
     {
         //$this->alert('success', 'Stock Actualizado.');
+        if ($this->getAlmacen){
+            $this->verMovimientos($this->getAlmacen);
+        }
     }
 
     public function verArticulo($id, $unidad)
@@ -65,12 +68,27 @@ class CompartirComponent extends Component
 
     }
 
-    public function verMovimientos($almacen)
+    public function verMovimientos($id)
     {
-        $this->getAlmacen = $almacen;
-        $this->getAjustes = Ajuste::where('empresas_id', $this->empresa_id)->orderBy('fecha', 'DESC')->limit(50)->get();
+        $this->getAlmacen = $id;
+        $almacen = Almacen::find($this->getAlmacen);
+        $this->getNombre = $almacen->nombre;
+        $this->getAjustes = Ajuste::where('empresas_id', $this->empresa_id)->orderBy('fecha', 'DESC')->get();
         $this->getAjustes->each( function ($ajuste){
-            $ajuste->detalles = AjusDetalle::where('ajustes_id', $ajuste->id)->where('almacenes_id', $this->getAlmacen)->get();
+            $ajuste->detalles = AjusDetalle::where('ajustes_id', $ajuste->id)
+                ->where('almacenes_id', $this->getAlmacen)->get();
+            $ajuste->detalles->each(function ($detalle){
+                $stock = Stock::where('empresas_id', $this->empresa_id)
+                    ->where('articulos_id', $detalle->articulos_id)
+                    ->where('almacenes_id', $detalle->almacenes_id)
+                    ->where('unidades_id', $detalle->unidades_id)
+                    ->first();
+                if ($stock){
+                    $detalle->stock = $stock->actual;
+                }else{
+                    $detalle->stock = 0;
+                }
+            });
         });
         $this->viewMovimientos = true;
     }
@@ -81,6 +99,12 @@ class CompartirComponent extends Component
         $this->showAjustes($id);
         $this->emit('buscar', $this->ajuste_codigo);*/
         $this->limpiarStock();
+    }
+
+    public function aumetarLimit()
+    {
+        $this->getLimit = $this->getLimit * 2;
+        $this->verMovimientos($this->getAlmacen);
     }
 
 }
