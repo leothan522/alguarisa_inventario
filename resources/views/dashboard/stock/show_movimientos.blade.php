@@ -45,7 +45,10 @@
                                 <tr>
                                     <td class="d-none d-md-table-cell text-center">{{ $detalle->tipo->codigo }}</td>
                                     <td class="d-none d-md-table-cell text-center">{{ verFecha($ajuste->fecha) }}</td>
-                                    <td class="text-uppercase">{{ $detalle->articulo->descripcion }}</td>
+                                    <td class="text-uppercase">
+                                        <span class="d-none d-md-table-cell">{{ $detalle->articulo->descripcion }}</span>
+                                        <small class="d-md-none">{{ $detalle->articulo->descripcion }}</small>
+                                    </td>
                                     <td class="text-uppercase">
                                         @if($ajuste->segmentos->tipo)
                                             {{ $ajuste->municipios->mini }}
@@ -55,7 +58,7 @@
                                     </td>
                                     <td class="d-none d-md-table-cell text-right">{{ $detalle->unidad->codigo }}</td>
                                     <td class="text-right">
-                                <span class="d-inline-flex">
+                                <span class="{{--d-inline-flex--}}text-nowrap">
                                     @if($detalle->tipo->tipo == 1)
                                         <small class="text-success mr-1">
                                         <i class="fas fa-arrow-up"></i>
@@ -67,7 +70,7 @@
                                         {{--12%--}}
                                         </small>
                                     @endif
-                                    &nbsp; {{ formatoMillares($detalle->cantidad, 0) }}
+                                    &nbsp;{{ formatoMillares($detalle->cantidad, 0) }}
                                 </span>
                                     </td>
                                     <td class="d-none d-md-table-cell text-right">
