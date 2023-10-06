@@ -16,10 +16,15 @@ class CompartirComponent extends Component
 {
     use LivewireAlert;
 
+    protected $listeners = [
+        'verAjuste'
+    ];
+
     public $empresa_id, $empresa;
     public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $modulo = 'compartir';
+    public $getDetalles;
 
     public function mount($empresa_id)
     {
@@ -44,7 +49,7 @@ class CompartirComponent extends Component
     public function limpiarStock()
     {
         $this->reset([
-            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen', 'getLimit', 'getNombre'
+            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen', 'getLimit', 'getNombre', 'getDetalles'
         ]);
     }
 
@@ -97,6 +102,12 @@ class CompartirComponent extends Component
     {
         $this->getLimit = $this->getLimit * 2;
         $this->verMovimientos($this->getAlmacen);
+    }
+
+    public function verAjuste($detalles_id)
+    {
+        $this->modalEmpresa = $this->empresa;
+        $this->getDetalles = AjusDetalle::find($detalles_id);
     }
 
 }

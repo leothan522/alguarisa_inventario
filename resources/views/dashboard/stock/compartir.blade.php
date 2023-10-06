@@ -22,6 +22,7 @@
         }
 
         function verAjuste(id) {
+            Livewire.emit('verAjuste', id);
             $('#btn_ver_modal_ajuste').click();
         }
 

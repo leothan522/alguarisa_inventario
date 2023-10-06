@@ -3,7 +3,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title text-uppercase">{{--<i class="fas fa-store-alt"></i>--}} {{ $modalEmpresa->nombre ?? '' }}</span></h5>
+                <h5 class="modal-title text-uppercase">{{--<i class="fas fa-store-alt"></i>--}} {{ $modalEmpresa->nombre ?? '' }}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
