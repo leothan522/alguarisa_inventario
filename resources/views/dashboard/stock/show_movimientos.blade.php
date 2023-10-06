@@ -14,7 +14,7 @@
                 </button>
             </div>
         </div>
-        <div class="card-body table-responsive p-0" style="height: 550px;">
+        <div class="card-body table-responsive p-0" style="height: 520px;">
             <table class="table table-head-fixed table-striped table-valign-middle table-sm">
                 <thead>
                 <tr>
