@@ -70,7 +70,6 @@ class CompartirComponent extends Component
             ->where('articulos_id', $id)
             ->where('unidades_id', $unidad)
             ->get();
-
     }
 
     public function verMovimientos($id)

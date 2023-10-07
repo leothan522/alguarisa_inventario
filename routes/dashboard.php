@@ -10,6 +10,7 @@ use App\Http\Controllers\Dashboard\ArticulosController;
 use App\Http\Controllers\Dashboard\StockController;
 use App\Http\Controllers\Dashboard\OfertasController;
 use App\Http\Controllers\Dashboard\TerritorioController;
+use App\Http\Controllers\Dashboard\CompartirController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::middleware([
 
 Route::get('dashboard/perfil', [UsuariosController::class, 'perfil'])->middleware('auth')->name('usuarios.perfil');
 Route::get('chat-directo/{id?}', [ChatController::class, 'index'])->middleware(['user.android'])->name('chat.directo');
-Route::get('stock/{token}', [StockController::class, 'campartirQr'])->middleware(['user.android'])->name('stock.compartirqr');
+Route::get('stock/{token}', [CompartirController::class, 'index'])->middleware(['user.android'])->name('stock.compartirqr');
 
 Route::get('/prueba', function () {
     //Alert::alert('Title', 'Message', 'Type');

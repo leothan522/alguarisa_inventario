@@ -27,4 +27,4 @@
     @include('dashboard.stock.show_movimientos')
 </div>
 
-@include('dashboard.stock.modal_compartir_ver_ajuste')
+@include('dashboard.compartir.modal_ver_ajuste')
