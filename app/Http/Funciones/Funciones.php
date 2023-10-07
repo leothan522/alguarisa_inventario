@@ -202,6 +202,34 @@ function verFecha($fecha, $format = null){
     return $carbon->parse($fecha)->format($format);
 }
 
+function generarStringAleatorio($largo = 10, $espacio = false): string
+{
+    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $caracteres = $espacio ? $caracteres . ' ' : $caracteres;
+    $string = '';
+    for ($i = 0; $i < $largo; $i++) {
+        $string .= $caracteres[rand(0, strlen($caracteres) - 1)];
+    }
+    return $string;
+}
+
+function diaEspanol($fecha){
+    $diaSemana = date("w",strtotime($fecha));
+    $diasEspanol = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
+    $dia = $diasEspanol[$diaSemana];
+    return $dia;
+}
+
+function mesEspanol($numMes = null){
+    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+    if (!is_null($numMes)){
+        $mes = $meses[$numMes - 1];
+        return $mes;
+    }else{
+        return $meses;
+    }
+}
+
 function numRowsPaginate(){
     $default = 15;
     $parametro = Parametro::where("nombre", "numRowsPaginate")->first();
@@ -662,17 +690,6 @@ function recorrerCategorias($categorias)
     });
 }
 
-function generarStringAleatorio($largo = 10, $espacio = false): string
-{
-    $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $caracteres = $espacio ? $caracteres . ' ' : $caracteres;
-    $string = '';
-    for ($i = 0; $i < $largo; $i++) {
-        $string .= $caracteres[rand(0, strlen($caracteres) - 1)];
-    }
-    return $string;
-}
-
 //***********************************************************************************
 
 
@@ -687,23 +704,6 @@ function cuantosDias($fecha_inicio, $fecha_final){
     $fechaExpiracion = $carbon->parse($fecha_final);
     $diasDiferencia = $fechaExpiracion->diffInDays($fechaEmision);
     return $diasDiferencia;
-}
-
-function diaEspanol($fecha){
-    $diaSemana = date("w",strtotime($fecha));
-    $diasEspanol = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado");
-    $dia = $diasEspanol[$diaSemana];
-    return $dia;
-}
-
-function mesEspanol($numMes = null){
-    $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
-    if (!is_null($numMes)){
-        $mes = $meses[$numMes - 1];
-        return $mes;
-    }else{
-        return $meses;
-    }
 }
 
 //calculo de porcentaje

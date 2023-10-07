@@ -62,9 +62,9 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <b class="text-uppercase">Fecha</b>
-                            <a class="text-uppercase text-navy">
+                            <a class="text-navy">
                                 @if($getDetalles)
-                                    {{ verFecha($getDetalles->ajustes->fecha, 'd/m/Y h:i a') }}
+                                    {{ diaEspanol($getDetalles->ajustes->fecha) }}, {{ verFecha($getDetalles->ajustes->fecha, 'd/m/Y h:i a') }}
                                 @endif
                             </a>
                         </li>

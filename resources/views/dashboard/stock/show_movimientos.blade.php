@@ -44,7 +44,7 @@
                                 @endif
                                 <tr @if($modulo == 'compartir') onclick="verAjuste({{ $ajuste->id }})" style="cursor: pointer;" @endif >
                                     <td class="d-none d-md-table-cell text-center">{{ $detalle->tipo->codigo }}</td>
-                                    <td class="d-none d-md-table-cell text-center">{{ verFecha($ajuste->fecha) }}</td>
+                                    <td class="d-none d-md-table-cell text-center">{{ diaEspanol($ajuste->fecha) }}, {{ verFecha($ajuste->fecha, 'd/m/Y h:i a') }}</td>
                                     <td class="text-uppercase">
                                         <span class="d-none d-md-table-cell">{{ $detalle->articulo->descripcion }}</span>
                                         <small class="d-md-none">{{ $detalle->articulo->codigo }}</small>
