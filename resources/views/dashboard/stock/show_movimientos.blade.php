@@ -40,7 +40,7 @@
                             @foreach($ajuste->detalles as $detalle)
                                 @php($i++)
                                 @if(!array_key_exists($detalle->articulo->codigo,$arraySaldo))
-                                    @php($arraySaldo[$detalle->articulo->codigo] = $detalle->stock)
+                                    @php($arraySaldo[$detalle->articulo->codigo] = $getSaldo)
                                 @endif
                                 <tr @if($modulo == 'compartir') onclick="verAjuste({{ $ajuste->id }})" style="cursor: pointer;" @endif >
                                     <td class="d-none d-md-table-cell text-center">{{ $detalle->tipo->codigo }}</td>

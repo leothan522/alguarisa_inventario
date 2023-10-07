@@ -59,7 +59,7 @@ class StockComponent extends Component
     public $compartirQr;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $cuota_id, $cuota_mes, $cuota_codigo, $cuota_fecha, $keywordCuota;
-    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $modulo = 'stock';
+    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $getSaldo, $modulo = 'stock';
 
 
     public function mount()
@@ -161,7 +161,7 @@ class StockComponent extends Component
         $this->limpiarAlmacenes();
         $this->reset([
             'ajuste_id', 'modalEmpresa', 'modalStock', 'modalArticulo', 'modalUnidad', 'getAjustes', 'getAjustes',
-            'getLimit', 'getNombre'
+            'getLimit', 'getNombre', 'getSaldo'
         ]);
     }
 
@@ -170,7 +170,7 @@ class StockComponent extends Component
     public function limpiarStock()
     {
         $this->reset([
-            'view', 'viewMovimientos', 'getAjustes', 'getAjustes', 'getLimit', 'getNombre'
+            'view', 'viewMovimientos', 'getAjustes', 'getAjustes', 'getLimit', 'getNombre', 'getSaldo'
         ]);
     }
 
@@ -227,9 +227,9 @@ class StockComponent extends Component
                     ->where('unidades_id', $detalle->unidades_id)
                     ->first();
                 if ($stock){
-                    $detalle->stock = $stock->actual;
+                    $this->getSaldo = $stock->actual;
                 }else{
-                    $detalle->stock = 0;
+                    $this->getSaldo = 0;
                 }
             });
         });

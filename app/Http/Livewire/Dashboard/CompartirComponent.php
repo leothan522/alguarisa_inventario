@@ -23,7 +23,7 @@ class CompartirComponent extends Component
     public $empresa_id, $empresa;
     public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
-    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $modulo = 'compartir';
+    public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $getSaldo, $modulo = 'compartir';
     public $getDetalles;
 
     public function mount($empresa_id)
@@ -88,9 +88,9 @@ class CompartirComponent extends Component
                     ->where('unidades_id', $detalle->unidades_id)
                     ->first();
                 if ($stock){
-                    $detalle->stock = $stock->actual;
+                    $this->getSaldo = $stock->actual;
                 }else{
-                    $detalle->stock = 0;
+                    $this->getSaldo = 0;
                 }
             });
         });
