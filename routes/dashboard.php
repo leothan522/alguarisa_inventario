@@ -54,6 +54,7 @@ Route::middleware([
 Route::get('dashboard/perfil', [UsuariosController::class, 'perfil'])->middleware('auth')->name('usuarios.perfil');
 Route::get('chat-directo/{id?}', [ChatController::class, 'index'])->middleware(['user.android'])->name('chat.directo');
 Route::get('stock/{token}', [CompartirController::class, 'index'])->middleware(['user.android'])->name('stock.compartirqr');
+Route::get('export/{almacen}/{empresa}/{limit}/movimientos/', [CompartirController::class, 'reporteMovimientos'])->name('movimientos.reportes');
 
 Route::get('/prueba', function () {
     //Alert::alert('Title', 'Message', 'Type');

@@ -6,7 +6,7 @@
                 <button type="button" class="btn btn-tool btn-sm" wire:click="aumetarLimit">
                     <i class="far fa-list-alt"></i>
                 </button>
-                <a href="#" class="btn btn-tool btn-sm">
+                <a href="{{ route('movimientos.reportes', [$getAlmacen ?? 0, $empresa_id, $getLimit]) }}" class="btn btn-tool btn-sm">
                     <i class="fas fa-download"></i>
                 </a>
                 <button type="button" class="btn btn-tool" data-card-widget="remove" wire:click="limpiarStock">
