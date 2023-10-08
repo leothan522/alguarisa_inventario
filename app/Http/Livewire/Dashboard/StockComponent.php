@@ -79,7 +79,7 @@ class StockComponent extends Component
         $tiposAjuste = AjusTipo::buscar($this->keywordTiposAjuste)->orderBy('codigo', 'ASC')->paginate($paginate);
         $rowsTiposAjuste = AjusTipo::count();
         $cuotas = Cuota::buscar($this->keywordCuota)->orderBy('codigo', 'DESC')->paginate($paginate);
-        $rowsCuotas = AjusTipo::count();
+        $rowsCuotas = Cuota::count();
         $segmentos = AjusSegmento::buscar($this->keywordSegmento)->orderBy('id', 'ASC')->paginate($paginate);
         $rowsSegmento = AjusSegmento::count();
         $ajustes = Ajuste::buscar($this->keywordAjustes)->where('empresas_id', $this->empresa_id)->orderBy('codigo', 'desc')->paginate($paginate, ['*'], 'pag');
