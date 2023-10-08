@@ -60,7 +60,7 @@ class CompartirController extends Controller
             ->with('getNombre', $getNombre)
             ->with('empresa', $empresa)
             ;*/
-
-        return Excel::download(new MovimientosExport($getAjustes, $this->getSaldo, $limit, $getNombre, $empresa), 'movimientos.xlsx');
+        $hoy = date('d-m-Y h:i:s a');
+        return Excel::download(new MovimientosExport($getAjustes, $this->getSaldo, $limit, $getNombre, $empresa), 'Movimientos '.$hoy.'.xlsx');
     }
 }
