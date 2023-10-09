@@ -12,6 +12,10 @@
                         id="header_btn_actualizar" {{--style="margin-right: 5px;"--}}>
                     <i class="fas fa-sync"></i> Actualizar
                 </button>
+                <button type="button" wire:click="verCuota" class="btn btn-default btn-xs float-right mr-3"
+                        {{--id="header_btn_actualizar"--}} {{--style="margin-right: 5px;"--}}>
+                    <i class="fas fa-list"></i> Ver Cuota
+                </button>
             </span>
         </div>
         <!-- /.info-box-content -->
@@ -20,11 +24,15 @@
 </div>
 
 {{-- VISTAS STOCK --}}
-<div class="row justify-content-around @if($viewMovimientos) d-none @endif">
+<div class="row justify-content-around @if($viewMovimientos || $viewCuota) d-none @endif">
     @include('dashboard.stock.show_stock')
 </div>
-<div class="row justify-content-center @if(!$viewMovimientos) d-none @endif">
+<div class="row justify-content-center @if(!$viewMovimientos || $viewCuota) d-none @endif">
     @include('dashboard.stock.show_movimientos')
 </div>
-
 @include('dashboard.compartir.modal_ver_ajuste')
+
+<div class="row justify-content-center @if(!$viewCuota) d-none @endif">
+    @include('dashboard.compartir.show_cuota')
+</div>
+

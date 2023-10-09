@@ -7,6 +7,7 @@ use App\Models\Ajuste;
 use App\Models\Almacen;
 use App\Models\Articulo;
 use App\Models\Empresa;
+use App\Models\Municipio;
 use App\Models\Stock;
 use App\Models\Unidad;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -25,6 +26,7 @@ class CompartirComponent extends Component
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $getSaldo, $modulo = 'compartir';
     public $getDetalles;
+    public $viewCuota = false, $municipios;
 
     public function mount($empresa_id)
     {
@@ -49,7 +51,8 @@ class CompartirComponent extends Component
     public function limpiarStock()
     {
         $this->reset([
-            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen', 'getLimit', 'getNombre', 'getDetalles'
+            'view', 'viewMovimientos', 'getAjustes', 'getAlmacen', 'getLimit', 'getNombre', 'getDetalles',
+            'viewCuota', 'municipios'
         ]);
     }
 
@@ -107,6 +110,13 @@ class CompartirComponent extends Component
     {
         $this->modalEmpresa = $this->empresa;
         $this->getDetalles = AjusDetalle::find($detalles_id);
+    }
+
+    public function verCuota()
+    {
+        $this->limpiarStock();
+        $this->viewCuota = true;
+        $this->municipios = Municipio::orderBy('familias', 'DESC')->get();
     }
 
 }
