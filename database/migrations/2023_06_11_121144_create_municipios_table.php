@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('mini')->nullable();
             $table->integer('parroquias')->nullable()->default(0);
+            $table->integer('familias')->nullable()->unsigned()->default(null);
             $table->integer('estatus')->default(1);
             $table->timestamps();
         });
@@ -28,6 +29,7 @@ return new class extends Migration
                     "nombre" => $municipio['nombre'],
                     "mini" => $municipio['mini'],
                     "parroquias" => $municipio['parroquias'],
+                    "familias" => $municipio['familias'],
                     "created_at" => \Carbon\Carbon::now(),
                     "updated_at" => \Carbon\Carbon::now(),
                 ]);
