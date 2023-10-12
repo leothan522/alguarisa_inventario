@@ -12,7 +12,7 @@
                         id="header_btn_actualizar" {{--style="margin-right: 5px;"--}}>
                     <i class="fas fa-sync"></i> Actualizar
                 </button>
-                <button type="button" wire:click="verCuota" class="btn btn-default btn-xs float-right mr-3"
+                <button type="button" wire:click="verCuota" class="btn btn-default btn-xs float-right mr-3 @if($viewCuota) d-none @endif"
                         {{--id="header_btn_actualizar"--}} {{--style="margin-right: 5px;"--}}>
                     <i class="fas fa-list"></i> Ver Cuota
                 </button>
@@ -35,4 +35,5 @@
 <div class="row justify-content-center @if(!$viewCuota) d-none @endif">
     @include('dashboard.compartir.show_cuota')
 </div>
+@include('dashboard.compartir.modal_ver_cuota')
 

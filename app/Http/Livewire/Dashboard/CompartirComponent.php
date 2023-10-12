@@ -6,6 +6,7 @@ use App\Models\AjusDetalle;
 use App\Models\Ajuste;
 use App\Models\Almacen;
 use App\Models\Articulo;
+use App\Models\Cuota;
 use App\Models\Empresa;
 use App\Models\Municipio;
 use App\Models\Stock;
@@ -18,7 +19,7 @@ class CompartirComponent extends Component
     use LivewireAlert;
 
     protected $listeners = [
-        'verAjuste'
+        'verAjuste', 'detalleCuota'
     ];
 
     public $empresa_id, $empresa;
@@ -26,7 +27,8 @@ class CompartirComponent extends Component
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $getSaldo, $modulo = 'compartir';
     public $getDetalles;
-    public $viewCuota = false, $municipios;
+    public $viewCuota = false, $municipios, $cuotaMes, $cuotaCodigo, $cuotaFecha, $cuotaAnterior;
+    public $modalMunicipio, $modalCenso, $modalDeudaAnterior, $modalDespacho, $modalDeudaTotal, $modalDuedaAcumulada;
 
     public function mount($empresa_id)
     {
@@ -52,7 +54,8 @@ class CompartirComponent extends Component
     {
         $this->reset([
             'view', 'viewMovimientos', 'getAjustes', 'getAlmacen', 'getLimit', 'getNombre', 'getDetalles',
-            'viewCuota', 'municipios'
+            'viewCuota', 'municipios', 'cuotaMes', 'cuotaCodigo', 'cuotaFecha', 'cuotaAnterior',
+            'modalMunicipio', 'modalCenso', 'modalDeudaAnterior', 'modalDespacho', 'modalDeudaTotal', 'modalDuedaAcumulada'
         ]);
     }
 
@@ -61,6 +64,9 @@ class CompartirComponent extends Component
         //$this->alert('success', 'Stock Actualizado.');
         if ($this->getAlmacen){
             $this->verMovimientos($this->getAlmacen);
+        }
+        if ($this->viewCuota){
+            $this->verCuota();
         }
     }
 
@@ -116,7 +122,110 @@ class CompartirComponent extends Component
     {
         $this->limpiarStock();
         $this->viewCuota = true;
+        $cuotas = Cuota::orderBy('fecha', 'DESC')->first();
+        if ($cuotas){
+            $this->cuotaMes = mesEspanol($cuotas->mes);
+            $this->cuotaCodigo = $cuotas->codigo;
+            $this->cuotaFecha = verFecha($cuotas->fecha);
+            $anterior = Cuota::where('codigo', '<', $this->cuotaCodigo)->orderBy('fecha', 'DESC')->first();
+            if ($anterior){
+                $this->cuotaAnterior = $anterior->codigo;
+            }
+        }
         $this->municipios = Municipio::orderBy('familias', 'DESC')->get();
+        $this->municipios->each(function ($municipio){
+            $censo = $municipio->familias;
+            $total = 0;
+            $despachoAnterior = 0;
+            $deudaAnterior = 0;
+            $despachoActual = 0;
+            $deudaActual = 0;
+
+            $contador = 0;
+            if ($this->cuotaAnterior){
+
+                //cuota Anterior
+                $ajustes = Ajuste::where('empresas_id', $this->empresa_id)
+                    ->where('codigo', '>=', $this->cuotaAnterior)
+                    ->where('codigo', '<', $this->cuotaCodigo)
+                    ->where('segmentos_id', 1)
+                    ->where('municipios_id', $municipio->id)
+                    ->get();
+                foreach ($ajustes as $ajuste){
+                    $detalles = AjusDetalle::where('ajustes_id', $ajuste->id)
+                        ->where('articulos_id', 1)
+                        ->where('unidades_id', 1)
+                        ->get();
+                    if ($detalles){
+                        foreach ($detalles as $detalle){
+                            if ($detalle->tipo->tipo == 2){
+                                //salida
+                                $contador = $contador + $detalle->cantidad;
+                            }else{
+                                //entrada
+                                $contador = $contador - $detalle->cantidad;
+                            }
+                        }
+                    }
+                }
+
+                //deuda cuota anterior
+                $despachoAnterior = $contador;
+                $deudaAnterior = $censo - $despachoAnterior;
+
+            }
+
+            $contador = 0;
+            if ($this->cuotaCodigo){
+
+                //cuota Actual
+                $ajustes = Ajuste::where('empresas_id', $this->empresa_id)
+                    ->where('codigo', '>=', $this->cuotaCodigo)
+                    ->where('segmentos_id', 1)
+                    ->where('municipios_id', $municipio->id)
+                    ->get();
+                foreach ($ajustes as $ajuste){
+                    $detalles = AjusDetalle::where('ajustes_id', $ajuste->id)
+                        ->where('articulos_id', 1)
+                        ->where('unidades_id', 1)
+                        ->get();
+                    if ($detalles){
+                        foreach ($detalles as $detalle){
+                            if ($detalle->tipo->tipo == 2){
+                                //salida
+                                $contador = $contador + $detalle->cantidad;
+                            }else{
+                                //entrada
+                                $contador = $contador - $detalle->cantidad;
+                            }
+                        }
+                    }
+                }
+                //deuda cuota Actual
+                $despachoActual = $contador;
+                $deudaActual = $censo - $despachoActual;
+
+            }
+
+
+
+            $municipio->despachoAnterior = $despachoAnterior;
+            $municipio->deudaAnterior = $deudaAnterior;
+            $municipio->despachoActual = $despachoActual;
+            $municipio->deudaActual = $deudaActual;
+            $municipio->deuda = $deudaAnterior + $deudaActual;
+        });
+    }
+
+    public function detalleCuota($municipio, $censo, $deudaAnterior, $despacho, $deudaTotal)
+    {
+        $this->verCuota();
+        $this->modalMunicipio = $municipio;
+        $this->modalCenso = formatoMillares($censo, 0);
+        $this->modalDeudaAnterior = formatoMillares($deudaAnterior, 0);
+        $this->modalDuedaAcumulada = formatoMillares($censo + $deudaAnterior, 0);
+        $this->modalDespacho = formatoMillares($despacho, 0);
+        $this->modalDeudaTotal = formatoMillares($deudaTotal, 0);
     }
 
 }

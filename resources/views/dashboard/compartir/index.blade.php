@@ -26,6 +26,11 @@
             $('#btn_ver_modal_ajuste').click();
         }
 
+        function verDetalle(municipio, censo, deudaAnterior, despacho, deudaTotal) {
+            Livewire.emit('detalleCuota', municipio, censo, deudaAnterior, despacho, deudaTotal);
+            $('#btn_ver_modal_cuota').click();
+        }
+
         console.log('hi!');
     </script>
 @endsection

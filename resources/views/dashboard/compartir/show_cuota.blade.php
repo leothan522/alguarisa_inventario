@@ -1,8 +1,11 @@
 <div class="col-md-12" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card">
         <div class="card-header border-0">
-            <h3 class="card-title text-uppercase">{{--{{ $getNombre }}--}}</h3>
+            <h3 class="card-title text-uppercase text-navy text-bold">{{ $cuotaMes }}</h3>
             <div class="card-tools">
+                <span class="btn-tool">
+                    Inicio: {{{ $cuotaFecha }}}
+                </span>
                 <a href="#" class="btn btn-tool btn-sm">
                     <i class="fas fa-download"></i>
                 </a>
@@ -17,7 +20,11 @@
                 <tr>
                     <th>Municipios</th>
                     <th class="text-right"><span class="mr-2">Censo</span></th>
-                    <th class="text-right"><span class="mr-2">Total</span></th>
+                    <th class="d-none d-md-table-cell text-right"><span class="mr-2">Despacho Anterior</span></th>
+                    <th class="d-none d-md-table-cell text-right"><span class="mr-2">Deuda Anterior</span></th>
+                    <th class="d-none d-md-table-cell text-right"><span class="mr-2">Despacho Actual</span></th>
+                    <th class="d-none d-md-table-cell text-right"><span class="mr-2">Deuda Actual</span></th>
+                    <th class="text-right"><span class="mr-2">Envío</span></th>
                     <th class="text-right"><span class="mr-2">Deuda</span></th>
                 </tr>
                 </thead>
@@ -26,11 +33,15 @@
                     @php($i = 0)
                     @foreach($municipios as $municipio)
                         @php($i++)
-                        <tr>
+                        <tr onclick="verDetalle('{{ $municipio->mini }}', '{{ $municipio->familias }}', '{{ $municipio->deudaAnterior }}', '{{ $municipio->despachoActual }}', '{{ $municipio->deuda }}')" style="cursor:pointer;">
                             <td class="text-uppercase text-nowrap"><small>{{ $i }}. {{ $municipio->mini }}</small></td>
                             <td class="text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->familias, 0) }}</span></td>
-                            <td class="text-right"><span class="text-nowrap mr-2">-</span></td>
-                            <td class="text-right"><span class="text-nowrap mr-2">-</span></td>
+                            <td class="d-none d-md-table-cell text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->despachoAnterior, 0) }}</span></td>
+                            <td class="d-none d-md-table-cell text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->deudaAnterior, 0) }}</span></td>
+                            <td class="d-none d-md-table-cell text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->despachoActual, 0) }}</span></td>
+                            <td class="d-none d-md-table-cell text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->deudaActual, 0) }}</span></td>
+                            <td class="text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->despachoActual, 0) }}</span></td>
+                            <td class="text-right"><span class="text-nowrap mr-2">{{ formatoMillares($municipio->deuda, 0) }}</span></td>
                         </tr>
                     @endforeach
                 @endif
