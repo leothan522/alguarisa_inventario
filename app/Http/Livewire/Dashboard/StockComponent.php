@@ -762,8 +762,9 @@ class StockComponent extends Component
             $ajuste->descripcion = $this->ajuste_descripcion;
             $ajuste->segmentos_id = $this->ajuste_segmento;
             $ajuste->municipios_id = $this->ajuste_municipio;
-            $date = new \DateTime($this->ajuste_fecha);
-            $ajuste->fecha = $date->format('Y-m-d H:i');
+            //$date = new \DateTime($this->ajuste_fecha);
+            //$ajuste->fecha = $date->format('Y-m-d H:i');
+            $ajuste->fecha = $this->ajuste_fecha;
             $ajuste->save();
 
             $parametro = Parametro::find($this->proximo_codigo['id']);

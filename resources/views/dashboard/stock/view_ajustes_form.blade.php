@@ -17,7 +17,7 @@
         <div class="col-md-3">
             <input type="datetime-local"
                    class="form-control form-control-sm @error('ajuste_fecha') is-invalid @enderror"
-                   wire:model="ajuste_fecha" @if(!$proximo_codigo['editable_fecha']) readonly @endif>
+                   wire:model.lazy="ajuste_fecha" @if(!$proximo_codigo['editable_fecha']) readonly @endif>
         </div>
     </div>
 
