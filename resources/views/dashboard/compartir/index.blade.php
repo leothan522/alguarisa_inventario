@@ -1,7 +1,7 @@
 @extends('layouts.adminlte')
 
 @section('title')
-    Android VIEW
+    Alguarisa | Inventario
 @endsection
 
 @section('content')
