@@ -20,28 +20,28 @@
         <table class="table {{--table-head-fixed--}} table-hover text-nowrap">
             <thead>
             <tr class="text-navy">
+                <th style="width: 5%;">&nbsp;</th>
                 <th style="width: 10%">Código</th>
                 <th>Descripción</th>
-                <th style="width: 5%;">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
             @if($listarAjustes->isNotEmpty())
                 @foreach($listarAjustes as $ajuste)
                     <tr class="@if($ajuste_id == $ajuste->id) text-bold table-warning @endif">
-                        <td @if(!$ajuste->estatus) class="text-muted text-sm" @endif>{{ $ajuste->codigo }}</td>
-                        <td @if(!$ajuste->estatus) class="text-muted text-sm" @endif>
-                            @if(!$ajuste->estatus)
-                                <span class="btn-xs"><i class="fas fa-ban"></i></span>
-                            @endif
-                            <span class="text-uppercase">{{ $ajuste->descripcion }}</span>
-                        </td>
                         <td class="justify-content-end">
                             <div class="btn-group">
                                 <button wire:click="showAjustes({{ $ajuste->id }})" class="btn btn-primary btn-sm">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
+                        </td>
+                        <td @if(!$ajuste->estatus) class="text-muted text-sm" @endif>{{ $ajuste->codigo }}</td>
+                        <td @if(!$ajuste->estatus) class="text-muted text-sm" @endif>
+                            @if(!$ajuste->estatus)
+                                <span class="btn-xs"><i class="fas fa-ban"></i></span>
+                            @endif
+                            <span class="text-uppercase">{{ $ajuste->descripcion }}</span>
                         </td>
                     </tr>
                 @endforeach
