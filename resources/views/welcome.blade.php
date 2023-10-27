@@ -5229,7 +5229,7 @@ AAAZdEVYdFNvZnR3YXJlAHd3dy5pbmtzY2FwZS5vcmeb7jwaAAAAAElFTkSuQmCC"/>
                     </svg>
                 </a>
 
-                <a href="../../transporte"
+                <a href="../../guias"
                    class="scale-100 p-6 bg-white from-gray-700/50 via-transparent rounded-lg shadow-2xl shadow-gray-500/20 flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
                     <div>
                         <div class="h-16 w-16 bg-red-50 flex items-center justify-center rounded-full">
