@@ -10,7 +10,7 @@
             <label>Fecha:</label>
         </div>
         <div class="col-md-3">
-            <span class="border badge-pill">{{ verFecha($ajuste_fecha, 'd/m/Y h:i a') }}</span>
+            <span class="border badge-pill text-nowrap">{{ verFecha($ajuste_fecha, 'd/m/Y h:i a') }}</span>
         </div>
     </div>
 
@@ -22,7 +22,7 @@
             <span class="border badge-pill text-uppercase">{{ $ajuste_descripcion }}</span>
         </div>
         <div class="col-md-2">
-            <span class="border badge-pill text-uppercase">{{ $ajuste_label_segmento }}</span>
+            <span class="border badge-pill text-uppercase text-nowrap">{{ $ajuste_label_segmento }}</span>
         </div>
         <div class="col-md-3">
             @if($ajuste_label_municipio)
