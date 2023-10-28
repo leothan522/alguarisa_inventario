@@ -41,7 +41,7 @@
                             @if(!$ajuste->estatus)
                                 <span class="btn-xs"><i class="fas fa-ban"></i></span>
                             @endif
-                            <span class="text-uppercase {{--d-inline-block text-truncate--}}" {{--style="max-width: 200px;"--}}>
+                            <span class="text-uppercase d-inline-block text-truncate" style="max-width: 340px;">
                                 {{ $ajuste->descripcion }}
                                 {{--{{ substr($ajuste->descripcion, 0, 16) }}
                                 @if(strlen($ajuste->descripcion) >= 16) ... @endif--}}
