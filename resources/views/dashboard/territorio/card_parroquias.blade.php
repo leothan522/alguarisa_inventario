@@ -28,6 +28,7 @@
             <tr class="text-navy">
                 <th class="text-center">#</th>
                 <th>Nombre</th>
+                <th class="text-right" style="width: 5%;">Asignación</th>
                 <th class="text-center">Municipio</th>
                 <th style="width: 5%;">&nbsp;</th>
             </tr>
@@ -40,6 +41,7 @@
                     <tr>
                         <td class="text-center">{{ $itemParroquia }}</td>
                         <td>{{ $parroquia->nombre }}</td>
+                        <td class="text-right" style="width: 5%;">{{ formatoMillares($parroquia->familias, 0) }}</td>
                         <td class="text-center">
                             {{ $parroquia->municipio->mini }}
                         </td>

@@ -52,6 +52,20 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text text-bold">Asignación{{--<i class="fas fa-code"></i>--}}</span>
+                            </div>
+                            <input type="text" class="form-control" wire:model.defer="parroquiaFamilias" placeholder="[int]">
+                            @error('parroquiaFamilias')
+                            <span class="col-sm-12 text-sm text-bold text-danger">
+                                    <i class="icon fas fa-exclamation-triangle"></i>
+                                    {{ $message }}
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
 
             </div>
 

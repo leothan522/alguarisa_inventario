@@ -23,7 +23,7 @@ class TerritorioComponent extends Component
 
     public $viewMunicipio = "create", $keywordMunicipios, $viewParroquia = 'create', $keywordParroquia, $idMunicipio;
     public $municipio_id, $municipioNombre, $municipioAbreviatura, $municipioFamilias;
-    public $parroquia_id, $parroquiaNombre, $parroquiaAbreviatura, $parroquiaMunicipio;
+    public $parroquia_id, $parroquiaNombre, $parroquiaAbreviatura, $parroquiaMunicipio, $parroquiaFamilias;
 
     public function render()
     {
@@ -184,7 +184,7 @@ class TerritorioComponent extends Component
         $this->resetErrorBag();
         $this->reset([
             'viewParroquia', 'parroquia_id', 'parroquiaNombre', 'parroquiaAbreviatura', 'parroquiaMunicipio',
-            'keywordParroquia', 'idMunicipio'
+            'keywordParroquia', 'idMunicipio', 'parroquiaFamilias'
         ]);
         $municipios = dataSelect2(Municipio::orderBy('nombre', 'ASC')->get());
         $this->emit('selectMunicipios', $municipios);
@@ -196,6 +196,7 @@ class TerritorioComponent extends Component
             'parroquiaMunicipio' => 'required',
             'parroquiaNombre' => ['required', 'min:4', Rule::unique('parroquias', 'nombre')->ignore($this->parroquia_id)],
             'parroquiaAbreviatura' => ['nullable', 'min:4', Rule::unique('parroquias', 'mini')->ignore($this->parroquia_id)],
+            'parroquiaFamilias' => 'required|integer'
         ];
 
         $messages = [
@@ -207,7 +208,9 @@ class TerritorioComponent extends Component
             'parroquiaAbreviatura.required' => 'La Abreviatura es obligatoria.',
             'parroquiaAbreviatura.min' => 'La Abreviatura debe contener al menos 4 caracteres.',
             'parroquiaAbreviatura.alpha_num' => 'La Abreviatura sólo debe contener letras y números.',
-            'parroquiaAbreviatura.unique' => 'La Abreviatura ya ha sido registrada.'
+            'parroquiaAbreviatura.unique' => 'La Abreviatura ya ha sido registrada.',
+            'parroquiaFamilias.required' => 'El campo familias es obligatorio.',
+            'parroquiaFamilias.integer' => 'El campo familias debe ser un número entero.',
         ];
 
         $this->validate($rules, $messages);
@@ -227,6 +230,7 @@ class TerritorioComponent extends Component
         if (!empty($this->parroquiaAbreviatura)){
             $parroquia->mini = ucfirst($this->parroquiaAbreviatura);
         }
+        $parroquia->familias = $this->parroquiaFamilias;
         $parroquia->municipios_id = $this->parroquiaMunicipio;
         $parroquia->save();
 
@@ -282,6 +286,7 @@ class TerritorioComponent extends Component
         $this->parroquia_id = $parroquia->id;
         $this->parroquiaNombre = $parroquia->nombre;
         $this->parroquiaAbreviatura = $parroquia->mini;
+        $this->parroquiaFamilias = $parroquia->familias;
         $this->parroquiaMunicipio = $parroquia->municipios_id;
         $this->emit('editSelectMunicipio', $this->parroquiaMunicipio);
     }

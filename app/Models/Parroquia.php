@@ -13,6 +13,7 @@ class Parroquia extends Model
     protected $fillable = [
       'nombre',
       'mini',
+      'familias',
       'municipios_id',
       'estatus'
     ];

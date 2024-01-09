@@ -23,7 +23,7 @@
                 <th class="text-center">#</th>
                 <th>Nombre</th>
                 <th>Abreviatura</th>
-                <th class="text-right" style="width: 5%;">Familias</th>
+                <th class="text-right" style="width: 5%;">Asignación</th>
                 <th class="text-center" style="width: 5%;">Parroquias</th>
                 <th style="width: 5%;">&nbsp;</th>
             </tr>
