@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text text-bold">Familias{{--<i class="fas fa-code"></i>--}}</span>
+                                <span class="input-group-text text-bold">Asignación{{--<i class="fas fa-code"></i>--}}</span>
                             </div>
                             <input type="text" class="form-control" wire:model.defer="municipioFamilias" placeholder="[int]">
                             @error('municipioFamilias')
