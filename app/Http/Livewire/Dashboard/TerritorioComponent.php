@@ -23,7 +23,7 @@ class TerritorioComponent extends Component
 
     public $viewMunicipio = "create", $keywordMunicipios, $viewParroquia = 'create', $keywordParroquia, $idMunicipio;
     public $municipio_id, $municipioNombre, $municipioAbreviatura, $municipioFamilias;
-    public $parroquia_id, $parroquiaNombre, $parroquiaAbreviatura, $parroquiaMunicipio, $parroquiaFamilias;
+    public $parroquia_id, $parroquiaNombre, $parroquiaAbreviatura, $parroquiaMunicipio, $parroquiaFamilias, $parroquiaMax;
 
     public function render()
     {
@@ -184,7 +184,7 @@ class TerritorioComponent extends Component
         $this->resetErrorBag();
         $this->reset([
             'viewParroquia', 'parroquia_id', 'parroquiaNombre', 'parroquiaAbreviatura', 'parroquiaMunicipio',
-            'keywordParroquia', 'idMunicipio', 'parroquiaFamilias'
+            'keywordParroquia', 'idMunicipio', 'parroquiaFamilias', 'parroquiaMax'
         ]);
         $municipios = dataSelect2(Municipio::orderBy('nombre', 'ASC')->get());
         $this->emit('selectMunicipios', $municipios);
@@ -192,11 +192,25 @@ class TerritorioComponent extends Component
 
     public function saveParroquia()
     {
+        $max = 0;
+        $municipio = Municipio::find($this->parroquiaMunicipio);
+        if ($municipio && !is_null($municipio->familias)){
+            $max = $municipio->familias;
+        }
+
+        $this->parroquiaMax = Parroquia::where('municipios_id', $this->parroquiaMunicipio)
+            ->where('id', '!=', $this->parroquia_id)
+            ->sum('familias');
+        if (is_numeric($this->parroquiaFamilias)){
+            $this->parroquiaMax = $this->parroquiaMax + (int)$this->parroquiaFamilias;
+        }
+
         $rules = [
             'parroquiaMunicipio' => 'required',
             'parroquiaNombre' => ['required', 'min:4', Rule::unique('parroquias', 'nombre')->ignore($this->parroquia_id)],
             'parroquiaAbreviatura' => ['nullable', 'min:4', Rule::unique('parroquias', 'mini')->ignore($this->parroquia_id)],
-            'parroquiaFamilias' => 'required|integer'
+            'parroquiaFamilias' => 'required|integer',
+            'parroquiaMax' => 'integer|max:'.$max,
         ];
 
         $messages = [
@@ -209,8 +223,9 @@ class TerritorioComponent extends Component
             'parroquiaAbreviatura.min' => 'La Abreviatura debe contener al menos 4 caracteres.',
             'parroquiaAbreviatura.alpha_num' => 'La Abreviatura sólo debe contener letras y números.',
             'parroquiaAbreviatura.unique' => 'La Abreviatura ya ha sido registrada.',
-            'parroquiaFamilias.required' => 'El campo familias es obligatorio.',
-            'parroquiaFamilias.integer' => 'El campo familias debe ser un número entero.',
+            'parroquiaFamilias.required' => 'El campo asignación es obligatorio.',
+            'parroquiaFamilias.integer' => 'El campo asignación debe ser un número entero.',
+            'parroquiaMax.max' => 'La Asignación de las parroquias no debe ser mayor a la del municipio.',
         ];
 
         $this->validate($rules, $messages);
