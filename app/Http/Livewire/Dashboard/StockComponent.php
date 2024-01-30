@@ -1703,7 +1703,7 @@ class StockComponent extends Component
         $this->reset([
             'cuota_id', 'cuota_mes', 'cuota_codigo', 'cuota_fecha', 'keywordCuota'
         ]);
-        $ajustes = Ajuste::where('estatus', 1)->orderBy('codigo', 'DESC')->limit(200)->get();
+        $ajustes = Ajuste::where('estatus', 1)->orderBy('codigo', 'DESC')->limit(1000)->get();
         $data = array();
         foreach ($ajustes as $row){
             $option = [
