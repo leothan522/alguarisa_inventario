@@ -1,12 +1,9 @@
-<div class="card card-navy" style="height: inherit; width: inherit; transition: all 0.15s ease 0s;"
-     xmlns:wire="http://www.w3.org/1999/xhtml">
+<div class="card card-navy" style="height: inherit; width: inherit; transition: all 0.15s ease 0s;">
 
     <div class="card-header">
         <h3 class="card-title">Crear Usuario</h3>
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" wire:click="removeForm" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-            </button>
+            <span class="btn btn-tool"><i class="fas fa-file"></i></span>
         </div>
     </div>
 
@@ -77,7 +74,7 @@
                     <select class="custom-select" wire:model.defer="role">
                         <option value="">Seleccione</option>
                         <option value="0">Estandar</option>
-                        @foreach($roles as $role)
+                        @foreach($listarRoles as $role)
                             <option value="{{ $role->id }}">{{ ucwords($role->nombre) }}</option>
                         @endforeach
                         @if(comprobarPermisos())
@@ -94,10 +91,7 @@
             </div>
 
             <div class="form-group">
-                {{--<input type="submit" class="btn btn-block btn-success" value="Guardar">--}}
-                <button type="submit" class="btn btn-block btn-success">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
+                <input type="submit" class="btn btn-block btn-success" value="Guardar">
             </div>
 
         </form>

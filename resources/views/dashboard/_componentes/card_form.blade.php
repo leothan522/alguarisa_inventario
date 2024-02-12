@@ -7,10 +7,7 @@
             </button>--}}
             {{--<span class="btn btn-tool"><i class="fas fa-list"></i></span>--}}
             {{--<span class="btn btn-tool"><i class="fas fa-ban"></i> Cancelar</span>--}}
-            {{--<span class="btn btn-tool"><i class="fas fa-file"></i></span>--}}
-            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                <i class="fas fa-times"></i>
-            </button>
+            <span class="btn btn-tool"><i class="fas fa-file"></i></span>
         </div>
     </div>
 
@@ -35,10 +32,7 @@
             </div>
 
             <div class="form-group text-right">
-                {{--<input type="submit" class="btn btn-block btn-success" value="Guardar">--}}
-                <button type="submit" class="btn btn-block btn-success">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
+                <input type="submit" class="btn btn-block btn-success" value="Guardar">
             </div>
 
         </form>
