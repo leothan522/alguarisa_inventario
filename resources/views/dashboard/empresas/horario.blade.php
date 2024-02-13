@@ -1,12 +1,12 @@
 <div class="row" xmlns:wire="http://www.w3.org/1999/xhtml">
-    <form class="row col-md-12" wire:submit.prevent="storeHoras">
+    <form class="row col-md-12" wire:submit="storeHoras">
 
         <div class="col-md-6">
 
             <div class="card card-outline card-navy">
 
                 <div class="card-header">
-                    <h5 class="card-title">Horario de la Empresa</h5>
+                    <h5 class="card-title">Horario de la Tienda</h5>
                     <div class="card-tools">
                         <div class="custom-control custom-switch custom-switch-on-success float-right">
                             <input type="checkbox" class="custom-control-input" id="customSwitchHours"
@@ -120,7 +120,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-clock"></i></span>
                             </div>
-                            <input type="time" wire:model.defer="apertura">
+                            <input type="time" wire:model="apertura">
                             @error('apertura')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
@@ -136,7 +136,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-clock"></i></span>
                             </div>
-                            <input type="time" wire:model.defer="cierre">
+                            <input type="time" wire:model="cierre">
                             @error('cierre')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>

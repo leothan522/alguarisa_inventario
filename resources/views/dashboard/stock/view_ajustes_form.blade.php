@@ -1,11 +1,11 @@
-<form @if($new_ajuste) wire:submit.prevent="saveAjustes" @else wire:submit.prevent="updateAjustes" @endif xmlns:wire="http://www.w3.org/1999/xhtml">
+<form @if($new_ajuste) wire:submit="saveAjustes" @else wire:submit="updateAjustes" @endif xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="row col-12 mb-2">
         <div class="col-md-2">
             <label>Código:</label>
         </div>
         <div class="col-md-2 mb-2">
             <input type="text" class="form-control form-control-sm @error('ajuste_codigo') is-invalid @enderror"
-                   placeholder="Código" wire:model.lazy="ajuste_codigo"
+                   placeholder="Código" wire:model.blur="ajuste_codigo"
                    @if(!$proximo_codigo['editable']) readonly @endif>
         </div>
         <div class="col-md-3">
@@ -17,7 +17,7 @@
         <div class="col-md-3">
             <input type="datetime-local"
                    class="form-control form-control-sm @error('ajuste_fecha') is-invalid @enderror"
-                   wire:model.lazy="ajuste_fecha" @if(!$proximo_codigo['editable_fecha']) readonly @endif>
+                   wire:model.blur="ajuste_fecha" @if(!$proximo_codigo['editable_fecha']) readonly @endif>
         </div>
     </div>
 
@@ -27,10 +27,10 @@
         </div>
         <div class="col-md-5">
             <input type="text" class="form-control form-control-sm @error('ajuste_descripcion') is-invalid @enderror"
-                   placeholder="Descripción" wire:model="ajuste_descripcion">
+                   placeholder="Descripción" wire:model.live="ajuste_descripcion">
         </div>
         <div class="col-md-2">
-            <select class="custom-select custom-select-sm @error('ajuste_segmento') is-invalid @enderror" wire:model="ajuste_segmento">
+            <select class="custom-select custom-select-sm @error('ajuste_segmento') is-invalid @enderror" wire:model.live="ajuste_segmento">
                 <option value="">Seleccione</option>
                 @foreach($selectSegmentos as $segmento)
                     <option value="{{ $segmento->id }}">{{ $segmento->descripcion }}</option>
@@ -38,7 +38,7 @@
             </select>
         </div>
         <div class="col-md-3">
-            <select class="custom-select custom-select-sm @error('ajuste_municipio') is-invalid @enderror" wire:model="ajuste_municipio">
+            <select class="custom-select custom-select-sm @error('ajuste_municipio') is-invalid @enderror" wire:model.live="ajuste_municipio">
                 <option value="">Seleccione</option>
                 @foreach($selectMunicipios as $municipio)
                     <option value="{{ $municipio->id }}">{{ $municipio->mini }}</option>

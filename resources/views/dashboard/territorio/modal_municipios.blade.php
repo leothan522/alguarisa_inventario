@@ -1,6 +1,6 @@
 {{-- Modal --}}
 <div wire:ignore.self class="modal fade" id="modal-municipios" xmlns:wire="http://www.w3.org/1999/xhtml">
-    <form wire:submit.prevent="saveMunicipio">
+    <form wire:submit="saveMunicipio">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-navy">
@@ -20,7 +20,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text text-bold">Nombre{{--<i class="fas fa-code"></i>--}}</span>
                             </div>
-                            <input type="text" class="form-control" wire:model.defer="municipioNombre" placeholder="[string]">
+                            <input type="text" class="form-control" wire:model="municipioNombre" placeholder="[string]">
                             @error('municipioNombre')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
@@ -34,7 +34,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text text-bold">Abreviatura{{--<i class="fas fa-code"></i>--}}</span>
                             </div>
-                            <input type="text" class="form-control" wire:model.defer="municipioAbreviatura" placeholder="[string]">
+                            <input type="text" class="form-control" wire:model="municipioAbreviatura" placeholder="[string]">
                             @error('municipioAbreviatura')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
@@ -48,7 +48,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text text-bold">Asignación{{--<i class="fas fa-code"></i>--}}</span>
                             </div>
-                            <input type="text" class="form-control" wire:model.defer="municipioFamilias" placeholder="[int]">
+                            <input type="text" class="form-control" wire:model="municipioFamilias" placeholder="[int]">
                             @error('municipioFamilias')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>

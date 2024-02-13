@@ -5,7 +5,7 @@
         <div class="card card-outline card-navy">
 
             <div class="card-body box-profile">
-                <h1 class="profile-username text-center text-bold text-uppercase">
+                <h1 class="profile-username text-center text-bold">
                     {{ $nombre }}
                 </h1>
                 <ul class="list-group list-group-unbordered mt-3">
@@ -75,7 +75,7 @@
                         <div class="row col-12 justify-content-center mb-3 mt-3">
                             <div class="col-8">
                                 <img class="img-thumbnail" src="{{ asset(verImagen($verImagen)) }}"
-                                     {{--width="101" height="100"--}}  alt="Logo Empresa"/>
+                                     {{--width="101" height="100"--}}  alt="Logo Tienda"/>
                             </div>
                         </div>
 
@@ -97,7 +97,7 @@
                         @if($verDefault)
                             <ul class="list-group text-sm">
                                 <li class="list-group-item bg-warning text-bold">
-                                    Empresa Default
+                                    Tienda Default
                                     <span class="float-right text-bold"><i
                                                 class="fas fa-certificate text-muted text-xs"></i></span>
                                 </li>

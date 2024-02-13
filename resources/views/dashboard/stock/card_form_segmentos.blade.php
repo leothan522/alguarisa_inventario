@@ -20,7 +20,7 @@
     <div class="card-body">
 
 
-        <form wire:submit.prevent="saveSegmento">
+        <form wire:submit="saveSegmento">
 
             <div class="form-group">
                 <label for="name">Descripción</label>
@@ -28,7 +28,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="fas fa-tag"></i></span>
                     </div>
-                    <input type="text" class="form-control" wire:model.defer="segmento_nombre" placeholder="Descripción">
+                    <input type="text" class="form-control" wire:model="segmento_nombre" placeholder="Descripción">
                     @error('segmento_nombre')
                     <span class="col-sm-12 text-sm text-bold text-danger">
                         <i class="icon fas fa-exclamation-triangle"></i>

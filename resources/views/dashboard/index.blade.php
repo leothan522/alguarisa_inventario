@@ -30,12 +30,12 @@
     <script src="{{ asset("js/app.js") }}"></script>
     <script>
 
-        function search(){
+        function buscar(){
             let input = $("#navbarSearch");
             let keyword  = input.val();
             if (keyword.length > 0){
                 input.blur();
-                alert('Falta vincular con el componente Livewire');
+                //alert('Falta vincular con el componente Livewire');
                 //Livewire.emit('increment', keyword);
             }
             return false;

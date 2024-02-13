@@ -1,7 +1,7 @@
 <div class="p-3">
     <ul class="nav nav-pills flex-column">
-        {{--@livewire('dashboard.dolar-component')
-        <li class="dropdown-divider"></li>--}}
+        @livewire('dashboard.dolar-component')
+        <li class="dropdown-divider"></li>
         <li class="nav-item mb-2">
             <span class="text-small text-muted float-right">Tablas</span>
         </li>

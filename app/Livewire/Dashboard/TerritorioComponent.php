@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Livewire\Dashboard;
+namespace App\Livewire\Dashboard;
 
 use App\Models\Municipio;
 use App\Models\Parroquia;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,13 +14,6 @@ class TerritorioComponent extends Component
 {
     use LivewireAlert;
     use WithPagination;
-    protected $paginationTheme = 'bootstrap';
-
-    protected $listeners = [
-        'cerrarModal', 'buscar',
-        'limpiarMunicipios', 'confirmedMunicipio', 'confirmedParroquia',
-        'selectMunicipios', 'limpiarParroquias', 'municipioSeleccionado', 'editSelectMunicipio'
-        ];
 
     public $viewMunicipio = "create", $keywordMunicipios, $viewParroquia = 'create', $keywordParroquia, $idMunicipio;
     public $municipio_id, $municipioNombre, $municipioAbreviatura, $municipioFamilias;
@@ -55,6 +49,7 @@ class TerritorioComponent extends Component
 
     /* ****************************** MUNICIPIOS ***************************************** */
 
+    #[On('limpiarMunicipios')]
     public function limpiarMunicipios()
     {
         $this->resetErrorBag();
@@ -102,7 +97,7 @@ class TerritorioComponent extends Component
         $municipio->familias = $this->municipioFamilias;
         $municipio->save();
 
-        $this->emit('cerrarModal', 'municipio_btn_cerrar');
+        $this->dispatch('cerrarModal', selector: 'municipio_btn_cerrar');
 
         $this->alert('success', $message);
 
@@ -150,6 +145,7 @@ class TerritorioComponent extends Component
         ]);
     }
 
+    #[On('confirmedMunicipio')]
     public function confirmedMunicipio()
     {
         // Example code inside confirmed callback
@@ -179,6 +175,7 @@ class TerritorioComponent extends Component
 
     /* ****************************** PARROQUIAS ***************************************** */
 
+    #[On('limpiarParroquias')]
     public function limpiarParroquias()
     {
         $this->resetErrorBag();
@@ -187,7 +184,7 @@ class TerritorioComponent extends Component
             'keywordParroquia', 'idMunicipio', 'parroquiaFamilias', 'parroquiaMax'
         ]);
         $municipios = dataSelect2(Municipio::orderBy('nombre', 'ASC')->get());
-        $this->emit('selectMunicipios', $municipios);
+        $this->dispatch('selectMunicipios', municipios: $municipios);
     }
 
     public function saveParroquia()
@@ -272,7 +269,7 @@ class TerritorioComponent extends Component
 
         }
 
-        $this->emit('cerrarModal', 'parroquia_btn_cerrar');
+        $this->dispatch('cerrarModal', selector: 'parroquia_btn_cerrar');
         $this->alert('success', $message);
     }
 
@@ -303,7 +300,7 @@ class TerritorioComponent extends Component
         $this->parroquiaAbreviatura = $parroquia->mini;
         $this->parroquiaFamilias = $parroquia->familias;
         $this->parroquiaMunicipio = $parroquia->municipios_id;
-        $this->emit('editSelectMunicipio', $this->parroquiaMunicipio);
+        $this->dispatch('editSelectMunicipio', municipio: $this->parroquiaMunicipio);
     }
 
     public function destroyParroquia($id)
@@ -320,6 +317,7 @@ class TerritorioComponent extends Component
         ]);
     }
 
+    #[On('confirmedParroquia')]
     public function confirmedParroquia()
     {
         // Example code inside confirmed callback
@@ -359,26 +357,31 @@ class TerritorioComponent extends Component
 
     // *********************************** Complementos ***************************************
 
+    #[On('buscar')]
     public function buscar($keyword)
     {
         $this->keywordMunicipios = $keyword;
         $this->keywordParroquia = $keyword;
     }
 
+    #[On('municipioSeleccionado')]
     public function municipioSeleccionado($municipio){
         $this->parroquiaMunicipio = $municipio;
     }
 
+    #[On('cerrarModal')]
     public function cerrarModal($selector)
     {
         //JS
     }
 
+    #[On('selectMunicipios')]
     public function selectMunicipios($municipios)
     {
         //JS
     }
 
+    #[On('editSelectMunicipio')]
     public function editSelectMunicipio($municipio)
     {
         //JS

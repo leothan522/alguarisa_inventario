@@ -1,7 +1,7 @@
 <div class="card {{--card-outline--}} card-navy" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card-header">
         <h3 class="card-title">
-            Empresas
+            Tiendas
         </h3>
 
         <div class="card-tools">
@@ -25,7 +25,7 @@
                         <td>
                             <button type="button" class="btn @if($empresa_id == $tienda->id) text-bold @endif"
                                     wire:click="show({{ $tienda->id }})">
-                                 @if($tienda->default) <i class="fas fa-certificate text-muted text-xs"></i> @endif <span class="text-uppercase">{{ $tienda->nombre }}</span>
+                                 @if($tienda->default) <i class="fas fa-certificate text-muted text-xs"></i> @endif {{ $tienda->nombre }}
                             </button>
                         </td>
                         <td class="justify-content-center pt-3" style="width: 5%;">
@@ -41,7 +41,7 @@
                 @else
                 <tr class="text-center">
                     <td colspan="2">
-                        <span>Aún se ha creado una Empresa.</span>
+                        <span>Aún se se ha creado una Tienda.</span>
                     </td>
                 </tr>
             @endif

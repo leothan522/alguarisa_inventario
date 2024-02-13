@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Dashboard;
+namespace App\Livewire\Dashboard;
 
 use App\Models\AjusDetalle;
 use App\Models\AjusSegmento;
@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -27,17 +28,6 @@ class StockComponent extends Component
 {
     use LivewireAlert;
     use WithPagination;
-
-    protected $paginationTheme = 'bootstrap';
-
-    protected $listeners = [
-        'changeEmpresa',
-        'limpiarAlmacenes', 'confirmedAlmacenes',
-        'limpiarTiposAjuste', 'confirmedTiposAjuste',
-        'limpiarSegmentos', 'confirmedSegmento',
-        'confirmedBorrarAjuste', 'verspinnerOculto', 'buscar',
-        'compartirQr', 'confirmedCuota', 'selectCuotasCodigo', 'limpiarCuota', 'cuotaSeleccionada', 'setCuotaSelect'
-    ];
 
     public $modulo_activo = false, $modulo_empresa, $modulo_articulo;
     public $empresa_id, $listarEmpresas, $empresa;
@@ -154,6 +144,7 @@ class StockComponent extends Component
         $this->listarEmpresas = dataSelect2($array);
     }
 
+    #[On('changeEmpresa')]
     public function changeEmpresa()
     {
         $this->limpiarAjustes();
@@ -240,7 +231,7 @@ class StockComponent extends Component
     {
         $this->verAjustes();
         $this->showAjustes($id);
-        $this->emit('buscar', $this->ajuste_codigo);
+        $this->dispatch('buscar', keyword: $this->ajuste_codigo);
     }
 
     public function aumetarLimit()
@@ -251,6 +242,7 @@ class StockComponent extends Component
 
     // ************************* Almacenes ********************************************
 
+    #[On('limpiarAlmacenes')]
     public function limpiarAlmacenes()
     {
         $this->reset([
@@ -321,6 +313,7 @@ class StockComponent extends Component
 
     }
 
+    #[On('confirmedAlmacenes')]
     public function confirmedAlmacenes()
     {
 
@@ -365,6 +358,7 @@ class StockComponent extends Component
 
     // ************************* Tipos de AJuste ********************************************
 
+    #[On('limpiarTiposAjuste')]
     public function limpiarTiposAjuste()
     {
         $this->reset([
@@ -436,6 +430,7 @@ class StockComponent extends Component
 
     }
 
+    #[On('confirmedTiposAjuste')]
     public function confirmedTiposAjuste()
     {
 
@@ -475,6 +470,7 @@ class StockComponent extends Component
 
     // ************************* Tipos de Segmentos ********************************************
 
+    #[On('limpiarSegmentos')]
     public function limpiarSegmentos()
     {
         $this->reset([
@@ -540,6 +536,7 @@ class StockComponent extends Component
 
     }
 
+    #[On('confirmedSegmento')]
     public function confirmedSegmento()
     {
 
@@ -1552,7 +1549,7 @@ class StockComponent extends Component
     public function destroyAjustes($opcion = "delete")
     {
         $this->opcionDestroy = $opcion;
-        $this->emit('verspinnerOculto', 1);
+        $this->dispatch('verspinnerOculto');
         $this->confirm('¿Estas seguro?', [
             'toast' => false,
             'position' => 'center',
@@ -1564,9 +1561,10 @@ class StockComponent extends Component
         ]);
     }
 
+    #[On('confirmedBorrarAjuste')]
     public function confirmedBorrarAjuste()
     {
-        $this->emit('verspinnerOculto', 1);
+        $this->dispatch('verspinnerOculto');
         $ajuste = Ajuste::find($this->ajuste_id);
 
         //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
@@ -1649,10 +1647,12 @@ class StockComponent extends Component
         }
     }
 
-    public function verspinnerOculto($valor){
+    #[On('verspinnerOculto')]
+    public function verspinnerOculto(){
         //ver spinner oculto desde JS
     }
 
+    #[On('buscar')]
     public function buscar($keyword)
     {
         $this->reset('keywordStock');
@@ -1666,6 +1666,7 @@ class StockComponent extends Component
         }
     }
 
+    #[On('compartirQr')]
     public function compartirQr($borrar = false)
     {
         $parametro = Parametro::where('nombre','compartir_stock_qr')->where('tabla_id', $this->empresa_id)->first();
@@ -1697,6 +1698,7 @@ class StockComponent extends Component
 
     // ************************* CUOTAS ********************************************
 
+    #[On('limpiarCuota')]
     public function limpiarCuota()
     {
         $this->resetErrorBag();
@@ -1712,7 +1714,7 @@ class StockComponent extends Component
             ];
             array_push($data, $option);
         }
-        $this->emit('selectCuotasCodigo', $data);
+        $this->dispatch('selectCuotasCodigo', codigos: $data);
     }
 
     public function saveCuota()
@@ -1763,7 +1765,7 @@ class StockComponent extends Component
         $this->cuota_mes = $cuota->mes;
         $this->cuota_codigo = $cuota->codigo;
         $this->cuota_fecha = $cuota->fecha;
-        $this->emit('setCuotaSelect', $this->cuota_codigo);
+        $this->dispatch('setCuotaSelect', codigo: $this->cuota_codigo);
     }
 
     public function destroyCuota($id)
@@ -1781,6 +1783,7 @@ class StockComponent extends Component
 
     }
 
+    #[On('confirmedCuota')]
     public function confirmedCuota()
     {
 
@@ -1809,6 +1812,7 @@ class StockComponent extends Component
         }
     }
 
+    #[On('cuotaSeleccionada')]
     public function cuotaSeleccionada($codigo)
     {
         $this->cuota_codigo = $codigo;
@@ -1819,12 +1823,14 @@ class StockComponent extends Component
         //
     }
 
+    #[On('selectCuotasCodigo')]
     public function selectCuotasCodigo($codigos)
     {
         //JS
     }
 
-    public function setCuotaSelect($cogido)
+    #[On('setCuotaSelect')]
+    public function setCuotaSelect($codigo)
     {
         //JS
     }

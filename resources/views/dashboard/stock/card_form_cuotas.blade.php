@@ -20,7 +20,7 @@
     <div class="card-body">
 
 
-        <form wire:submit.prevent="saveCuota">
+        <form wire:submit="saveCuota">
 
 
             <div class="form-group">
@@ -29,7 +29,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="far fa-calendar"></i></span>
                     </div>
-                    <select class="custom-select" wire:model.defer="cuota_mes">
+                    <select class="custom-select" wire:model="cuota_mes">
                         <option value="">Seleccione</option>
                         @php($iMes = 0)
                         @foreach(mesEspanol() as $mes)
@@ -65,7 +65,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
                     </div>
-                    <input type="date" class="form-control" wire:model.defer="cuota_fecha" placeholder="Fecha Inicio">
+                    <input type="date" class="form-control" wire:model="cuota_fecha" placeholder="Fecha Inicio">
                     @error('cuota_fecha')
                     <span class="col-sm-12 text-sm text-bold text-danger">
                         <i class="icon fas fa-exclamation-triangle"></i>

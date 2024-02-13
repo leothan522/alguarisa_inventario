@@ -16,18 +16,18 @@
 
 @section('js')
     {{--<script src="../../dist/js/adminlte.min.js"></script>--}}
-    <script !src="">
+    <script>
         function cerrarInventarios() {
             $('.cerra_inventarios').click();
         }
 
         function verAjuste(id) {
-            Livewire.emit('verAjuste', id);
+            Livewire.dispatch('verAjuste', { detalles_id: id });
             $('#btn_ver_modal_ajuste').click();
         }
 
         function verDetalle(municipio, censo, deudaAnterior, despacho, deudaTotal) {
-            Livewire.emit('detalleCuota', municipio, censo, deudaAnterior, despacho, deudaTotal);
+            Livewire.dispatch('detalleCuota', { municipio: municipio, censo: censo, deudaAnterior: deudaAnterior, despacho: despacho, deudaTotal: deudaTotal });
             $('#btn_ver_modal_cuota').click();
         }
 

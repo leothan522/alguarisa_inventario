@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Dashboard;
+namespace App\Livewire\Dashboard;
 
 use App\Models\AjusDetalle;
 use App\Models\Ajuste;
@@ -12,15 +12,12 @@ use App\Models\Municipio;
 use App\Models\Stock;
 use App\Models\Unidad;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CompartirComponent extends Component
 {
     use LivewireAlert;
-
-    protected $listeners = [
-        'verAjuste', 'detalleCuota'
-    ];
 
     public $empresa_id, $empresa;
     public $view = "stock", $viewMovimientos = false;
@@ -112,6 +109,7 @@ class CompartirComponent extends Component
         $this->verMovimientos($this->getAlmacen);
     }
 
+    #[On('verAjuste')]
     public function verAjuste($detalles_id)
     {
         $this->modalEmpresa = $this->empresa;
@@ -221,6 +219,7 @@ class CompartirComponent extends Component
         });
     }
 
+    #[On('detalleCuota')]
     public function detalleCuota($municipio, $censo, $deudaAnterior, $despacho, $deudaTotal)
     {
         $this->verCuota();

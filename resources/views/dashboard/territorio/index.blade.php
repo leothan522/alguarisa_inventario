@@ -41,14 +41,14 @@
     <script>
 
         function nuevoMunicipio() {
-            Livewire.emit('limpiarMunicipios');
+            Livewire.dispatch('limpiarMunicipios');
         }
 
         function nuevaParroquia() {
-            Livewire.emit('limpiarParroquias');
+            Livewire.dispatch('limpiarParroquias');
         }
 
-        Livewire.on('cerrarModal', selector => {
+        Livewire.on('cerrarModal', ({ selector }) => {
             $('#' + selector).click();
         });
 
@@ -72,15 +72,15 @@
 
             $('#parroquias_select_municipios').on('change', function () {
                 let val = $(this).val();
-                Livewire.emit('municipioSeleccionado', val);
+                Livewire.dispatch('municipioSeleccionado', { municipio: val });
             });
         }
 
-        Livewire.on('selectMunicipios', municipios => {
+        Livewire.on('selectMunicipios', ({ municipios }) => {
             select_2(municipios);
         });
 
-        Livewire.on('editSelectMunicipio', municipio =>{
+        Livewire.on('editSelectMunicipio', ({ municipio }) =>{
             $('#parroquias_select_municipios')
                 .val(municipio)
                 .trigger('change');

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Dashboard;
+namespace App\Livewire\Dashboard;
 
 use App\Models\Almacen;
 use App\Models\Empresa;
@@ -8,6 +8,7 @@ use App\Models\Parametro;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -16,9 +17,7 @@ class EmpresasComponent extends Component
     use LivewireAlert;
     use WithFileUploads;
 
-    protected $listeners = ['buscar', 'confirmed'];
-
-    public $view = "show", $keyword, $title = "Datos de la Empresa", $btn_cancelar = false, $footer = true;
+    public $view = "show", $keyword, $title = "Datos de la Tienda", $btn_cancelar = false, $footer = true;
     public $empresa_id, $empresa_default, $verDefault, $verImagen, $img_borrar_principal, $img_principal;
     public $rif, $nombre, $jefe, $moneda, $telefonos, $email, $direccion, $photo, $default = 0, $permisos;
     public $horario, $horario_id, $lunes, $martes, $miercoles, $jueves, $viernes, $sabado, $domingo, $apertura, $cierre;
@@ -55,7 +54,7 @@ class EmpresasComponent extends Component
     public function create()
     {
         $this->limpiar();
-        $this->title = "Nueva Empresa";
+        $this->title = "Nueva Tienda";
         $this->btn_cancelar = true;
         $this->view = "form";
         $this->footer = false;
@@ -115,8 +114,8 @@ class EmpresasComponent extends Component
         }
 
         $empresa->rif = strtoupper($this->rif);
-        $empresa->nombre = $this->nombre;
-        $empresa->supervisor = $this->jefe;
+        $empresa->nombre = strtoupper($this->nombre);
+        $empresa->supervisor = strtoupper($this->jefe);
         $empresa->moneda = $this->moneda;
         $empresa->telefono = $this->telefonos;
         $empresa->email = strtolower($this->email);
@@ -156,7 +155,7 @@ class EmpresasComponent extends Component
             $almacen = new Almacen();
             $almacen->empresas_id = $empresa->id;
             $almacen->codigo = "ALMP";
-            $almacen->nombre = "Almacén Principal";
+            $almacen->nombre = "Almacen Principal";
             $almacen->tipo = 1;
             $almacen->save();
         }
@@ -191,7 +190,7 @@ class EmpresasComponent extends Component
 
     public function edit()
     {
-        $this->title = "Editar Empresa";
+        $this->title = "Editar Tienda";
         $this->btn_cancelar = true;
         $this->view = "form";
     }
@@ -231,6 +230,7 @@ class EmpresasComponent extends Component
         ]);
     }
 
+    #[On('confirmed')]
     public function confirmed()
     {
         $empresa = Empresa::find($this->empresa_id);
@@ -254,7 +254,7 @@ class EmpresasComponent extends Component
             borrarImagenes($imagen, 'empresas');
             $this->alert(
                 'success',
-                'Empresa Eliminada.'
+                'Tienda Eliminada.'
             );
             $this->show($this->empresa_default);
         }
@@ -308,7 +308,7 @@ class EmpresasComponent extends Component
             $this->cierre = null;
         }
 
-        $this->title = "Datos de la Empresa";
+        $this->title = "Datos de la Tienda";
         $this->btn_cancelar = true;
         $this->view = "horario";
     }
@@ -449,11 +449,11 @@ class EmpresasComponent extends Component
             if ($parametro->valor == 1){
                 $parametro->valor = 0;
                 $tipo = 'info';
-                $message = 'Empresa Cerrada.';
+                $message = 'Tienda Cerrada.';
             }else{
                 $parametro->valor = 1;
                 $tipo = 'success';
-                $message = 'Empresa Abierta.';
+                $message = 'Tienda Abierta.';
             }
             $parametro->update();
         }else{
@@ -463,7 +463,7 @@ class EmpresasComponent extends Component
             $parametro->valor = 1;
             $parametro->save();
             $tipo = 'success';
-            $message = 'Empresa Abierta.';
+            $message = 'Tienda Abierta.';
         }
 
         $this->alert(
@@ -473,6 +473,7 @@ class EmpresasComponent extends Component
 
     }
 
+    #[On('buscar')]
     public function buscar($keyword)
     {
         $this->keyword = $keyword;

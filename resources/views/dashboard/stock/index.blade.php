@@ -5,7 +5,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    <div class="container-fluid">
+    <div class="container-fluid" xmlns:wire="http://www.w3.org/1999/xhtml">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1 class="m-0 text-dark"><i class="fas fa-boxes"></i> Stock</h1>
@@ -51,44 +51,32 @@
     <script src="{{ asset("js/app.js") }}"></script>
     <script>
 
-        function search(){
-            let input = $("#navbarSearch");
-            let keyword  = input.val();
-            if (keyword.length > 0){
-                input.blur();
-                //alert('Falta vincular con el componente Livewire');
-                $('.cargar_buscar').removeClass('d-none');
-                Livewire.emit('buscar', keyword);
-            }
-            return false;
-        }
-
         function verAlmacenes() {
-            Livewire.emit('limpiarAlmacenes');
+            Livewire.dispatch('limpiarAlmacenes');
         }
 
         function verTiposAjuste() {
-            Livewire.emit('limpiarTiposAjuste');
+            Livewire.dispatch('limpiarTiposAjuste');
         }
 
         function verSegmentos() {
-            Livewire.emit('limpiarSegmentos');
+            Livewire.dispatch('limpiarSegmentos');
         }
 
         function verCuotas() {
-            Livewire.emit('limpiarCuota');
+            Livewire.dispatch('limpiarCuota');
         }
 
         function cambiarEmpresa()
         {
-            Livewire.emit('changeEmpresa');
+            Livewire.dispatch('changeEmpresa');
         }
 
         function compartirQr() {
-            Livewire.emit('compartirQr');
+            Livewire.dispatch('compartirQr');
         }
 
-        Livewire.on('verspinnerOculto', valor => {
+        Livewire.on('verspinnerOculto', () => {
             $('.cargar_buscar').removeClass('d-none');
         });
 
@@ -129,21 +117,33 @@
             $('#'  + id).val(null).trigger('change');
             $('#'  + id).on('change', function() {
                 var val = $(this).val();
-                Livewire.emit('cuotaSeleccionada', val);
+                Livewire.dispatch('cuotaSeleccionada', { codigo: val });
             });
         }
 
-        Livewire.on('selectCuotasCodigo', codigos => {
+        Livewire.on('selectCuotasCodigo', ({ codigos }) => {
             select_2('select_cuotas_codigo', codigos);
         });
 
-        Livewire.on('setCuotaSelect', codigo => {
+        Livewire.on('setCuotaSelect', ({ codigo }) => {
             $('#select_cuotas_codigo').val(codigo).trigger('change');
         });
 
         function irAjuste() {
             $('#header_btn_existencias').removeClass('disabled');
             $('#header_btn_ajustes').addClass('disabled');
+        }
+
+        function buscar(){
+            let input = $("#navbarSearch");
+            let keyword  = input.val();
+            if (keyword.length > 0){
+                input.blur();
+                //alert('Falta vincular con el componente Livewire');
+                $('.cargar_buscar').removeClass('d-none');
+                Livewire.dispatch('buscar', { keyword: keyword });
+            }
+            return false;
         }
 
 
