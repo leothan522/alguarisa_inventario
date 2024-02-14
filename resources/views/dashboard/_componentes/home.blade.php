@@ -1,31 +1,47 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Pagna de Prueba')
 
 @section('content_header')
-    <h1>Dashboard</h1>
+    {{--<h1>Pagina de Prueba</h1>--}}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark"><i class="fas fa-boxes"></i> Pagina de Prueba</h1>
+        </div>
+        <div class="col-sm-6">
+            {{--<ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Articulos con existencia</li>
+            </ol>--}}
+            <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
+                    onclick="showRow('button_ajustes')" id="button_ajustes"
+                {{--wire:click="verAjustes" @if($view == "ajustes" || !comprobarPermisos('ajustes.index')) disabled @endif--}}>
+                <i class="fas fa-list"></i> Ajustes
+            </button>
+            <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
+                    onclick="showRow('button_stock')" id="button_stock" disabled
+                {{-- wire:click="verAjustes" @if($view == "stock") disabled @endif--}}>
+                <i class="fas fa-boxes"></i> Inventario
+            </button>
+            <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
+                    onclick="" id="button_actualizar">
+                <i class="fas fa-sync"></i> Actualizar
+            </button>
+        </div>
+    </div>
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
-    <livewire:counter/>
-
-    <br>
-    <hr>
-    @include('dashboard._componentes.vista_desde_array')
+    {{--<p>Welcome to this beautiful admin panel.</p>--}}
+    @livewire('dashboard.mount-empresas-component')
+    <div class="row d-none" id="row_button_ajustes">
+        @livewire('dashboard.ajustes-component')
+    </div>
 
 @stop
 
 @section('footer')
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 1.0
-    </div>
-    <strong>&copy; 2022 | {{ config('app.name') }}
-        {{--| Ing. Yonathan Castillo.--}}
-    </strong>
-    {{--<em class="text-sm">
-        Basado en <a href="http://adminlte.io" target="_blank">AdminLTE.io</a>.
-    </em>--}}
+    @include('dashboard.footer')
 @stop
 
 @section('css')
@@ -33,19 +49,23 @@
 @stop
 
 @section('js')
+    <script src="{{ asset("js/app.js") }}"></script>
     <script>
 
-        $("#navbarSearch").focus(function () {
-            let form = $(this).closest("form");
-            form.attr("onsubmit", "return search()");
-        });
+        function showRow(row) {
+            $('#button_ajustes').prop("disabled",false);
+            $('#button_stock').prop("disabled",false);
+            $('#row_' + row).removeClass('d-none');
+            $('#' + row).prop("disabled",true);
+        }
 
-        function search() {
+        function buscar(){
             let input = $("#navbarSearch");
-            let keyword = input.val();
-            if (keyword.length > 0) {
+            let keyword  = input.val();
+            if (keyword.length > 0){
                 input.blur();
-                Livewire.emit('increment', keyword);
+                alert('Falta vincular con el componente Livewire');
+                //Livewire.dispatch('buscar', { keyword: keyword });
             }
             return false;
         }
