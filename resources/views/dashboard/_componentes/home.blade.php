@@ -34,11 +34,15 @@
 @section('content')
     {{--<p>Welcome to this beautiful admin panel.</p>--}}
     @livewire('dashboard.mount-empresas-component')
-    <div class="row d-none" id="row_button_ajustes">
+    <div class="{{--d-none--}}" id="row_button_ajustes">
         @livewire('dashboard.ajustes-component')
     </div>
 
 @stop
+
+@section('right-sidebar')
+    @include('dashboard.stock.right-sidebar')
+@endsection
 
 @section('footer')
     @include('dashboard.footer')
@@ -58,6 +62,16 @@
             $('#row_' + row).removeClass('d-none');
             $('#' + row).prop("disabled",true);
         }
+
+        $(document).ready(function () {
+            $('.cargar_buscar').removeClass('d-none');
+            Livewire.dispatch('updatedEmpresaID');
+        });
+
+        function verSpinnerOculto() {
+            $('.cargar_buscar').removeClass('d-none');
+        }
+
 
         function buscar(){
             let input = $("#navbarSearch");

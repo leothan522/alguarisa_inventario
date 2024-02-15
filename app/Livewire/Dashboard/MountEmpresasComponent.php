@@ -57,9 +57,10 @@ class MountEmpresasComponent extends Component
         $this->listarEmpresas = dataSelect2($array);
     }
 
+    #[On('updatedEmpresaID')]
     public function updatedEmpresaID()
     {
-        $this->js("alert('hola mundo' + $this->empresaID);");
+        $this->dispatch('getEmpresaAjuste', empresaID: $this->empresaID)->to(AjustesComponent::class);
     }
 
 
