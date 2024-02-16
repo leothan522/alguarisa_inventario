@@ -16,12 +16,12 @@
                 <li class="breadcrumb-item active">Articulos con existencia</li>
             </ol>--}}
             <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
-                    onclick="showRow('button_ajustes')" id="button_ajustes"
+                    onclick="showRow('ajustes')" id="button_ajustes"
                 {{--wire:click="verAjustes" @if($view == "ajustes" || !comprobarPermisos('ajustes.index')) disabled @endif--}}>
                 <i class="fas fa-list"></i> Ajustes
             </button>
             <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
-                    onclick="showRow('button_stock')" id="button_stock" disabled
+                    onclick="showRow('stock')" id="button_stock" disabled
                 {{-- wire:click="verAjustes" @if($view == "stock") disabled @endif--}}>
                 <i class="fas fa-boxes"></i> Inventario
             </button>
@@ -36,8 +36,11 @@
 @section('content')
     {{--<p>Welcome to this beautiful admin panel.</p>--}}
     @livewire('dashboard.mount-empresas-component')
-    <div class="{{--d-none--}}" id="row_button_ajustes">
+    <div class="d-none" id="row_button_ajustes">
         @livewire('dashboard.ajustes-component')
+    </div>
+    <div id="row_button_stock">
+        @livewire('dashboard.stock-component')
     </div>
     <div class="row">
         @livewire('dashboard.tipos-ajustes-component')
@@ -66,10 +69,22 @@
     <script>
 
         function showRow(row) {
+            let ajustes = $('#row_button_ajustes');
+            let stock = $('#row_button_stock');
+
             $('#button_ajustes').prop("disabled",false);
             $('#button_stock').prop("disabled",false);
-            $('#row_' + row).removeClass('d-none');
-            $('#' + row).prop("disabled",true);
+
+            if (row === 'ajustes'){
+                ajustes.removeClass('d-none');
+                stock.addClass('d-none');
+            }else {
+                ajustes.addClass('d-none');
+                stock.removeClass('d-none');
+            }
+
+            $('#button_' + row).prop("disabled",true);
+
         }
 
         $(document).ready(function () {
@@ -127,6 +142,16 @@
 
         Livewire.on('setCuotaSelect', ({ codigo }) => {
             $('#select_cuotas_codigo').val(codigo).trigger('change');
+        });
+
+        function cerrarInventarios() {
+            $('.cerra_inventarios').click();
+        }
+
+
+        //pendiente revisar
+        $('#reportes_articulos').select2({
+            theme: 'bootstrap4',
         });
 
 

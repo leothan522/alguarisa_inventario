@@ -32,7 +32,7 @@
 @endsection
 
 @section('content')
-    @livewire('dashboard.stock-component')
+    @livewire('dashboard.stock-old-component')
 @endsection
 
 @section('right-sidebar')
