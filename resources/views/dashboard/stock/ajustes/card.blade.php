@@ -43,6 +43,12 @@
             @include('dashboard.stock.ajustes.view_show')
         @endif
 
+        @if($view != 'form' && $view != 'show')
+            <div class="row m-5">
+                Debes seleccionar un Ajutes ó Precionar el boton Nuevo para empezar...
+            </div>
+        @endif
+
 
     </div>
 
@@ -69,7 +75,8 @@
 
     </div>
 
-    <div class="overlay-wrapper" wire:loading wire:target="setEstatus, show, limpiarAjustes, create, btnCancelar, btnEditar, btnContador, save, update, destroy">
+    <div class="overlay-wrapper" wire:loading
+         wire:target="setEstatus, show, limpiarAjustes, create, btnCancelar, btnEditar, btnContador, save, update, destroy">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>

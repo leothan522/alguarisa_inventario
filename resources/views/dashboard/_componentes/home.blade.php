@@ -1,5 +1,7 @@
 @extends('adminlte::page')
 
+@section('plugins.Select2', true)
+
 @section('title', 'Pagna de Prueba')
 
 @section('content_header')
@@ -37,11 +39,18 @@
     <div class="{{--d-none--}}" id="row_button_ajustes">
         @livewire('dashboard.ajustes-component')
     </div>
+    <div class="row">
+        @livewire('dashboard.tipos-ajustes-component')
+        @livewire('dashboard.almacenes-component')
+        @livewire('dashboard.segmentos-component')
+        @livewire('dashboard.cuotas-component')
+        @livewire('dashboard.reportes-component')
+    </div>
 
 @stop
 
 @section('right-sidebar')
-    @include('dashboard.stock.right-sidebar')
+    @include('dashboard._componentes.right-sidebar')
 @endsection
 
 @section('footer')
@@ -71,6 +80,54 @@
         function verSpinnerOculto() {
             $('.cargar_buscar').removeClass('d-none');
         }
+
+        function verTiposAjuste() {
+            Livewire.dispatch('limpiarTiposAjuste');
+        }
+
+        function verAlmacenes() {
+            Livewire.dispatch('limpiarAlmacenes');
+        }
+
+        function verSegmentos() {
+            Livewire.dispatch('limpiarSegmentos');
+        }
+
+        function verCuotas() {
+            Livewire.dispatch('limpiarCuota');
+        }
+
+        function select_2(id, data)
+        {
+            let html = '<div class="input-group-prepend">' +
+                '<span class="input-group-text">' +
+                '<i class="fas fa-code"></i>' +
+                '</span>' +
+                '</div> ' +
+                '<select id="'+ id +'"></select>';
+            $('#div_' + id).html(html);
+
+            $('#'  + id).select2({
+                dropdownParent: $('#modal-cuotas'),
+                theme: 'bootstrap4',
+                data: data,
+                placeholder: 'Seleccione',
+                /*allowClear: true*/
+            });
+            $('#'  + id).val(null).trigger('change');
+            $('#'  + id).on('change', function() {
+                var val = $(this).val();
+                Livewire.dispatch('cuotaSeleccionada', { codigo: val });
+            });
+        }
+
+        Livewire.on('selectCuotasCodigo', ({ codigos }) => {
+            select_2('select_cuotas_codigo', codigos);
+        });
+
+        Livewire.on('setCuotaSelect', ({ codigo }) => {
+            $('#select_cuotas_codigo').val(codigo).trigger('change');
+        });
 
 
         function buscar(){

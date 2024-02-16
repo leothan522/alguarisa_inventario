@@ -61,6 +61,8 @@ class MountEmpresasComponent extends Component
     public function updatedEmpresaID()
     {
         $this->dispatch('getEmpresaAjuste', empresaID: $this->empresaID)->to(AjustesComponent::class);
+        $this->dispatch('getEmpresaAlmacenes', empresaID: $this->empresaID)->to(AlmacenesComponent::class);
+        $this->dispatch('getEmpresaReportes', empresaID: $this->empresaID)->to(ReportesComponent::class);
     }
 
 
