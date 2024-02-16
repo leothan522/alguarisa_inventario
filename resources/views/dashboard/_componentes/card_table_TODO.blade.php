@@ -2,9 +2,9 @@
 
     <div class="card-header">
         <h3 class="card-title">
-            @if($keyword)
+            @if(/*$keyword*/false)
                 Resultados para { <b class="text-warning">{{ $keyword }}</b> }
-                <button class="btn btn-tool text-warning" wire:click="showAjustes">
+                <button class="btn btn-tool text-warning" wire:click="showAjustes" >
                     <i class="fas fa-times-circle"></i>
                 </button>
             @else
@@ -34,8 +34,7 @@
         <ul class="todo-list" data-widget="todo-list">
             @if($listarAjustes->isNotEmpty())
                 @foreach($listarAjustes as $ajuste)
-                    <li class=" @if(!$ajuste->estatus) done @endif @if($ajuste->id == $ajuste_id) text-warning @endif ""
-                    >
+                    <li class=" @if(!$ajuste->estatus) done @endif @if($ajuste->id == $ajuste_id) text-warning @endif "" >
                     <!-- todo text -->
                     <span class="text">
                             {{ $ajuste->codigo }}
@@ -53,12 +52,13 @@
             @else
                 <li class="text-center">
                     <!-- todo text -->
-                    @if($keyword)
+                    @if(/*$keyword*/false)
                         <span class="text">Sin resultados</span>
                     @else
                         <span class="text">Sin registros guardados</span>
                     @endif
                 </li>
+            @endif
             @endif
 
         </ul>

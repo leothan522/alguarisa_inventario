@@ -1,11 +1,13 @@
 @if($stockAlmacenes->isNotEmpty())
     @foreach($stockAlmacenes as $almacen)
         <div class="col-md-3" xmlns:wire="http://www.w3.org/1999/xhtml">
-            <!-- Profile Image -->
+
             <div class="card card-navy card-outline direct-chat">
+
                 <button type="button" class="btn btn-tool d-none cerra_inventarios" data-card-widget="remove">
                     <i class="fas fa-times"></i>
                 </button>
+
                 <div class="card-body box-profile">
                     <div class="text-center mt-3">
                         <img class="profile-user-img img-fluid img-circle" src="{{ asset('img/warehouse_702455.png') }}"
@@ -37,7 +39,7 @@
                         <!--/.direct-chat-messages-->
                     </ul>
                 </div>
-                <!-- /.card-body -->
+
                 <div class="card-footer pb-0">
                     <div class="small-box bg-primary">
                         <a class="small-box-footer" style="cursor:pointer;"
@@ -47,9 +49,11 @@
                         </a>
                     </div>
                 </div>
+
                 {!! verSpinner() !!}
+
             </div>
-            <!-- /.card -->
+
         </div>
     @endforeach
 @endif

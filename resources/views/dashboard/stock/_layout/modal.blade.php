@@ -94,7 +94,9 @@
                 </button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">{{ __('Close') }}</button>
             </div>
+
             {!! verSpinner() !!}
+
         </div>
     </div>
 </div>

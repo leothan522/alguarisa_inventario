@@ -56,6 +56,8 @@ class StockComponent extends Component
     public function getEmpresaStock($empresaID)
     {
         $this->empresas_id = $empresaID;
+        $this->limpiarStock();
+        $this->reset(['viewMovimientos', 'getAlmacen']);
     }
 
     public function limpiarStock()
@@ -117,19 +119,19 @@ class StockComponent extends Component
         $this->verMovimientos($this->getAlmacen);
     }
 
-    public function irAjuste($id)
+    public function irAjuste($id, $codigo)
     {
-        /*$this->verAjustes();
-        $this->showAjustes($id);
-        $this->dispatch('buscar', keyword: $this->ajuste_codigo);*/
-        $this->alert('success', 'pendiente');
+        $this->dispatch('show', id: $id)->to(AjustesComponent::class);
+        $this->dispatch('buscar', keyword: $codigo)->to(AjustesComponent::class);
+        //$this->alert('success', 'pendiente '.$codigo);
     }
 
-    /*public function show()
+    #[On('showStock')]
+    public function showStock()
     {
         if ($this->getAlmacen){
             $this->verMovimientos($this->getAlmacen);
         }
-    }*/
+    }
 
 }

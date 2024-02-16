@@ -76,7 +76,7 @@
     </div>
 
     <div class="overlay-wrapper" wire:loading
-         wire:target="setEstatus, show, limpiarAjustes, create, btnCancelar, btnEditar, btnContador, save, update, destroy">
+         wire:target="setEstatus, show, limpiarAjustes, create, btnCancelar, btnEditar, btnContador, save, update, destroy, showAjustes">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="overlay-wrapper d-none cargar_buscar">
+    <div class="overlay-wrapper d-none cargar_ajustes">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>

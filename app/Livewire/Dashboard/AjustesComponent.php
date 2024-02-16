@@ -21,7 +21,7 @@ class AjustesComponent extends Component
 {
     use LivewireAlert;
 
-    public $empresas_id, $rows = 0, $keyword, $editar = false,  $footer, $view;
+    public $empresas_id, $rows = 0, $keyword, $editar = false, $footer, $view;
     public $nuevo = false, $btn_nuevo = true, $btn_editar = false, $btn_cancelar = false;
     public $ajuste_id, $ajuste_codigo, $ajuste_fecha, $ajuste_descripcion, $ajuste_contador = 1, $listarDetalles,
         $opcionDestroy, $ajuste_estatus, $ajuste_segmento, $ajuste_municipio,
@@ -61,11 +61,17 @@ class AjustesComponent extends Component
     public function getEmpresaAjuste($empresaID)
     {
         $this->empresas_id = $empresaID;
+        $this->limpiarAjustes();
+        $this->reset(['keyword', 'ajuste_id']);
     }
 
     public function setLimit()
     {
-        if (numRowsPaginate() < 10) { $rows = 10; } else { $rows = numRowsPaginate(); }
+        if (numRowsPaginate() < 10) {
+            $rows = 10;
+        } else {
+            $rows = numRowsPaginate();
+        }
         $this->rows = $this->rows + $rows;
     }
 
@@ -134,7 +140,7 @@ class AjustesComponent extends Component
             $this->ajuste_contador++;
         } else {
 
-            if ($this->detalles_id[$opcion]){
+            if ($this->detalles_id[$opcion]) {
                 $this->borraritems[] = [
                     'id' => $this->detalles_id[$opcion]
                 ];
@@ -286,6 +292,7 @@ class AjustesComponent extends Component
                 }
             }
             $this->show($ajuste->id);
+            $this->dispatch('showStock')->to(StockComponent::class);
             $this->alert('success', 'Ajuste Guardado Correctamente.');
         } else {
             $this->alert('warning', '¡Stock Insuficiente!', [
@@ -394,6 +401,7 @@ class AjustesComponent extends Component
         $this->updatedAjusteArticulo();
     }
 
+    #[On('show')]
     public function show($id)
     {
         $this->limpiarAjustes();
@@ -407,8 +415,7 @@ class AjustesComponent extends Component
         $this->ajuste_segmento = $ajuste->segmentos_id;
         $this->ajuste_municipio = $ajuste->municipios_id;
         $this->ajuste_label_segmento = $ajuste->segmentos->descripcion;
-        if ($ajuste->municipios_id)
-        {
+        if ($ajuste->municipios_id) {
             $this->ajuste_label_municipio = $ajuste->municipios->mini;
         }
         $this->ajuste_estatus = $ajuste->estatus;
@@ -504,9 +511,9 @@ class AjustesComponent extends Component
 
         if ($db_municipio != $this->ajuste_municipio) {
             $procesar_ajuste = true;
-            if (!empty($this->ajuste_municipio)){
+            if (!empty($this->ajuste_municipio)) {
                 $ajuste->municipios_id = $this->ajuste_municipio;
-            }else{
+            } else {
                 $ajuste->municipios_id = null;
             }
         }
@@ -518,8 +525,8 @@ class AjustesComponent extends Component
         $error = array();
         $success = array();
 
-        if (!empty($this->borraritems)){
-            foreach ($this->borraritems as $item){
+        if (!empty($this->borraritems)) {
+            foreach ($this->borraritems as $item) {
                 $detalles = AjusDetalle::find($item['id']);
                 $db_articulo_id = $detalles->articulos_id;
                 $db_almacen_id = $detalles->almacenes_id;
@@ -532,7 +539,7 @@ class AjustesComponent extends Component
                     ->where('almacenes_id', $db_almacen_id)
                     ->where('unidades_id', $db_unidad_id)
                     ->first();
-                if ($stock){
+                if ($stock) {
                     //bien
                     $db_disponible = $stock->disponible;
                     $db_comprometido = $stock->comprometido;
@@ -544,17 +551,17 @@ class AjustesComponent extends Component
                     ];
 
 
-                    if ($db_accion == 1){
+                    if ($db_accion == 1) {
                         //revierto la entrada
-                        if ($db_disponible < $db_cantidad){
+                        if ($db_disponible < $db_cantidad) {
                             $error[-1] = true;
-                            $html .= '<span class="text-sm">Para <strong> - ' . formatoMillares($db_cantidad, 3) . '</strong> del articulo <strong>' . $detalles->articulo->codigo . '</strong>. el stock actual es <strong>'.$db_disponible.' '. $detalles->unidad->codigo . '</strong></span><br>';
+                            $html .= '<span class="text-sm">Para <strong> - ' . formatoMillares($db_cantidad, 3) . '</strong> del articulo <strong>' . $detalles->articulo->codigo . '</strong>. el stock actual es <strong>' . $db_disponible . ' ' . $detalles->unidad->codigo . '</strong></span><br>';
                         }
                     }
 
-                }else{
+                } else {
                     $error[-1] = true;
-                    $html .= '<span class="text-sm">Para <strong> - ' . formatoMillares($db_cantidad, 3) . '</strong> del articulo <strong>' . $detalles->articulo->codigo . '</strong>. el stock actual es <strong>0,000 '. $detalles->unidad->codigo . '</strong></span><br>';
+                    $html .= '<span class="text-sm">Para <strong> - ' . formatoMillares($db_cantidad, 3) . '</strong> del articulo <strong>' . $detalles->articulo->codigo . '</strong>. el stock actual es <strong>0,000 ' . $detalles->unidad->codigo . '</strong></span><br>';
                     //$this->addError('ajusteCantidad.' . $i, 'error');
                 }
             }
@@ -586,11 +593,21 @@ class AjustesComponent extends Component
                 $diferencias_cantidad = false;
                 $cambios = array();
 
-                if ($db_tipo_id != $tipo_id){ $diferencias_stock = true; }
-                if ($db_articulo_id != $articulo_id){ $diferencias_stock = true; }
-                if ($db_almacen_id != $almacen_id){ $diferencias_stock = true; }
-                if ($db_unidad_id != $unidad_id){ $diferencias_stock = true; }
-                if ($db_cantidad != $cantidad){ $diferencias_cantidad = true; }
+                if ($db_tipo_id != $tipo_id) {
+                    $diferencias_stock = true;
+                }
+                if ($db_articulo_id != $articulo_id) {
+                    $diferencias_stock = true;
+                }
+                if ($db_almacen_id != $almacen_id) {
+                    $diferencias_stock = true;
+                }
+                if ($db_unidad_id != $unidad_id) {
+                    $diferencias_stock = true;
+                }
+                if ($db_cantidad != $cantidad) {
+                    $diferencias_cantidad = true;
+                }
 
                 if ($diferencias_stock || $diferencias_cantidad) {
                     //me traigo el stock actual
@@ -600,18 +617,18 @@ class AjustesComponent extends Component
                         ->where('unidades_id', $db_unidad_id)
                         ->first();
 
-                    if ($stock){
+                    if ($stock) {
                         //exite
                         $db_disponible = $stock->disponible;
                         $db_comprometido = $stock->comprometido;
 
-                        if (!empty($itemEliminados)){
-                            foreach ($itemEliminados as $eliminado){
-                                if ($stock->id == $eliminado['id']){
-                                    if ($eliminado['accion'] == 1){
+                        if (!empty($itemEliminados)) {
+                            foreach ($itemEliminados as $eliminado) {
+                                if ($stock->id == $eliminado['id']) {
+                                    if ($eliminado['accion'] == 1) {
                                         //retire la entrada
                                         $db_disponible = $db_disponible - $eliminado['cantidad'];
-                                    }else{
+                                    } else {
                                         //retiro la salida
                                         $db_disponible = $db_disponible + $eliminado['cantidad'];
                                     }
@@ -620,21 +637,21 @@ class AjustesComponent extends Component
                         }
 
                         //stock diferente misma cantidad
-                        if ($diferencias_stock){
+                        if ($diferencias_stock) {
                             //revierto el ajuste anterior
-                            if ($db_accion == 1){
+                            if ($db_accion == 1) {
                                 //revierto entrada
-                                if ($db_disponible >= $db_cantidad){
+                                if ($db_disponible >= $db_cantidad) {
                                     //seguimos
                                     $procesar_detalles[$i] = true;
                                     $revertido = $db_disponible - $db_cantidad;
-                                }else{
+                                } else {
                                     $revertido = null;
                                     $error[$i] = true;
-                                    $html .= '<span class="text-sm">Para1 <strong> - ' . formatoMillares($this->ajusteCantidad[$i], 3) . '</strong> del articulo <strong>' . $stock->articulo->codigo . '</strong>. el stock actual es <strong>' . formatoMillares($db_disponible, 3) . ' '. $db_unidad_codigo . '</strong></span><br>';
+                                    $html .= '<span class="text-sm">Para1 <strong> - ' . formatoMillares($this->ajusteCantidad[$i], 3) . '</strong> del articulo <strong>' . $stock->articulo->codigo . '</strong>. el stock actual es <strong>' . formatoMillares($db_disponible, 3) . ' ' . $db_unidad_codigo . '</strong></span><br>';
                                     $this->addError('ajusteCantidad.' . $i, 'error');
                                 }
-                            }else{
+                            } else {
                                 //revierto salida
                                 $procesar_detalles[$i] = true;
                                 $revertido = $db_disponible + $db_cantidad;
@@ -642,15 +659,15 @@ class AjustesComponent extends Component
 
                             //procesamos lo nuevo
                             $db_id = $stock->id;
-                            if ($db_articulo_id == $articulo_id && $db_almacen_id == $almacen_id && $db_unidad_id == $unidad_id){
+                            if ($db_articulo_id == $articulo_id && $db_almacen_id == $almacen_id && $db_unidad_id == $unidad_id) {
                                 $db_disponible = $revertido;
-                            }else{
+                            } else {
                                 $stock = Stock::where('empresas_id', $this->empresas_id)
                                     ->where('articulos_id', $articulo_id)
                                     ->where('almacenes_id', $almacen_id)
                                     ->where('unidades_id', $unidad_id)
                                     ->first();
-                                if ($stock){
+                                if ($stock) {
                                     $db_comprometido = $stock->comprometido;
                                     $db_disponible = $stock->disponible;
                                 }
@@ -682,7 +699,7 @@ class AjustesComponent extends Component
                                     ];
                                 }
 
-                            }else{
+                            } else {
                                 //salida
                                 if ($stock) {
                                     if ($db_disponible >= $cantidad) {
@@ -716,24 +733,24 @@ class AjustesComponent extends Component
                             ];
 
 
-                        }else{
-                            if ($db_accion == 1){
+                        } else {
+                            if ($db_accion == 1) {
                                 //evaluamos entrada
-                                if ($cantidad > $db_cantidad){
+                                if ($cantidad > $db_cantidad) {
                                     $diferencia = $cantidad - $db_cantidad;
                                     //incremento la entrada
                                     $procesar_detalles[$i] = true;
                                     $db_disponible = $db_disponible + $diferencia;
-                                }else{
+                                } else {
                                     $diferencia = $db_cantidad - $cantidad;
                                     //verifico el stock antes de reducir entrada
-                                    if ($db_disponible >= $diferencia){
+                                    if ($db_disponible >= $diferencia) {
                                         //redusco la entrada
                                         $procesar_detalles[$i] = true;
                                         $db_disponible = $db_disponible - $diferencia;
-                                    }else{
+                                    } else {
                                         $error[$i] = true;
-                                        $html .= '<span class="text-sm">Para4 <strong> - ' . formatoMillares($diferencia, 3) . '</strong> del articulo <strong>' . $stock->articulo->codigo . '</strong>. el stock actual es <strong>' . formatoMillares($db_disponible, 3) . ' '. $db_unidad_codigo . '</strong></span><br>';
+                                        $html .= '<span class="text-sm">Para4 <strong> - ' . formatoMillares($diferencia, 3) . '</strong> del articulo <strong>' . $stock->articulo->codigo . '</strong>. el stock actual es <strong>' . formatoMillares($db_disponible, 3) . ' ' . $db_unidad_codigo . '</strong></span><br>';
                                         $this->addError('ajusteCantidad.' . $i, 'error');
                                     }
                                 }
@@ -743,23 +760,23 @@ class AjustesComponent extends Component
                                     'actual' => $db_disponible + $db_comprometido,
                                     'disponible' => $db_disponible,
                                 ];
-                            }else{
+                            } else {
                                 //evaluamos salida
-                                if ($cantidad < $db_cantidad){
+                                if ($cantidad < $db_cantidad) {
                                     $diferencia = $db_cantidad - $cantidad;
                                     //redusco la salida
                                     $procesar_detalles[$i] = true;
                                     $db_disponible = $db_disponible + $diferencia;
-                                }else{
-                                    $diferencia =  $cantidad - $db_cantidad;
+                                } else {
+                                    $diferencia = $cantidad - $db_cantidad;
                                     //verifico el stock antes de aumentar la salida
-                                    if ($db_disponible >= $diferencia){
+                                    if ($db_disponible >= $diferencia) {
                                         //aumento la salida
                                         $procesar_detalles[$i] = true;
                                         $db_disponible = $db_disponible - $diferencia;
-                                    }else{
+                                    } else {
                                         $error[$i] = true;
-                                        $html .= '<span class="text-sm">Para5 <strong> - ' . formatoMillares($diferencia, 3) . '</strong> del articulo <strong>' . $stock->articulo->codigo . '</strong>. el stock actual es <strong>' . formatoMillares($db_disponible, 3) . ' '. $db_unidad_codigo . '</strong></span><br>';
+                                        $html .= '<span class="text-sm">Para5 <strong> - ' . formatoMillares($diferencia, 3) . '</strong> del articulo <strong>' . $stock->articulo->codigo . '</strong>. el stock actual es <strong>' . formatoMillares($db_disponible, 3) . ' ' . $db_unidad_codigo . '</strong></span><br>';
                                         $this->addError('ajusteCantidad.' . $i, 'error');
                                     }
                                 }
@@ -775,10 +792,9 @@ class AjustesComponent extends Component
 
                     }
 
-                }else{
+                } else {
                     $success[$i] = true;
                 }
-
 
 
             } else {
@@ -796,13 +812,13 @@ class AjustesComponent extends Component
                     if ($stock) {
                         $db_comprometido = $stock->comprometido;
                         $db_disponible = $stock->disponible;
-                        if (!empty($itemEliminados)){
-                            foreach ($itemEliminados as $eliminado){
-                                if ($stock->id == $eliminado['id']){
-                                    if ($eliminado['accion'] == 1){
+                        if (!empty($itemEliminados)) {
+                            foreach ($itemEliminados as $eliminado) {
+                                if ($stock->id == $eliminado['id']) {
+                                    if ($eliminado['accion'] == 1) {
                                         //retire la entrada
                                         $db_disponible = $db_disponible - $eliminado['cantidad'];
-                                    }else{
+                                    } else {
                                         //retiro la salida
                                         $db_disponible = $db_disponible + $eliminado['cantidad'];
                                     }
@@ -838,13 +854,13 @@ class AjustesComponent extends Component
                     if ($stock) {
                         $db_comprometido = $stock->comprometido;
                         $db_disponible = $stock->disponible;
-                        if (!empty($itemEliminados)){
-                            foreach ($itemEliminados as $eliminado){
-                                if ($stock->id == $eliminado['id']){
-                                    if ($eliminado['accion'] == 1){
+                        if (!empty($itemEliminados)) {
+                            foreach ($itemEliminados as $eliminado) {
+                                if ($stock->id == $eliminado['id']) {
+                                    if ($eliminado['accion'] == 1) {
                                         //retire la entrada
                                         $db_disponible = $db_disponible - $eliminado['cantidad'];
-                                    }else{
+                                    } else {
                                         //retiro la salida
                                         $db_disponible = $db_disponible + $eliminado['cantidad'];
                                     }
@@ -885,8 +901,8 @@ class AjustesComponent extends Component
                 $ajuste->save();
             }
 
-            if (!empty($this->borraritems)){
-                foreach ($this->borraritems as $item){
+            if (!empty($this->borraritems)) {
+                foreach ($this->borraritems as $item) {
                     $detalles = AjusDetalle::find($item['id']);
                     $db_articulo_id = $detalles->articulos_id;
                     $db_almacen_id = $detalles->almacenes_id;
@@ -899,15 +915,15 @@ class AjustesComponent extends Component
                         ->where('almacenes_id', $db_almacen_id)
                         ->where('unidades_id', $db_unidad_id)
                         ->first();
-                    if ($stock){
+                    if ($stock) {
                         //bien
                         $db_id = $stock->id;
                         $db_disponible = $stock->disponible;
                         $db_comprometido = $stock->comprometido;
 
-                        if ($db_accion == 1){
+                        if ($db_accion == 1) {
                             //revierto entrada
-                            if ($db_disponible >= $db_cantidad){
+                            if ($db_disponible >= $db_cantidad) {
                                 $disponible = $db_disponible - $db_cantidad;
                                 $actual = $disponible + $db_comprometido;
                                 $stock = Stock::find($db_id);
@@ -916,7 +932,7 @@ class AjustesComponent extends Component
                                 $stock->save();
                                 $detalles->delete();
                             }
-                        }else{
+                        } else {
                             //revierto salida
                             $disponible = $db_disponible + $db_cantidad;
                             $actual = $disponible + $db_comprometido;
@@ -971,7 +987,7 @@ class AjustesComponent extends Component
                         $stock->disponible = $revisado['disponible'];
                         $stock->save();
                     }
-                    if (!empty($revisado['cambios'])){
+                    if (!empty($revisado['cambios'])) {
                         if ($revisado['cambios']['accion'] == 'nuevo_stock') {
                             //nuevo
                             $stock = new Stock();
@@ -997,12 +1013,13 @@ class AjustesComponent extends Component
 
             }
 
-            $this->alert('success', 'Ajuste Actualizado.');
             $this->show($this->ajuste_id);
+            $this->dispatch('showStock')->to(StockComponent::class);
+            $this->alert('success', 'Ajuste Actualizado.');
 
         } else {
 
-            if (empty($success) || !empty($error)){
+            if (empty($success) || !empty($error)) {
                 $this->alert('warning', '¡Stock Insuficiente!', [
                     'position' => 'center',
                     'timer' => '',
@@ -1012,7 +1029,7 @@ class AjustesComponent extends Component
                     'onConfirmed' => '',
                     'confirmButtonText' => 'OK',
                 ]);
-            }else{
+            } else {
                 $this->alert('info', 'No se realizo ningún cambio.');
                 $this->show($this->ajuste_id);
             }
@@ -1024,7 +1041,6 @@ class AjustesComponent extends Component
     public function destroy($opcion = "delete")
     {
         $this->opcionDestroy = $opcion;
-        $this->dispatch('verspinnerOculto');
         $this->confirm('¿Estas seguro?', [
             'toast' => false,
             'position' => 'center',
@@ -1039,7 +1055,6 @@ class AjustesComponent extends Component
     #[On('confirmedBorrarAjuste')]
     public function confirmedBorrarAjuste()
     {
-        $this->dispatch('verspinnerOculto');
         $ajuste = Ajuste::find($this->ajuste_id);
 
         //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
@@ -1059,7 +1074,7 @@ class AjustesComponent extends Component
 
             $listarDetalles = AjusDetalle::where('ajustes_id', $ajuste->id)->get();
 
-            foreach ($listarDetalles as $detalle){
+            foreach ($listarDetalles as $detalle) {
 
                 $db_articulo_id = $detalle->articulos_id;
                 $db_almacen_id = $detalle->almacenes_id;
@@ -1073,21 +1088,21 @@ class AjustesComponent extends Component
                     ->where('unidades_id', $db_unidad_id)
                     ->first();
 
-                if ($stock){
+                if ($stock) {
 
                     $db_id = $stock->id;
                     $db_disponible = $stock->disponible;
                     $db_comprometido = $stock->comprometido;
 
-                    if ($db_accion == 1){
+                    if ($db_accion == 1) {
                         //revierto entrada
-                        if ($db_disponible >= $db_cantidad){
+                        if ($db_disponible >= $db_cantidad) {
                             $disponible = $db_disponible - $db_cantidad;
-                        }else{
+                        } else {
                             $disponible = 0;
                         }
                         $actual = $disponible + $db_comprometido;
-                    }else{
+                    } else {
                         //revierto salida
                         $disponible = $db_disponible + $db_cantidad;
                         $actual = $disponible + $db_comprometido;
@@ -1102,29 +1117,25 @@ class AjustesComponent extends Component
             }
 
 
-            if ($this->opcionDestroy == "delete"){
+            if ($this->opcionDestroy == "delete") {
                 $ajuste->delete();
                 $this->reset('ajuste_id');
                 $this->limpiarAjustes();
                 $message = "Ajuste Eliminado.";
-            }else{
+            } else {
                 $ajuste->estatus = 0;
                 $ajuste->save();
                 $this->show($ajuste->id);
                 $message = "Ajuste Anulado.";
             }
 
+            $this->dispatch('showStock')->to(StockComponent::class);
             $this->alert(
                 'success',
                 $message
             );
 
         }
-    }
-
-    #[On('verspinnerOculto')]
-    public function verspinnerOculto(){
-        //ver spinner oculto desde JS
     }
 
     #[On('buscar')]
@@ -1138,6 +1149,17 @@ class AjustesComponent extends Component
                 'id' => $articulo->id
             ];
         }*/
+    }
+
+    #[On('showAjustes')]
+    public function showAjustes()
+    {
+        if ($this->ajuste_id) {
+            $this->show($this->ajuste_id);
+        } else {
+            $this->limpiarAjustes();
+        }
+        $this->reset('keyword');
     }
 
 }

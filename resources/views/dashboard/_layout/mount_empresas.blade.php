@@ -7,7 +7,7 @@
             <h3>
                 <i class="fas fa-store-alt"></i> <span class="text-uppercase">{{ $empresa->nombre }}</span>
                 <small class="float-right">
-                    <select class="custom-select" wire:model.live="empresaID">
+                    <select class="custom-select" wire:model.live="empresaID" onchange="changeEmpresa()">
                        @foreach($listarEmpresas as $empresa)
                             <option value="{{ $empresa['id'] }}">{{ $empresa['text'] }}</option>
                         @endforeach
@@ -17,5 +17,13 @@
         </div>
     </div>
 
-    {!! verSpinner() !!}
+    <div class="overlay-wrapper" wire:loading>
+        <div class="overlay">
+            <div class="spinner-grow spinner-grow-sm" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+
 </div>

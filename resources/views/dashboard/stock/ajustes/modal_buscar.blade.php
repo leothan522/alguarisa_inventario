@@ -1,6 +1,7 @@
 <div wire:ignore.self class="modal fade" id="modal-buscar-articulo" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="modal-dialog">
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title">Buscar Articulos</h5>
                 <button type="button" {{--wire:click="limpiar()"--}} class="close" data-dismiss="modal"
@@ -8,6 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
 
                 <div class="row justify-content-center">
@@ -58,8 +60,6 @@
 
             </div>
 
-            {!! verSpinner() !!}
-
             <div class="modal-footer">
                 <div class="row col-12">
                     <div class="col-md-6">
@@ -72,6 +72,8 @@
                     </div>
                 </div>
             </div>
+
+            {!! verSpinner() !!}
 
         </div>
     </div>

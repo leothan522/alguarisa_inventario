@@ -26,7 +26,7 @@
                 <i class="fas fa-boxes"></i> Inventario
             </button>
             <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
-                    onclick="" id="button_actualizar">
+                    onclick="actualizar()" >
                 <i class="fas fa-sync"></i> Actualizar
             </button>
         </div>
@@ -68,6 +68,15 @@
     <script src="{{ asset("js/app.js") }}"></script>
     <script>
 
+        function verSpinnerOculto() {
+            $('.cargar_stock').removeClass('d-none');
+        }
+
+        $(document).ready(function () {
+            verSpinnerOculto();
+            Livewire.dispatch('updatedEmpresaID');
+        });
+
         function showRow(row) {
             let ajustes = $('#row_button_ajustes');
             let stock = $('#row_button_stock');
@@ -87,13 +96,25 @@
 
         }
 
-        $(document).ready(function () {
-            $('.cargar_buscar').removeClass('d-none');
-            Livewire.dispatch('updatedEmpresaID');
-        });
+        function actualizar() {
+            verSpinnerOculto();
+            $('.cargar_ajustes').removeClass('d-none');
+            Livewire.dispatch('showStock');
+            Livewire.dispatch('showAjustes');
+        }
 
-        function verSpinnerOculto() {
-            $('.cargar_buscar').removeClass('d-none');
+        function cerrarInventarios() {
+            verSpinnerOculto();
+            $('.cerra_inventarios').click();
+        }
+
+        function irAjuste() {
+            $('.cargar_ajustes').removeClass('d-none');
+            $('#button_ajustes').click();
+        }
+
+        function changeEmpresa() {
+            $('.cargar_ajustes').removeClass('d-none');
         }
 
         function verTiposAjuste() {
@@ -144,11 +165,6 @@
             $('#select_cuotas_codigo').val(codigo).trigger('change');
         });
 
-        function cerrarInventarios() {
-            $('.cerra_inventarios').click();
-        }
-
-
         //pendiente revisar
         $('#reportes_articulos').select2({
             theme: 'bootstrap4',
@@ -160,8 +176,10 @@
             let keyword  = input.val();
             if (keyword.length > 0){
                 input.blur();
-                alert('Falta vincular con el componente Livewire');
-                //Livewire.dispatch('buscar', { keyword: keyword });
+                //alert('Falta vincular con el componente Livewire');
+                irAjuste();
+                Livewire.dispatch('buscar', { keyword: keyword });
+                $('#nabvar_cerrar_buscar').click();
             }
             return false;
         }

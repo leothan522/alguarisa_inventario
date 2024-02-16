@@ -127,7 +127,6 @@
                     </div>
                 </div>
             </div>
-            <!-- /.card -->
         </div>
     </div>
 </form>

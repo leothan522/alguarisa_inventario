@@ -33,6 +33,7 @@
 
     <div class="col-12">
         <div class="card card-navy card-outline card-tabs">
+
             <div class="card-header p-0 pt-1 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
                     <li class="nav-item">
@@ -40,6 +41,7 @@
                     </li>
                 </ul>
             </div>
+
             <div class="card-body">
                 <div class="tab-content" id="custom-tabs-three-tabContent">
                     <div class="tab-pane fade active show" id="tabs_datos_basicos" role="tabpanel" aria-labelledby="custom-tabs-three-home-tab">
@@ -88,7 +90,7 @@
                     </div>
                 </div>
             </div>
-            <!-- /.card -->
+
         </div>
     </div>
 @endif

@@ -1,5 +1,6 @@
 <div class="col-md-12" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card">
+
         <div class="card-header border-0">
             <h3 class="card-title text-uppercase">{{ $getNombre }}</h3>
             <div class="card-tools">
@@ -9,11 +10,12 @@
                 <a href="{{ route('movimientos.reportes', [$getAlmacen ?? 0, $empresas_id ?? 1, $getLimit]) }}" class="btn btn-tool btn-sm">
                     <i class="fas fa-download"></i>
                 </a>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" wire:click="limpiarStock">
+                <button type="button" class="btn btn-tool" data-card-widget="remove" wire:click="limpiarStock" onclick="verSpinnerOculto()">
                     <i class="fas fa-times"></i> {{--{{ $limit }} - {{ $getLimit }}--}}
                 </button>
             </div>
         </div>
+
         <div class="card-body table-responsive p-0" style="height: 60vh;">
             <table class="table table-head-fixed table-striped table-valign-middle table-sm">
                 <thead>
@@ -78,7 +80,7 @@
                                     </td>
                                     <td class="d-none d-md-table-cell text-center">
                                         <button type="button" class="btn btn-link text-muted"
-                                                @if($modulo == 'stock') wire:click="irAjuste({{ $ajuste->id }})" onclick="irAjuste()" @endif >
+                                                wire:click="irAjuste({{ $ajuste->id }}, '{{ $ajuste->codigo }}')" onclick="irAjuste()" >
                                             <i class="fas fa-search"></i>
                                         </button>
                                     </td>
@@ -96,7 +98,9 @@
                 </tbody>
             </table>
         </div>
+
         {!! verSpinner() !!}
+
     </div>
 </div>
 
