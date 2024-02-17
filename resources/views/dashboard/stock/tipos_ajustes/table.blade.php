@@ -57,7 +57,11 @@
                 @else
                 <tr class="text-center">
                     <td colspan="3">
-                        <span>Aún no se ha creado un Tipo de Ajuste.</span>
+                        @if($keyword)
+                            <span>Sin resultados.</span>
+                        @else
+                            <span>Aún no se ha creado un Tipo de Ajuste.</span>
+                        @endif
                     </td>
                 </tr>
             @endif

@@ -28,19 +28,6 @@ class ArticulosComponent extends Component
     use WithPagination;
     use WithFileUploads;
 
-    /*protected $paginationTheme = 'bootstrap';
-    protected $listeners = [
-        'limpiarCategorias', 'confirmedCategorias',
-        'limpiarUnidades', 'confirmedUnidades',
-        'limpiarProcedencias', 'confirmedProcedencias',
-        'limpiarTributarios', 'confirmedTributarios',
-        'limpiarTipos', 'confirmedTipos',
-        'setSelectFormArticulos', 'tipoSeleccionado', 'categoriaSeleccionada', 'procedenciaSeleccionada',
-        'tributoSeleccionado', 'setSelectFormUnidades', 'unidadSeleccionada', 'secundariaSeleccionada',
-        'buscar', 'confirmed', 'setSelectFormEmpresas', 'empresaSeleccionada', 'setSelectFormEditar',
-        'setSelectFormEditUnd', 'setSelectPrecioEmpresas'
-    ];*/
-
     public $categoria_id, $categoria_codigo, $categoria_nombre, $categoriaPhoto, $keywordCategorias;
     public $unidad_id, $unidad_codigo, $unidad_nombre, $keywordUnidades;
     public $procedencia_id, $procedencia_codigo, $procedencia_nombre, $keywordProcedencias;
