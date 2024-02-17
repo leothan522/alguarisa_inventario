@@ -7,6 +7,7 @@ use App\Models\Ajuste;
 use App\Models\Almacen;
 use App\Models\Articulo;
 use App\Models\Empresa;
+use App\Models\Parametro;
 use App\Models\Stock;
 use App\Models\Unidad;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
@@ -22,6 +23,7 @@ class StockComponent extends Component
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $getSaldo, $modulo = 'stock';
     public $limit = 100;
+    public $compartirQr;
 
     public function mount()
     {
@@ -131,6 +133,36 @@ class StockComponent extends Component
     {
         if ($this->getAlmacen){
             $this->verMovimientos($this->getAlmacen);
+        }
+    }
+
+    #[On('compartirQr')]
+    public function compartirQr($borrar = false)
+    {
+        $parametro = Parametro::where('nombre','compartir_stock_qr')->where('tabla_id', $this->empresas_id)->first();
+        $token = generarStringAleatorio(30);
+        if ($parametro){
+            if (!$borrar){
+                $this->compartirQr = route('stock.compartirqr', $parametro->valor);
+            }else{
+                $parametro->delete();
+                $this->reset(['compartirQr']);
+            }
+        }else{
+
+            do{
+                $parametro = Parametro::where('nombre','compartir_stock_qr')->where('valor', $token)->first();
+                if ($parametro){
+                    $token = generarStringAleatorio(30);
+                }
+            }while($parametro);
+
+            $parametro = new Parametro();
+            $parametro->nombre = 'compartir_stock_qr';
+            $parametro->tabla_id = $this->empresas_id;
+            $parametro->valor = $token;
+            $parametro->save();
+            $this->compartirQr = route('stock.compartirqr', $parametro->valor);
         }
     }
 

@@ -165,6 +165,10 @@
             $('#select_cuotas_codigo').val(codigo).trigger('change');
         });
 
+        function compartirQr() {
+            Livewire.dispatch('compartirQr');
+        }
+
         //pendiente revisar
         $('#reportes_articulos').select2({
             theme: 'bootstrap4',
