@@ -58,7 +58,7 @@ class CategoriasComponent extends Component
     public function updatedPhoto()
     {
         $messages = [
-            'photo.max' => 'El campo imagen no debe ser mayor que 1024 kilobytes.'
+            'photo.max' => 'La imagen no debe ser mayor que 1024 kilobytes.'
         ];
         $this->validate([
             'photo' => 'image|max:1024', // 1MB Max
@@ -76,13 +76,13 @@ class CategoriasComponent extends Component
             'photo'     =>  'image|max:1024|nullable'
         ];
         $messages = [
-            'codigo.required' => 'El campo codigo es obligatorio.',
-            'codigo.min' => 'El campo codigo debe contener al menos 6 caracteres.',
-            'codigo.max' => 'El campo codigo no debe ser mayor que 8 caracteres.',
-            'codigo.alpha_num' => ' El campo codigo sólo debe contener letras y números.',
-            'nombre.required' => 'El campo nombre es obligatorio.',
-            'nombre.min' => 'El campo nombre debe contener al menos 4 caracteres.',
-            'photo.max' => 'El campo imagen no debe ser mayor que 1024 kilobytes.'
+            'codigo.required' => 'El codigo es obligatorio.',
+            'codigo.min' => 'El codigo debe contener al menos 6 caracteres.',
+            'codigo.max' => 'El codigo no debe ser mayor que 8 caracteres.',
+            'codigo.alpha_num' => ' El codigo sólo debe contener letras y números.',
+            'nombre.required' => 'El nombre es obligatorio.',
+            'nombre.min' => 'El nombre debe contener al menos 4 caracteres.',
+            'photo.max' => 'La imagen no debe ser mayor que 1024 kilobytes.'
         ];
 
         $this->validate($rules, $messages);

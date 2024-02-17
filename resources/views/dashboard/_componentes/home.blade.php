@@ -23,6 +23,7 @@
     {{--<p>Welcome to this beautiful admin panel.</p>--}}
     <div class="row">
         @livewire('dashboard.categorias-component')
+        @livewire('dashboard.unidades-component')
     </div>
 
 @stop
@@ -49,6 +50,10 @@
 
         function imgCategoria() {
             $('#customFileLangCategoria').click();
+        }
+
+        function verUnidades() {
+            Livewire.dispatch('limpiarUnidades');
         }
 
         /*$(document).ready(function () {
