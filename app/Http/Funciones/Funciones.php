@@ -121,28 +121,42 @@ function verSpinner()
     return $spinner;
 }
 
-function verImagen($path, $user = false)
+function verImagen($path, $user = false, $web = null)
 {
-    if ($user){
-        $path_image = 'storage/'.$path;
-    }else{
-        $path_image = $path;
-    }
-    if (!is_null($path) && !empty($path)){
-        if (file_exists(public_path($path_image))){
-            return asset($path_image);
-        }else{
-            if ($user){
+    if (!is_null($path)){
+        if ($user){
+            if (file_exists(public_path('storage/'.$path))){
+                return asset('storage/'.$path);
+            }else{
                 return asset('img/user.png');
             }
-            return asset('img/img_placeholder.png');
+        }else{
+            if (file_exists(public_path($path))){
+                return asset($path);
+            }else{
+                if (is_null($web)){
+                    return asset('img/img_placeholder.png');
+                }else{
+                    return asset('img/web_img_placeholder.jpg');
+                }
+
+            }
         }
     }else{
         if ($user){
             return asset('img/user.png');
         }
-        return asset('img/img_placeholder.png');
+        if (is_null($web)){
+            return asset('img/img_placeholder.png');
+        }else{
+            return asset('img/web_img_placeholder.jpg');
+        }
     }
+}
+
+function verUtf8($string){
+    //$utf8_string = "Some UTF-8 encoded BATE QUEBRADO ÑñíÍÁÜ niño ó Ó string: é, ö, ü";
+    return mb_convert_encoding($string, 'UTF-8');
 }
 
 function iconoPlataforma($plataforma)
@@ -600,6 +614,29 @@ function nextCodigoAjuste($empresa_id){
 
 }
 
+function nextCodigo($next = 1, $parametros_nombre = null, $parametros_tabla_id = null, $formato = null){
+    $codigo = null;
+
+    //buscamos algun formato para el codigo
+    $parametro = Parametro::where("nombre", $parametros_nombre)->where('tabla_id', $parametros_tabla_id)->first();
+    if ($parametro) {
+        $codigo = $parametro->valor;
+    }else{
+        if (is_null($formato)){
+            $codigo = "N".$parametros_tabla_id.'-';
+        }else{
+            $codigo = $formato;
+        }
+    }
+
+    if (!is_numeric($next)){ $next = 1; }
+
+    $size = cerosIzquierda($next, numSizeCodigo());
+
+    return $codigo . $size;
+
+}
+
 //Ceros a la izquierda
 function cerosIzquierda($cantidad, $cantCeros = 2)
 {
@@ -716,49 +753,3 @@ function obtenerPorcentaje($cantidad, $total)
     }
     return 0;
 }
-
-
-
-
-
-/*
-
-
-
-function verIconoEstatusPedico($estatus)
-{
-    $status = [
-        '0' => '<i class="fas fa-exclamation-triangle text-warning"></i>',
-        '1' => '<i class="fas fa-money-check-alt text-info"></i>',
-        '2' => '<i class="fas fa-shipping-fast"></i>',
-        '3' => '<i class="fas fa-check-circle text-success"></i>',
-        '4' => '<i class="fas fa-exclamation-triangle text-danger"></i>'
-    ];
-    return $status[$estatus];
-}
-
-function verIconoMetodosPago($metodo)
-{
-    $status = [
-        'efectivo' => '<i class="fas fa-money-bill-wave"></i>',
-        'debito' => '<i class="far fa-credit-card"></i>',
-        'transferencia' => '<i class="fas fa-money-check"></i>',
-        'movil' => '<i class="fas fa-mobile-alt"></i>'
-    ];
-    return $status[$metodo];
-}
-
-function verTipoCategoria($categoria)
-{
-    $categorias = [
-        '0' => 'Productos',
-        '1' => 'Tiendas',
-    ];
-
-    if(array_key_exists($categoria, $categorias)){
-        return $categorias[$categoria];
-    }else{
-        return "NO DEFINIDA";
-    }
-
-}*/
