@@ -59,7 +59,7 @@
             </li>
             <li class="nav-item">
                 <button type="button" class="btn btn-primary btn-sm btn-block m-1"
-                        data-toggle="modal" data-target="#modal-compartir-qr" onclick="compartirQr()" id="right_sidebar_btn_compartir">
+                        data-toggle="modal" data-target="#modal-compartir-qr" onclick="compartirQr()">
                     Compartir QR
                 </button>
             </li>
