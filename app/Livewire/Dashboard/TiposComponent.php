@@ -75,6 +75,7 @@ class TiposComponent extends Component
         $tipo->nombre = $this->nombre;
 
         $tipo->save();
+        $this->dispatch('listarSelect', tabla: 'tipos')->to(ArticulosComponent::class);
         $this->limpiarTipos();
         $this->alert(
             'success',
@@ -89,7 +90,6 @@ class TiposComponent extends Component
         $tipo = TipoArticulo::find($id);
         $this->tipos_id = $tipo->id;
         $this->nombre = $tipo->nombre;
-        //$this->selectFormArticulos();
     }
 
     public function destroy($id)
@@ -134,7 +134,7 @@ class TiposComponent extends Component
                 'success',
                 'Tipo Eliminado.'
             );
-            //$this->limpiarArticulos();
+            $this->dispatch('listarSelect', tabla: 'tipos')->to(ArticulosComponent::class);
         }
 
         $this->limpiarTipos();

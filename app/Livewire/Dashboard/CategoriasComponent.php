@@ -128,6 +128,7 @@ class CategoriasComponent extends Component
         }
 
         $categoria->save();
+        $this->dispatch('listarSelect', tabla: 'categorias')->to(ArticulosComponent::class);
         $this->limpiarCategorias();
         $this->alert(
             'success',
@@ -193,7 +194,8 @@ class CategoriasComponent extends Component
                 'success',
                 'Categoria Eliminada.'
             );
-            //$this->limpiarArticulos();
+
+            $this->dispatch('listarSelect', tabla: 'categorias')->to(ArticulosComponent::class);
         }
 
         $this->limpiarCategorias();

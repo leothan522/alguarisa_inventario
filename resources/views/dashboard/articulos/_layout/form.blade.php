@@ -1,6 +1,6 @@
 <div class="row @if($view == 'form') d-block @else d-none @endif"  xmlns:wire="http://www.w3.org/1999/xhtml">
 
-    <form class="row col-md-12" wire:submit="saveArticulos">
+    <form class="row col-md-12" wire:submit="save">
 
         <div class="col-md-6">
 
@@ -22,8 +22,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-code"></i></span>
                             </div>
-                            <input type="text" class="form-control" wire:model="articulo_codigo" placeholder="alfanumérico">
-                            @error('articulo_codigo')
+                            <input type="text" class="form-control" wire:model="codigo" placeholder="alfanumérico">
+                            @error('codigo')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
                                 {{ $message }}
@@ -38,8 +38,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-box"></i></span>
                             </div>
-                            <input type="text" class="form-control" wire:model="articulo_descripcion" placeholder="Descripción corta del articulo">
-                            @error('articulo_descripcion')
+                            <input type="text" class="form-control" wire:model="descripcion" placeholder="Descripción corta del articulo">
+                            @error('descripcion')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
                                 {{ $message }}
@@ -51,14 +51,16 @@
                     <div class="form-group">
                         <label for="email">Tipo:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" id="div_select_articulos_tipos">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fas fa-object-ungroup"></i></span>
+                                    <span class="input-group-text">
+                                        <i class="fas fa-object-ungroup"></i>
+                                    </span>
                                 </div>
                                 <select id="select_articulos_tipos"></select>
                             </div>
                         </div>
-                        @error('articulo_tipos_id')
+                        @error('tipos_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
                                     <i class="icon fas fa-exclamation-triangle"></i>
                                     {{ $message }}
@@ -69,14 +71,14 @@
                     <div class="form-group">
                         <label for="email">Categoría:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" id="div_select_articulos_categorias">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-tags"></i></span>
                                 </div>
                                 <select id="select_articulos_categorias"></select>
                             </div>
                         </div>
-                        @error('articulo_categorias_id')
+                        @error('categorias_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
                                     <i class="icon fas fa-exclamation-triangle"></i>
                                     {{ $message }}
@@ -87,14 +89,14 @@
                     <div class="form-group">
                         <label for="email">Procedencia:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" id="div_select_articulos_procedencias">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-object-ungroup"></i></span>
                                 </div>
                                 <select id="select_articulos_procedencias"></select>
                             </div>
                         </div>
-                        @error('articulo_procedencias_id')
+                        @error('procedencias_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
                                     <i class="icon fas fa-exclamation-triangle"></i>
                                     {{ $message }}
@@ -105,14 +107,14 @@
                     <div class="form-group">
                         <label for="email">I.V.A.:</label>
                         <div wire:ignore>
-                            <div class="input-group mb-3">
+                            <div class="input-group mb-3" id="div_select_articulos_tributarios">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"><i class="fas fa-coins"></i></span>
                                 </div>
                                 <select id="select_articulos_tributarios"></select>
                             </div>
                         </div>
-                        @error('articulo_tributarios_id')
+                        @error('tributarios_id')
                         <span class="col-sm-12 text-sm text-bold text-danger">
                                     <i class="icon fas fa-exclamation-triangle"></i>
                                     {{ $message }}
@@ -145,8 +147,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fab fa-medium-m"></i></span>
                             </div>
-                            <input type="text" class="form-control" wire:model="articulo_marca" placeholder="Marca (Opcional)">
-                            @error('articulo_marca')
+                            <input type="text" class="form-control" wire:model="marca" placeholder="Marca (Opcional)">
+                            @error('marca')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
                                 {{ $message }}
@@ -161,8 +163,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-bookmark"></i></span>
                             </div>
-                            <input type="text" class="form-control" wire:model="articulo_modelo" placeholder="Modelo (Opcional)">
-                            @error('articulo_modelo')
+                            <input type="text" class="form-control" wire:model="modelo" placeholder="Modelo (Opcional)">
+                            @error('modelo')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
                                 {{ $message }}
@@ -177,8 +179,8 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="far fa-bookmark"></i></span>
                             </div>
-                            <input type="text" class="form-control" wire:model="articulo_referencia" placeholder="Referencia (Opcional)">
-                            @error('articulo_referencia')
+                            <input type="text" class="form-control" wire:model="referencia" placeholder="Referencia (Opcional)">
+                            @error('referencia')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                             <i class="icon fas fa-exclamation-triangle"></i>
                             {{ $message }}
@@ -190,8 +192,8 @@
                     <div class="form-group">
                         <label for="name">Información Adicional:</label>
                         <div class="input-group">
-                            <textarea class="form-control" wire:model="articulo_adicional" placeholder="Información Adicional (Opcional)"></textarea>
-                            @error('articulo_adicional')
+                            <textarea class="form-control" wire:model="adicional" placeholder="Información Adicional (Opcional)"></textarea>
+                            @error('adicional')
                             <span class="col-sm-12 text-sm text-bold text-danger">
                                 <i class="icon fas fa-exclamation-triangle"></i>
                                 {{ $message }}
@@ -207,8 +209,8 @@
 
         <div class="col-md-12">
             <div class="col-md-4 float-right">
-                <button type="submit" class="btn btn-block btn-success">
-                    <i class="fas fa-save"></i> Guardar
+                <button type="submit" class="btn btn-block @if(!$new_articulo) btn-primary @else btn-success @endif ">
+                    <i class="fas fa-save"></i> Guardar @if(!$new_articulo) cambios @endif
                 </button>
             </div>
         </div>

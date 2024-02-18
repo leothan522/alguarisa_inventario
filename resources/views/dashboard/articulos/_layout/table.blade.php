@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div class="card-body table-responsive p-0" style="height: 76vh;">
+    <div class="card-body table-responsive p-0" @if($tableStyle) style="height: 76vh;" @endif >
 
         <table class="table table-head-fixed table-hover text-nowrap sticky-top">
             <thead>
@@ -36,9 +36,9 @@
         <ul class="todo-list" data-widget="todo-list">
             @if($listarArticulos->isNotEmpty())
                 @foreach($listarArticulos as $articulo)
-                    <li class=" @if(!$articulo->estatus) done @endif @if($articulo->id == $articulo_id) text-warning @endif "" >
+                    <li class=" @if(!$articulo->estatus) done @endif @if($articulo->id == $articulos_id) text-warning @endif "" >
                     <!-- todo text -->
-                    <span class="text">
+                    <span class="text" >
                             {{ $articulo->codigo }}
                         </span>
                     <!-- Emphasis label -->
@@ -68,7 +68,7 @@
     </div>
 
     <div class="overlay-wrapper" wire:loading
-         wire:target="cerrarBusqueda, saveArticulos, destroy, confirmed">
+         wire:target="save, destroy, setLimit">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>
@@ -76,7 +76,7 @@
         </div>
     </div>
 
-    <div class="overlay-wrapper d-none cargar_buscar">
+    <div class="overlay-wrapper d-none cargar_articulos">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>

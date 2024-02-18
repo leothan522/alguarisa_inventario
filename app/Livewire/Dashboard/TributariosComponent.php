@@ -82,6 +82,7 @@ class TributariosComponent extends Component
         $tributario->taza = $this->tributario_nombre;
 
         $tributario->save();
+        $this->dispatch('listarSelect', tabla: 'tributarios')->to(ArticulosComponent::class);
         $this->limpiarTributarios();
         $this->alert(
             'success',
@@ -143,7 +144,7 @@ class TributariosComponent extends Component
                 'Taza Eliminada.'
             );
 
-            //$this->limpiarArticulos();
+            $this->dispatch('listarSelect', tabla: 'tributarios')->to(ArticulosComponent::class);
         }
 
         $this->limpiarTributarios();

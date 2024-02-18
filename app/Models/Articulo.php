@@ -26,6 +26,7 @@ class Articulo extends Model
         'adicional',
         'decimales',
         'estatus',
+        'empresas_id',
         'imagen',
         'mini',
         'detail',
@@ -98,6 +99,11 @@ class Articulo extends Model
     public function oferta(): HasMany
     {
         return $this->hasMany(Oferta::class, 'articulos_id', 'id');
+    }
+
+    public function empresa(): BelongsTo
+    {
+        return $this->belongsTo(Empresa::class, 'empresas_id', 'id');
     }
 
 

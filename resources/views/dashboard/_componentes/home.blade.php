@@ -21,6 +21,7 @@
 
 @section('content')
     {{--<p>Welcome to this beautiful admin panel.</p>--}}
+    @livewire('dashboard.mount-empresas-component')
     <div>
         @livewire('dashboard.articulos-component')
     </div>
@@ -74,21 +75,63 @@
             Livewire.dispatch('limpiarTipos');
         }
 
-        function imgPrincipal()
-        {
+        function imgPrincipal() {
             $('#customFileLang').click();
         }
 
-        /*$(document).ready(function () {
+        function verSpinnerOculto() {
+            $('.cargar_articulos').removeClass('d-none');
+        }
+
+        $(document).ready(function () {
             verSpinnerOculto();
             Livewire.dispatch('updatedEmpresaID');
-        });*/
+        });
+
+        function changeEmpresa() {
+            $('.cargar_articulos').removeClass('d-none');
+        }
+
+        function select_2(id, data, evento, icono = 'far fa-bookmark')
+        {
+            let html = '<div class="input-group-prepend">';
+            html += '<span class="input-group-text">';
+            html += '<i class="' + icono + '"></i>';
+            html += '</span>';
+            html += '</div>';
+            html += '<select id="' + id + '"></select>';
+            $('#div_' + id).html(html);
+
+            $('#' + id).select2({
+                theme: 'bootstrap4',
+                data: data,
+                placeholder: 'Seleccione'
+            });
+            $('#' + id).val(null).trigger('change');
+            $('#' + id).on('change', function () {
+                var val = $(this).val();
+                Livewire.dispatch(evento, {id: val});
+            });
+        }
+
+        function selectEditar(id, valor) {
+            $("#" + id).val(valor);
+            $("#" + id).trigger('change');
+        }
+
+        Livewire.on('selectFormArticulos', ({id, data, evento, icono }) => {
+            select_2(id, data, evento, icono);
+        });
+
+        Livewire.on('setSelectFormArticulos', ({id, valor}) => {
+            selectEditar(id, valor)
+        });
 
 
-        function buscar(){
+        function buscar() {
             let input = $("#navbarSearch");
-            let keyword  = input.val();
-            if (keyword.length > 0){
+            let keyword = input.val();
+            if (keyword.length > 0) {
                 input.blur();
                 alert('Falta vincular con el componente Livewire');
                 //Livewire.dispatch('buscar', { keyword: keyword });

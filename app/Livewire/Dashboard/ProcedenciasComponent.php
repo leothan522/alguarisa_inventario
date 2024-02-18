@@ -80,6 +80,7 @@ class ProcedenciasComponent extends Component
         $procedencia->nombre = $this->nombre;
 
         $procedencia->save();
+        $this->dispatch('listarSelect', tabla: 'procedencias')->to(ArticulosComponent::class);
         $this->limpiarProcedencias();
         $this->alert(
             'success',
@@ -95,7 +96,6 @@ class ProcedenciasComponent extends Component
         $this->procedencias_id = $procedencia->id;
         $this->codigo = $procedencia->codigo;
         $this->nombre = $procedencia->nombre;
-        //$this->selectFormArticulos();
     }
 
     public function destroy($id)
@@ -140,7 +140,7 @@ class ProcedenciasComponent extends Component
                 'success',
                 'Procedencia Eliminada.'
             );
-            //$this->limpiarArticulos();
+            $this->dispatch('listarSelect', tabla: 'procedencias')->to(ArticulosComponent::class);
         }
 
         $this->limpiarProcedencias();
