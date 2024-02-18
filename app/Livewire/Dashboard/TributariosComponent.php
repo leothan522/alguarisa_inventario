@@ -3,18 +3,18 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Articulo;
-use App\Models\Procedencia;
+use App\Models\Tributario;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class ProcedenciasComponent extends Component
+class TributariosComponent extends Component
 {
     use LivewireAlert;
 
     public $rows = 0;
-    public $procedencias_id, $codigo, $nombre, $keyword;
+    public $tributarios_id, $codigo, $tributario_nombre, $keyword;
 
     public function mount()
     {
@@ -23,15 +23,16 @@ class ProcedenciasComponent extends Component
 
     public function render()
     {
-        $procedencias = Procedencia::buscar($this->keyword)
+        $tributarios = Tributario::buscar($this->keyword)
             ->orderBy('codigo', 'ASC')
             ->limit($this->rows)
             ->get()
         ;
-        $rowsProcedencias = Procedencia::count();
-        return view('livewire.dashboard.procedencias-component')
-            ->with('listarProcedencias', $procedencias)
-            ->with('rowsProcedencias', $rowsProcedencias)
+        $rowsTributarios = Tributario::count();
+
+        return view('livewire.dashboard.tributarios-component')
+            ->with('listarTributarios', $tributarios)
+            ->with('rowsTributarios', $rowsTributarios)
             ;
     }
 
@@ -41,45 +42,46 @@ class ProcedenciasComponent extends Component
         $this->rows = $this->rows + $rows;
     }
 
-    #[On('limpiarProcedencias')]
-    public function limpiarProcedencias()
+    #[On('limpiarTributarios')]
+    public function limpiarTributarios()
     {
         $this->reset([
-            'procedencias_id', 'codigo', 'nombre', 'keyword'
+            'tributarios_id', 'codigo', 'tributario_nombre', 'keyword'
         ]);
     }
 
     public function save()
     {
         $rules = [
-            'codigo'       =>  ['required', 'min:2', 'max:6', 'alpha_num:ascii', Rule::unique('procedencias', 'codigo')->ignore($this->procedencias_id)],
-            'nombre'    =>  'required|min:4',
+            'codigo'       =>  ['required', 'min:2', 'max:8', 'alpha_num:ascii', Rule::unique('tributarios', 'codigo')->ignore($this->tributarios_id)],
+            'tributario_nombre'    =>  'required|numeric|between:0,100',
         ];
         $messages = [
             'codigo.required' => 'El codigo es obligatorio.',
             'codigo.min' => 'El codigo debe contener al menos 6 caracteres.',
             'codigo.max' => 'El codigo no debe ser mayor que 8 caracteres.',
             'codigo.alpha_num' => ' El codigo sólo debe contener letras y números.',
-            'nombre.required' => 'El nombre es obligatorio.',
-            'nombre.min' => 'El nombre debe contener al menos 4 caracteres.'
+            'tributario_nombre.required' => 'La taza es obligatorio.',
+            'tributario_nombre.numeric' => 'La taza debe ser numérico. ',
+            'tributario_nombre.between' => 'La taza tiene que estar entre 0 - 100.',
         ];
 
         $this->validate($rules, $messages);
         $message = null;
-        if (is_null($this->procedencias_id)){
+        if (is_null($this->tributarios_id)){
             //nuevo
-            $procedencia = new Procedencia();
-            $message = "Procedencia Creada.";
+            $tributario = new Tributario();
+            $message = "Taza Creada.";
         }else{
             //editar
-            $procedencia = Procedencia::find($this->procedencias_id);
-            $message = "Procedencia Actualizada.";
+            $tributario = Tributario::find($this->tributarios_id);
+            $message = "Taza Actualizada.";
         }
-        $procedencia->codigo = $this->codigo;
-        $procedencia->nombre = $this->nombre;
+        $tributario->codigo = $this->codigo;
+        $tributario->taza = $this->tributario_nombre;
 
-        $procedencia->save();
-        $this->limpiarProcedencias();
+        $tributario->save();
+        $this->limpiarTributarios();
         $this->alert(
             'success',
             $message
@@ -90,16 +92,16 @@ class ProcedenciasComponent extends Component
 
     public function edit($id)
     {
-        $procedencia = Procedencia::find($id);
-        $this->procedencias_id = $procedencia->id;
-        $this->codigo = $procedencia->codigo;
-        $this->nombre = $procedencia->nombre;
+        $tributario = Tributario::find($id);
+        $this->tributarios_id = $tributario->id;
+        $this->codigo = $tributario->codigo;
+        $this->tributario_nombre = $tributario->taza;
         //$this->selectFormArticulos();
     }
 
     public function destroy($id)
     {
-        $this->procedencias_id = $id;
+        $this->tributarios_id = $id;
         $this->confirm('¿Estas seguro?', [
             'toast' => false,
             'position' => 'center',
@@ -107,18 +109,18 @@ class ProcedenciasComponent extends Component
             'confirmButtonText' =>  '¡Sí, bórralo!',
             'text' =>  '¡No podrás revertir esto!',
             'cancelButtonText' => 'No',
-            'onConfirmed' => 'confirmedProcedencias',
+            'onConfirmed' => 'confirmedTributarios',
         ]);
     }
 
-    #[On('confirmedProcedencias')]
-    public function confirmedProcedencias()
+    #[On('confirmedTributarios')]
+    public function confirmedTributarios()
     {
-        $procedencia = Procedencia::find($this->procedencias_id);
+        $tributario = Tributario::find($this->tributarios_id);
 
         //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
         $vinculado = false;
-        $articulo = Articulo::where('procedencias_id', $procedencia->id)->first();
+        $articulo = Articulo::where('tributarios_id', $tributario->id)->first();
         if ($articulo){
             $vinculado = true;
         }
@@ -134,15 +136,16 @@ class ProcedenciasComponent extends Component
                 'confirmButtonText' => 'OK',
             ]);
         } else {
-            $procedencia->delete();
+            $tributario->delete();
             $this->alert(
                 'success',
-                'Procedencia Eliminada.'
+                'Taza Eliminada.'
             );
+
             //$this->limpiarArticulos();
         }
 
-        $this->limpiarProcedencias();
+        $this->limpiarTributarios();
     }
 
     public function buscar()

@@ -25,6 +25,7 @@
         @livewire('dashboard.categorias-component')
         @livewire('dashboard.unidades-component')
         @livewire('dashboard.procedencias-component')
+        @livewire('dashboard.tributarios-component')
     </div>
 
 @stop
@@ -59,6 +60,10 @@
 
         function verProcedencias() {
             Livewire.dispatch('limpiarProcedencias');
+        }
+
+        function verTributarios() {
+            Livewire.dispatch('limpiarTributarios');
         }
 
         /*$(document).ready(function () {
