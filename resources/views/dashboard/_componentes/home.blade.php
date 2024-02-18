@@ -24,6 +24,7 @@
     <div class="row">
         @livewire('dashboard.categorias-component')
         @livewire('dashboard.unidades-component')
+        @livewire('dashboard.procedencias-component')
     </div>
 
 @stop
@@ -54,6 +55,10 @@
 
         function verUnidades() {
             Livewire.dispatch('limpiarUnidades');
+        }
+
+        function verProcedencias() {
+            Livewire.dispatch('limpiarProcedencias');
         }
 
         /*$(document).ready(function () {
