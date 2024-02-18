@@ -21,6 +21,9 @@
 
 @section('content')
     {{--<p>Welcome to this beautiful admin panel.</p>--}}
+    <div>
+        @livewire('dashboard.articulos-component')
+    </div>
     <div class="row">
         @livewire('dashboard.categorias-component')
         @livewire('dashboard.unidades-component')
@@ -69,6 +72,11 @@
 
         function verTipos() {
             Livewire.dispatch('limpiarTipos');
+        }
+
+        function imgPrincipal()
+        {
+            $('#customFileLang').click();
         }
 
         /*$(document).ready(function () {

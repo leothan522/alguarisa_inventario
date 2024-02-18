@@ -21,7 +21,7 @@
 @endsection
 
 @section('content')
-    @livewire('dashboard.articulos-component')
+    @livewire('dashboard.articulos-old-component')
 @endsection
 
 @section('right-sidebar')

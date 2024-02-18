@@ -11,7 +11,7 @@
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" wire:click="setLimit">
+            <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsAlmacenes) disabled @endif>
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
         </div>
@@ -56,5 +56,8 @@
 
             </tbody>
         </table>
+    </div>
+    <div class="card-footer">
+        <small>Mostrando {{ $listarAlmacenes->count() }}</small>
     </div>
 </div>

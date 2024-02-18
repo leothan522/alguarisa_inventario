@@ -1,4 +1,4 @@
 <div>
-    {{-- The whole world belongs to you. --}}
-    @include('dashboard.articulos.content')
+    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+    @include('dashboard.articulos._layout.content')
 </div>

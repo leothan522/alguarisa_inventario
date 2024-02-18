@@ -67,11 +67,7 @@ class AjustesComponent extends Component
 
     public function setLimit()
     {
-        if (numRowsPaginate() < 10) {
-            $rows = 10;
-        } else {
-            $rows = numRowsPaginate();
-        }
+        if (numRowsPaginate() < 14) { $rows = 14; } else { $rows = numRowsPaginate(); }
         $this->rows = $this->rows + $rows;
     }
 
