@@ -48,6 +48,7 @@ class TributariosComponent extends Component
         $this->reset([
             'tributarios_id', 'codigo', 'tributario_nombre', 'keyword'
         ]);
+        $this->resetErrorBag();
     }
 
     public function save()

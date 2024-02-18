@@ -3,15 +3,14 @@
         <h3 class="card-title">
             @if($keyword)
                 Resultados de la Busqueda { <b class="text-warning">{{ $keyword }}</b> }
-                <button class="btn btn-tool text-warning" wire:click="limpiarTributarios"><i class="fas fa-times-circle"></i>
-                </button>
+                <button class="btn btn-tool text-warning" wire:click="limpiarTipos"><i class="fas fa-times-circle"></i></button>
             @else
-                Impuestos Registrados [ <b class="text-warning">{{ $rowsTributarios }}</b> ]
+                Tipos Registrados [ <b class="text-warning">{{ $rowsTipos }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsTributarios) disabled @endif >
+            <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsTipos) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
         </div>
@@ -20,26 +19,24 @@
         <table class="table table-sm table-head-fixed table-hover text-nowrap">
             <thead>
             <tr class="text-navy">
-                <th style="width: 20%">Codigo</th>
-                <th class="text-center">Taza (%)</th>
+                <th>Nombre</th>
                 <th style="width: 5%;">&nbsp;</th>
             </tr>
             </thead>
             <tbody>
-            @if($listarTributarios->isNotEmpty())
-                @foreach($listarTributarios as $tributario)
+            @if($listarTipos->isNotEmpty())
+                @foreach($listarTipos as $tipo)
                     <tr>
-                        <td>{{ $tributario->codigo }}</td>
-                        <td class="text-center">{{ formatoMillares($tributario->taza) }} <i class="fas fa-percentage"></i></td>
+                        <td>{{ $tipo->nombre }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">
-                                <button wire:click="edit({{ $tributario->id }})" class="btn btn-primary btn-sm"
-                                @if(!comprobarPermisos('tributarios.edit')) disabled @endif >
+                                <button wire:click="edit({{ $tipo->id }})" class="btn btn-primary btn-sm"
+                                @if(!comprobarPermisos('tipos.edit')) disabled @endif >
                                     <i class="fas fa-edit"></i>
                                 </button>
 
-                                <button wire:click="destroy({{ $tributario->id }})" class="btn btn-primary btn-sm"
-                                @if(!comprobarPermisos('tributarios.destroy')) disabled @endif >
+                                <button wire:click="destroy({{ $tipo->id }})" class="btn btn-primary btn-sm"
+                                @if(!comprobarPermisos('tipos.destroy')) disabled @endif >
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>
@@ -48,11 +45,11 @@
                 @endforeach
                 @else
                 <tr class="text-center">
-                    <td colspan="3">
+                    <td colspan="2">
                         @if($keyword)
                             <span>Sin resultados.</span>
                         @else
-                            <span>Aún se se ha creado un Impuesto.</span>
+                            <span>Aún se se ha creado un Tipo.</span>
                         @endif
                     </td>
                 </tr>
@@ -62,6 +59,6 @@
         </table>
     </div>
     <div class="card-footer">
-        <small>Mostrando {{ $listarTributarios->count() }}</small>
+        <small>Mostrando {{ $listarTipos->count() }}</small>
     </div>
 </div>

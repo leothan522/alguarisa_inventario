@@ -26,6 +26,7 @@
         @livewire('dashboard.unidades-component')
         @livewire('dashboard.procedencias-component')
         @livewire('dashboard.tributarios-component')
+        @livewire('dashboard.tipos-component')
     </div>
 
 @stop
@@ -64,6 +65,10 @@
 
         function verTributarios() {
             Livewire.dispatch('limpiarTributarios');
+        }
+
+        function verTipos() {
+            Livewire.dispatch('limpiarTipos');
         }
 
         /*$(document).ready(function () {

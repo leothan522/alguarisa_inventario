@@ -3,18 +3,18 @@
 namespace App\Livewire\Dashboard;
 
 use App\Models\Articulo;
-use App\Models\Procedencia;
+use App\Models\TipoArticulo;
 use Illuminate\Validation\Rule;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class ProcedenciasComponent extends Component
+class TiposComponent extends Component
 {
     use LivewireAlert;
 
     public $rows = 0;
-    public $procedencias_id, $codigo, $nombre, $keyword;
+    public $tipos_id, $nombre, $keyword;
 
     public function mount()
     {
@@ -23,15 +23,14 @@ class ProcedenciasComponent extends Component
 
     public function render()
     {
-        $procedencias = Procedencia::buscar($this->keyword)
-            ->orderBy('codigo', 'ASC')
+        $tipos = TipoArticulo::buscar($this->keyword)
             ->limit($this->rows)
             ->get()
         ;
-        $rowsProcedencias = Procedencia::count();
-        return view('livewire.dashboard.procedencias-component')
-            ->with('listarProcedencias', $procedencias)
-            ->with('rowsProcedencias', $rowsProcedencias)
+        $rowsTipos = TipoArticulo::count();
+        return view('livewire.dashboard.tipos-component')
+            ->with('listarTipos', $tipos)
+            ->with('rowsTipos', $rowsTipos)
             ;
     }
 
@@ -41,11 +40,11 @@ class ProcedenciasComponent extends Component
         $this->rows = $this->rows + $rows;
     }
 
-    #[On('limpiarProcedencias')]
-    public function limpiarProcedencias()
+    #[On('limpiarTipos')]
+    public function limpiarTipos()
     {
         $this->reset([
-            'procedencias_id', 'codigo', 'nombre', 'keyword'
+            'tipos_id', 'nombre', 'keyword'
         ]);
         $this->resetErrorBag();
     }
@@ -53,34 +52,30 @@ class ProcedenciasComponent extends Component
     public function save()
     {
         $rules = [
-            'codigo'       =>  ['required', 'min:2', 'max:6', 'alpha_num:ascii', Rule::unique('procedencias', 'codigo')->ignore($this->procedencias_id)],
-            'nombre'    =>  'required|min:4',
+            'nombre'       =>  ['required', 'min:4', 'max:10', 'alpha_num:ascii', Rule::unique('articulos_tipo', 'nombre')->ignore($this->tipos_id)],
         ];
         $messages = [
-            'codigo.required' => 'El codigo es obligatorio.',
-            'codigo.min' => 'El codigo debe contener al menos 6 caracteres.',
-            'codigo.max' => 'El codigo no debe ser mayor que 8 caracteres.',
-            'codigo.alpha_num' => ' El codigo sólo debe contener letras y números.',
-            'nombre.required' => 'El nombre es obligatorio.',
-            'nombre.min' => 'El nombre debe contener al menos 4 caracteres.'
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'nombre.min' => 'El campo nombre debe contener al menos 4 caracteres.',
+            'nombre.max' => 'El campo codigo no debe ser mayor que 10 caracteres.',
+            'nombre.alpha_num' => ' El campo nombre sólo debe contener letras y números.'
         ];
 
         $this->validate($rules, $messages);
         $message = null;
-        if (is_null($this->procedencias_id)){
+        if (is_null($this->tipos_id)){
             //nuevo
-            $procedencia = new Procedencia();
-            $message = "Procedencia Creada.";
+            $tipo = new TipoArticulo();
+            $message = "Tipo Creado.";
         }else{
             //editar
-            $procedencia = Procedencia::find($this->procedencias_id);
-            $message = "Procedencia Actualizada.";
+            $tipo = TipoArticulo::find($this->tipos_id);
+            $message = "Tipo Actualizado.";
         }
-        $procedencia->codigo = $this->codigo;
-        $procedencia->nombre = $this->nombre;
+        $tipo->nombre = $this->nombre;
 
-        $procedencia->save();
-        $this->limpiarProcedencias();
+        $tipo->save();
+        $this->limpiarTipos();
         $this->alert(
             'success',
             $message
@@ -91,16 +86,15 @@ class ProcedenciasComponent extends Component
 
     public function edit($id)
     {
-        $procedencia = Procedencia::find($id);
-        $this->procedencias_id = $procedencia->id;
-        $this->codigo = $procedencia->codigo;
-        $this->nombre = $procedencia->nombre;
+        $tipo = TipoArticulo::find($id);
+        $this->tipos_id = $tipo->id;
+        $this->nombre = $tipo->nombre;
         //$this->selectFormArticulos();
     }
 
     public function destroy($id)
     {
-        $this->procedencias_id = $id;
+        $this->tipos_id = $id;
         $this->confirm('¿Estas seguro?', [
             'toast' => false,
             'position' => 'center',
@@ -108,18 +102,18 @@ class ProcedenciasComponent extends Component
             'confirmButtonText' =>  '¡Sí, bórralo!',
             'text' =>  '¡No podrás revertir esto!',
             'cancelButtonText' => 'No',
-            'onConfirmed' => 'confirmedProcedencias',
+            'onConfirmed' => 'confirmedTipos',
         ]);
     }
 
-    #[On('confirmedProcedencias')]
-    public function confirmedProcedencias()
+    #[On('confirmedTipos')]
+    public function confirmedTipos()
     {
-        $procedencia = Procedencia::find($this->procedencias_id);
+        $tipo = TipoArticulo::find($this->tipos_id);
 
         //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
         $vinculado = false;
-        $articulo = Articulo::where('procedencias_id', $procedencia->id)->first();
+        $articulo = Articulo::where('tipos_id', $tipo->id)->first();
         if ($articulo){
             $vinculado = true;
         }
@@ -135,15 +129,15 @@ class ProcedenciasComponent extends Component
                 'confirmButtonText' => 'OK',
             ]);
         } else {
-            $procedencia->delete();
+            $tipo->delete();
             $this->alert(
                 'success',
-                'Procedencia Eliminada.'
+                'Tipo Eliminado.'
             );
             //$this->limpiarArticulos();
         }
 
-        $this->limpiarProcedencias();
+        $this->limpiarTipos();
     }
 
     public function buscar()
