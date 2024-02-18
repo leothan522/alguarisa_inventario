@@ -134,6 +134,17 @@
             input.click();
         }
 
+        function verArticulosUnidad()
+        {
+            $('.cargar_ArtUnd').removeClass('d-none');
+        }
+
+        Livewire.on('clickBtnUnidad', () => {
+            setTimeout(function () {
+                $('#button_card_view_unidad').click();
+            }, 500);
+        });
+
 
         function buscar() {
             let input = $("#navbarSearch");

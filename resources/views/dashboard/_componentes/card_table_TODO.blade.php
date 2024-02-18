@@ -59,7 +59,6 @@
                     @endif
                 </li>
             @endif
-            @endif
 
         </ul>
         <!-- /.TO DO List -->

@@ -176,7 +176,7 @@ class ArticulosComponent extends Component
         $this->reset('keyword');
         $this->showArticulos($articulo->id);
         if ($unidad) {
-            //$this->btnUnidad();
+            $this->dispatch('clickBtnUnidad');
         }
 
         if ($categ) {
@@ -410,10 +410,22 @@ class ArticulosComponent extends Component
 
     public function btnImagen()
     {
-        $this->dispatch('getArticuloImagenes', articuloID: $this->articulos_id);
+        $this->dispatch('getArticuloImagenes', articuloID: $this->articulos_id)->to(ArticulosImagenesComponent::class);
         $this->imagen = true;
         $this->cancelar = true;
     }
+
+    public function btnUnidad()
+    {
+        $this->dispatch('getArticuloUnidades', articuloID: $this->articulos_id)->to(ArticulosUnidadesComponent::class);
+    }
+
+    #[On('clickBtnUnidad')]
+    public function clickBtnUnidad()
+    {
+        //JS
+    }
+
 
 
 }

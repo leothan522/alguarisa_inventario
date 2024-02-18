@@ -43,6 +43,9 @@
         <div class="row @if($imagen) d-block @else d-none @endif">
             @livewire('dashboard.articulos-imagenes-component')
         </div>
+        <div>
+            @livewire('dashboard.articulos-unidades-component')
+        </div>
 
         {{--@include('dashboard.articulos.view_show')
         @include('dashboard.articulos.view_form')
@@ -56,7 +59,8 @@
 
     <div class="card-footer text-center @if(!$footer) d-none @endif">
 
-        <button type="button" class="btn btn-default btn-sm" wire:click="btnUnidad"
+        <button type="button" class="btn btn-default btn-sm" wire:click="btnUnidad" onclick="verArticulosUnidad()"
+        data-toggle="modal" data-target="#modal-sm-articulos-unidades" id="button_card_view_unidad"
                 @if(!$estatus) disabled @endif>
             <i class="fas fa-weight-hanging"></i> Unidad
         </button>
