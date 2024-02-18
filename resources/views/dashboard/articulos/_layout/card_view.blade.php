@@ -40,6 +40,10 @@
                 Debes seleccionar un Articulo ó Precionar el boton Nuevo para empezar...
             </div>
         @endif
+        <div class="row @if($imagen) d-block @else d-none @endif">
+            @livewire('dashboard.articulos-imagenes-component')
+        </div>
+
         {{--@include('dashboard.articulos.view_show')
         @include('dashboard.articulos.view_form')
         @include('dashboard.articulos.view_unidad')
@@ -94,9 +98,8 @@
     </div>
 
     <div class="overlay-wrapper" wire:loading
-         wire:target="limpiarArticulos, create, save, showArticulos, destroy, btnCancelar, btnEditar, btnActivoInactivo,
-         btnImagen, updatedPrincipalPhoto, saveImagen, btnBorrarImagen, btnBorrarGaleria,
-         updatedPhoto1, updatedPhoto2, updatedPhoto3, updatedPhoto4, updatedPhoto5, updatedPhoto6">
+         wire:target="limpiarArticulos, create, save, showArticulos, destroy, btnCancelar, btnEditar,
+         btnActivoInactivo, btnImagen">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>

@@ -75,10 +75,6 @@
             Livewire.dispatch('limpiarTipos');
         }
 
-        function imgPrincipal() {
-            $('#customFileLang').click();
-        }
-
         function verSpinnerOculto() {
             $('.cargar_articulos').removeClass('d-none');
         }
@@ -126,6 +122,17 @@
         Livewire.on('setSelectFormArticulos', ({id, valor}) => {
             selectEditar(id, valor)
         });
+
+        function imgPrincipal()
+        {
+            $('#customFileLang').click();
+        }
+
+        function imgGaleria(i)
+        {
+            let input = document.getElementById('img_Galeria_' + i);
+            input.click();
+        }
 
 
         function buscar() {

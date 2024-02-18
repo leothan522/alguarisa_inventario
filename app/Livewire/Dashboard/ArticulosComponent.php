@@ -24,6 +24,7 @@ class ArticulosComponent extends Component
         $marca, $modelo, $referencia, $adicional, $decimales, $estatus;
     public $tipo, $categoria, $categorias_code, $procedencia, $procedencias_code, $tributario, $fecha,
         $unidad, $unidades_code;
+    public $imagen = false;
 
     public function mount()
     {
@@ -89,7 +90,7 @@ class ArticulosComponent extends Component
             'referencia', 'adicional', 'decimales', 'estatus', 'fecha',
             'tipos_id', 'categorias_id', 'procedencias_id', 'tributarios_id',
             'categorias_code', 'procedencias_code',
-            'unidades_code', 'nuevo', 'cancelar', 'footer', 'new_articulo',
+            'unidades_code', 'nuevo', 'cancelar', 'footer', 'new_articulo', 'imagen'
         ]);
     }
 
@@ -302,6 +303,7 @@ class ArticulosComponent extends Component
         $this->edit = false;
         $this->cancelar = true;
         $this->footer = false;
+        $this->imagen = false;
         //$this->selectFormArticulos(true);
         $this->listarSelect('tipos');
         $this->listarSelect('categorias');
@@ -311,6 +313,7 @@ class ArticulosComponent extends Component
 
     public function btnActivoInactivo()
     {
+        $this->imagen = false;
         $articulo = Articulo::find($this->articulos_id);
         if ($this->estatus){
             $articulo->estatus = 0;
@@ -403,6 +406,13 @@ class ArticulosComponent extends Component
     public function setSelectFormArticulos($id, $valor)
     {
         //JS
+    }
+
+    public function btnImagen()
+    {
+        $this->dispatch('getArticuloImagenes', articuloID: $this->articulos_id);
+        $this->imagen = true;
+        $this->cancelar = true;
     }
 
 
