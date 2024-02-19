@@ -45,6 +45,7 @@
         </div>
         <div>
             @livewire('dashboard.articulos-unidades-component')
+            @livewire('dashboard.articulos-precios-component')
         </div>
 
         {{--@include('dashboard.articulos.view_show')
@@ -66,6 +67,7 @@
         </button>
 
         <button type="button" class="btn btn-default btn-sm" wire:click="btnPrecios"
+        data-toggle="modal" data-target="#modal-sm-articulos-precios"
                 @if(!$estatus) disabled @endif>
             <i class="fas fa-money-bill-wave"></i> Precios
         </button>
