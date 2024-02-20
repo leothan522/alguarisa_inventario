@@ -31,19 +31,25 @@
                                     <td>{{ $precio->moneda }}</td>
                                     <td>{{ formatoMillares($precio->precio, 2) }}</td>
                                     <td class="text-right">
-                                        <button class="btn btn-sm text-danger m-0" wire:click="edit({{ $precio->id }})">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm text-danger m-0" wire:click="destroy({{ $precio->id }})">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        @if($precios_id == $precio->id)
+                                            <button class="btn btn-sm text-primary m-0" wire:click="limpiarPrecios">
+                                                <i class="fas fa-undo"></i>
+                                            </button>
+                                        @else
+                                            <button class="btn btn-sm text-danger m-0" wire:click="edit({{ $precio->id }})">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn btn-sm text-danger m-0" wire:click="destroy({{ $precio->id }})">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
                             <tr>
                                 <td colspan="4" class="text-center text-danger">
-                                    Sin registros guardados.
+                                    No se ha establecido ningun Precio.
                                 </td>
                             </tr>
                         @endif
@@ -60,7 +66,7 @@
                             <td>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="custom-select custom-select-sm" wire:model="unidades_id">
+                                        <select class="custom-select custom-select-sm @error("unidades_id") is-invalid @enderror" wire:model="unidades_id" id="precios_select_unidades">
                                             <option value="">Seleccione</option>
                                             @foreach($listarUnidades as $unidad)
                                                 @if($unidad->ver)
@@ -69,47 +75,29 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error("unidades_id")
-                                        <span class="col-sm-12 text-sm text-bold text-danger">
-                                            <i class="icon fas fa-exclamation-triangle"></i>
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="custom-select custom-select-sm" wire:model="moneda">
+                                        <select class="custom-select custom-select-sm @error("moneda") is-invalid @enderror" wire:model="moneda">
                                             <option value="">Seleccione</option>
                                             <option value="Bolivares">Bolivares</option>
                                             <option value="Dolares">Dolares</option>
                                         </select>
                                     </div>
-                                    @error("moneda")
-                                        <span class="col-sm-12 text-sm text-bold text-danger">
-                                            <i class="icon fas fa-exclamation-triangle"></i>
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                             </td>
                             <td>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" class="form-control form-control-sm" wire:model="precio" placeholder="precio">
+                                        <input type="text" class="form-control form-control-sm @error("precio") is-invalid @enderror" wire:model="precio" placeholder="precio">
                                     </div>
-                                    @error("precio")
-                                        <span class="col-sm-12 text-sm text-bold text-danger">
-                                            <i class="icon fas fa-exclamation-triangle"></i>
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                             </td>
                             <td style="width: 5%;">
-                                <button type="submit" class="btn btn-success  btn-sm"
-                                        @if(!comprobarPermisos('precios.unidades')) disabled @endif >
+                                <button type="submit" class="btn @if($precios_id) btn-primary @else btn-success @endif btn-sm"
+                                        @if(!comprobarPermisos('articulos.precios')) disabled @endif >
                                     <i class="fas fa-save"></i>
                                 </button>
                             </td>

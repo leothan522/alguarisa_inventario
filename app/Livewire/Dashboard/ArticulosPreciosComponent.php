@@ -26,12 +26,14 @@ class ArticulosPreciosComponent extends Component
                 ->where('unidades_id', $unidad->id)
                 ->where('empresas_id', $this->empresas_id)
                 ->first();
-            if ($exite && !$this->precios_id) {
+            if ($exite && $exite->id != $this->precios_id) {
                 $unidad->ver = false;
             }
         });
 
-        $precios = Precio::orderBy('updated_at', 'ASC')->get();
+        $precios = Precio::where('articulos_id', $this->articulos_id)
+            ->where('empresas_id', $this->empresas_id)
+            ->get();
         return view('livewire.dashboard.articulos-precios-component')
             ->with('listarUnidades', $unidades)
             ->with('listarPrecios', $precios)
@@ -54,8 +56,20 @@ class ArticulosPreciosComponent extends Component
         ]);
     }
 
+    public function rules()
+    {
+        return [
+            'empresas_id' => 'required',
+            'moneda' => 'required',
+            'precio' => 'required|numeric|gte:0',
+            'unidades_id' => 'required',
+        ];
+    }
+
     public function save()
     {
+        $this->validate();
+
         if ($this->precios_id){
             $precio = Precio::find($this->precios_id);
         }else{
@@ -78,6 +92,7 @@ class ArticulosPreciosComponent extends Component
         $this->unidades_id = $precio->unidades_id;
         $this->moneda = $precio->moneda;
         $this->precio = $precio->precio;
+        $this->dispatch('setUnidad', id: $this->unidades_id);
     }
 
     public function destroy($id)
@@ -112,5 +127,11 @@ class ArticulosPreciosComponent extends Component
             $this->limpiarPrecios();
             $this->alert('success', 'Precio Eliminado.');
         }
+    }
+
+    #[On('setUnidad')]
+    public function setUnidad()
+    {
+        //JS
     }
 }

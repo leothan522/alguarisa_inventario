@@ -14,7 +14,7 @@ class ArticulosUnidadesComponent extends Component
 {
     use LivewireAlert;
 
-    public $articulos_id, $primaria = false, $primaria_edit = false;
+    public $articulos_id, $primaria = false, $primaria_edit = false, $editar = false;
     public $primaria_code, $primaria_id, $primaria_nombre, $unidades_id;
 
     public function render()
@@ -22,7 +22,7 @@ class ArticulosUnidadesComponent extends Component
         $unidades = Unidad::orderBy('codigo', 'ASC')->get();
         $unidades->each(function ($unidad) {
             $unidad->ver = true;
-            if ($unidad->id == $this->primaria_id && $this->primaria_id) {
+            if ($unidad->id == $this->primaria_id && !$this->editar) {
                 $unidad->ver = false;
             }
             $exite = ArtUnid::where('articulos_id', $this->articulos_id)->where('unidades_id', $unidad->id)->first();
@@ -48,8 +48,9 @@ class ArticulosUnidadesComponent extends Component
 
     public function limpiarUnidades()
     {
+        $this->resetErrorBag();
         $this->reset([
-            'primaria', 'primaria_id', 'primaria_code', 'primaria_nombre', 'unidades_id', 'primaria_edit'
+            'primaria', 'primaria_id', 'primaria_code', 'primaria_nombre', 'unidades_id', 'primaria_edit', 'editar'
         ]);
         $articulo = Articulo::find($this->articulos_id);
         if ($articulo->unidades_id) {
@@ -69,7 +70,9 @@ class ArticulosUnidadesComponent extends Component
 
     public function save()
     {
-        if (!$this->primaria || is_null($this->primaria_id)){
+        $rules = ['unidades_id' => 'required'];
+        $this->validate($rules);
+        if ($this->editar){
             $articulo = Articulo::find($this->articulos_id);
             $articulo->unidades_id = $this->unidades_id;
             $articulo->save();
@@ -86,7 +89,8 @@ class ArticulosUnidadesComponent extends Component
     public function edit()
     {
         $this->unidades_id = $this->primaria_id;
-        $this->primaria_id = null;
+        $this->editar = true;
+        $this->dispatch('setUnd', id: $this->unidades_id);
     }
 
     public function destroy($id)
@@ -120,6 +124,12 @@ class ArticulosUnidadesComponent extends Component
                 'Unidad Eliminada.'
             );
         }
+    }
+
+    #[On('setUnd')]
+    public function setUnd($id)
+    {
+        //JS
     }
 
 

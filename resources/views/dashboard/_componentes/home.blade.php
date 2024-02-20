@@ -145,6 +145,27 @@
             }, 500);
         });
 
+        Livewire.on('setUnd', ({ id }) => {
+            setTimeout(function () {
+                $('#unidades_select_unidad')
+                    .val(id)
+                    .trigger('change');
+            }, 500);
+        });
+
+        function verArticulosPrecios()
+        {
+            $('.cargar_precio').removeClass('d-none');
+        }
+
+        Livewire.on('setUnidad', ({ id }) => {
+            setTimeout(function () {
+                $('#precios_select_unidades')
+                    .val(id)
+                    .trigger('change');
+            }, 500);
+        });
+
 
         function buscar() {
             let input = $("#navbarSearch");

@@ -33,9 +33,15 @@
                                     </small>
                                 </td>
                                 <td class="text-right">
+                                    @if($primaria_id == $unidades_id)
+                                        <button class="btn btn-sm text-primary m-0" wire:click="limpiarUnidades">
+                                            <i class="fas fa-undo"></i>
+                                        </button>
+                                    @else
                                     <button class="btn btn-sm text-primary" wire:click="edit" @if(!$primaria_edit) disabled @endif >
                                         <i class="fas fa-edit"></i>
                                     </button>
+                                    @endif
                                 </td>
                             </tr>
                             @if($listarUnd->isNotEmpty())
@@ -73,7 +79,7 @@
                         <tr>
                             <td style="width: 10%;">
                                 <label>
-                                    @if(!$primaria_id)
+                                    @if(!$primaria_id || $editar)
                                         Primaria
                                     @else
                                         Secundaria:
@@ -83,7 +89,7 @@
                             <td>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="custom-select custom-select-sm" wire:model="unidades_id" required>
+                                        <select class="custom-select custom-select-sm @error("unidades_id") is-invalid @enderror" wire:model="unidades_id" id="unidades_select_unidad">
                                             <option value="">Seleccione</option>
                                             @foreach($listarUnidades as $unidad)
                                                 @if($unidad->ver)
@@ -92,16 +98,10 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('unidades_id')
-                                    <span class="col-sm-12 text-sm text-bold text-danger">
-                                            <i class="icon fas fa-exclamation-triangle"></i>
-                                            {{ $message }}
-                                        </span>
-                                    @enderror
                                 </div>
                             </td>
                             <td style="width: 5%;">
-                                <button type="submit" class="btn btn-success  btn-sm"
+                                <button type="submit" class="btn @if($editar) btn-primary @else btn-success @endif btn-sm"
                                         @if(!comprobarPermisos('articulos.unidades')) disabled @endif >
                                     <i class="fas fa-save"></i>
                                 </button>
