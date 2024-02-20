@@ -287,6 +287,17 @@ class ArticulosComponent extends Component
             $this->limpiarArticulos();
         }
     }
+    #[On('buscar')]
+    public function buscar($keyword)
+    {
+        $this->keyword = $keyword;
+    }
+
+    public function cerrarBusqueda()
+    {
+        $this->reset('keyword');
+        $this->limpiarArticulos();
+    }
 
     public function btnCancelar()
     {

@@ -3,8 +3,8 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados de la Búsqueda { <b class="text-danger">{{ $keyword }}</b> }
-                <button class="btn btn-tool text-danger" wire:click="cerrarBusqueda"><i class="fas fa-times-circle"></i>
+                Resultados de la Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
+                <button class="btn btn-tool text-warning" wire:click="cerrarBusqueda"><i class="fas fa-times-circle"></i>
                 </button>
             @else
                 Artículos Registrados [ <b class="text-warning">{{ $rowsArticulos }}</b> ]
