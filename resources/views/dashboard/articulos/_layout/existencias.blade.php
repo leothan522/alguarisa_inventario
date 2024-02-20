@@ -31,7 +31,7 @@
                                 </thead>
                                 <tbody>
                                 @php($i = 0)
-                                @if($listarStock)
+                                @if($listarStock->isNotEmpty())
                                     @foreach($listarStock as $stock)
                                         @php($i++)
                                         <tr>
@@ -53,6 +53,18 @@
                                             <th class="text-right">{{ formatoMillares($listarStock->sum('disponible'), 3) }}</th>
                                         </tr>
                                     @endif
+                                @else
+                                    @foreach($listarAlmacenes as $almacen)
+                                        @php($i++)
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $almacen->nombre }}</td>
+                                            <td>{{ $principal_code }}</td>
+                                            <td class="text-right">{{ formatoMillares(0, 0) }}</td>
+                                            <td class="text-right">{{ formatoMillares(0, 0) }}</td>
+                                            <td class="text-right">{{ formatoMillares(0, 0) }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endif
                                 </tbody>
                             </table>

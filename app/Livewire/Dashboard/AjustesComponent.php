@@ -329,7 +329,10 @@ class AjustesComponent extends Component
         foreach ($this->ajusteArticulo as $key => $value) {
             $array = array();
             if ($value) {
-                $articulo = Articulo::where('codigo', $value)->where('estatus', 1)->first();
+                $articulo = Articulo::where('codigo', $value)
+                    ->where('empresas_id', $this->empresas_id)
+                    ->where('estatus', 1)
+                    ->first();
                 if ($articulo && !empty($articulo->unidades_id)) {
                     $array[] = [
                         'id' => $articulo->unidades_id,
@@ -388,7 +391,11 @@ class AjustesComponent extends Component
 
     public function buscarAjustesArticulos()
     {
-        $this->ajusteListarArticulos = Articulo::buscar($this->keywordAjustesArticulos)->where('estatus', 1)->limit(100)->get();
+        $this->ajusteListarArticulos = Articulo::buscar($this->keywordAjustesArticulos)
+            ->where('empresas_id', $this->empresas_id)
+            ->where('estatus', 1)
+            ->limit(100)
+            ->get();
     }
 
     public function selectArticuloAjuste($codigo)

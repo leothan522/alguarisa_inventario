@@ -171,6 +171,7 @@ class ArticulosComponent extends Component
         $articulo->modelo = $this->modelo;
         $articulo->referencia = $this->referencia;
         $articulo->adicional = $this->adicional;
+        $articulo->empresas_id = $this->empresas_id;
 
         $articulo->save();
         $this->reset('keyword');

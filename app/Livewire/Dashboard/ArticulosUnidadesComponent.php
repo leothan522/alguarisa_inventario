@@ -72,7 +72,7 @@ class ArticulosUnidadesComponent extends Component
     {
         $rules = ['unidades_id' => 'required'];
         $this->validate($rules);
-        if ($this->editar){
+        if (!$this->primaria || $this->editar){
             $articulo = Articulo::find($this->articulos_id);
             $articulo->unidades_id = $this->unidades_id;
             $articulo->save();
