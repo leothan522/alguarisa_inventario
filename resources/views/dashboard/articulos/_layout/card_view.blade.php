@@ -43,6 +43,9 @@
         <div class="row @if($imagen) d-block @else d-none @endif">
             @livewire('dashboard.articulos-imagenes-component')
         </div>
+        <div class="row @if($existencias) d-block @else d-none @endif">
+            @livewire('dashboard.articulos-existencias-component')
+        </div>
         <div>
             @livewire('dashboard.articulos-unidades-component')
             @livewire('dashboard.articulos-precios-component')
@@ -107,7 +110,7 @@
 
     <div class="overlay-wrapper" wire:loading
          wire:target="limpiarArticulos, create, save, showArticulos, destroy, btnCancelar, btnEditar,
-         btnActivoInactivo, btnImagen">
+         btnActivoInactivo, btnImagen, btnExistencias">
         <div class="overlay">
             <div class="spinner-border text-navy" role="status">
                 <span class="sr-only">Loading...</span>

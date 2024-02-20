@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <div class="col-12 @if(!$imagen) d-block @else d-none @endif ">
+    <div class="col-12 @if(!$imagen && !$existencias) d-block @else d-none @endif ">
         <div class="card card-navy card-outline card-tabs">
             <div class="card-header p-0 pt-1 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">

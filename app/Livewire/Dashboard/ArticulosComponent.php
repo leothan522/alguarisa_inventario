@@ -24,7 +24,7 @@ class ArticulosComponent extends Component
         $marca, $modelo, $referencia, $adicional, $decimales, $estatus;
     public $tipo, $categoria, $categorias_code, $procedencia, $procedencias_code, $tributario, $fecha,
         $unidad, $unidades_code;
-    public $imagen = false;
+    public $imagen = false, $existencias = false;
 
     public function mount()
     {
@@ -90,7 +90,7 @@ class ArticulosComponent extends Component
             'referencia', 'adicional', 'decimales', 'estatus', 'fecha',
             'tipos_id', 'categorias_id', 'procedencias_id', 'tributarios_id',
             'categorias_code', 'procedencias_code',
-            'unidades_code', 'nuevo', 'cancelar', 'footer', 'new_articulo', 'imagen'
+            'unidades_code', 'nuevo', 'cancelar', 'footer', 'new_articulo', 'imagen', 'existencias'
         ]);
     }
 
@@ -304,6 +304,7 @@ class ArticulosComponent extends Component
         $this->cancelar = true;
         $this->footer = false;
         $this->imagen = false;
+        $this->existencias = false;
         //$this->selectFormArticulos(true);
         $this->listarSelect('tipos');
         $this->listarSelect('categorias');
@@ -314,6 +315,7 @@ class ArticulosComponent extends Component
     public function btnActivoInactivo()
     {
         $this->imagen = false;
+        $this->existencias = false;
         $articulo = Articulo::find($this->articulos_id);
         if ($this->estatus){
             $articulo->estatus = 0;
@@ -412,6 +414,7 @@ class ArticulosComponent extends Component
     {
         $this->dispatch('getArticuloImagenes', articuloID: $this->articulos_id)->to(ArticulosImagenesComponent::class);
         $this->imagen = true;
+        $this->existencias = false;
         $this->cancelar = true;
     }
 
@@ -434,6 +437,14 @@ class ArticulosComponent extends Component
     public function btnIdentificadores()
     {
         $this->dispatch('getArticuloIdentificadores', articuloID: $this->articulos_id)->to(ArticulosIdentificadoresComponent::class);
+    }
+
+    public function btnExistencias()
+    {
+        $this->dispatch('getArticuloExistencias', articuloID: $this->articulos_id)->to(ArticulosExistenciasComponent::class);
+        $this->existencias = true;
+        $this->imagen = false;
+        $this->cancelar = true;
     }
 
 
