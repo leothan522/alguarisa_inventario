@@ -50,6 +50,7 @@
             @livewire('dashboard.articulos-unidades-component')
             @livewire('dashboard.articulos-precios-component')
             @livewire('dashboard.articulos-identificadores-component')
+            @include('dashboard.articulos._layout.modal_reportes')
         </div>
 
         {{--@include('dashboard.articulos.view_show')
