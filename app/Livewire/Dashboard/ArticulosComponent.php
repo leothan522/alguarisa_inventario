@@ -431,6 +431,11 @@ class ArticulosComponent extends Component
         $this->dispatch('getArticuloPrecios', articuloID: $this->articulos_id)->to(ArticulosPreciosComponent::class);
     }
 
+    public function btnIdentificadores()
+    {
+        $this->dispatch('getArticuloIdentificadores', articuloID: $this->articulos_id)->to(ArticulosIdentificadoresComponent::class);
+    }
+
 
 
 }

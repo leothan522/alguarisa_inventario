@@ -1,10 +1,10 @@
-<div wire:ignore.self class="modal fade" id="modal-sm-articulos-precios" xmlns:wire="http://www.w3.org/1999/xhtml">
+<div wire:ignore.self class="modal fade" id="modal-sm-articulos-identificadores" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="modal-dialog modal-sm modal-dialog-centered">
         <div class="modal-content">
 
 
             <div class="modal-header bg-navy">
-                <h4 class="modal-title">Precios</h4>
+                <h4 class="modal-title">Identificadores</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span class="text-white" aria-hidden="true">&times;</span>
                 </button>
@@ -17,29 +17,27 @@
                     <table class="table table-sm table-head-fixed table-hover text-nowrap">
                         <thead>
                         <tr class="text-navy">
-                            <th style="width: 10%">Unidad</th>
-                            <th style="width: 10%">Moneda</th>
-                            <th class="text-right">Precio</th>
+                            <th>Serial</th>
+                            <th class="text-right" style="width: 10%">Cantidad</th>
                             <th style="width: 5%">&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @if($listarPrecios->isNotEmpty())
-                            @foreach($listarPrecios as $precio)
+                        @if($listarIdentificadores->isNotEmpty())
+                            @foreach($listarIdentificadores as $identificador)
                                 <tr>
-                                    <td>{{ $precio->unidad->codigo }}</td>
-                                    <td>{{ $precio->moneda }}</td>
-                                    <td class="text-right">{{ formatoMillares($precio->precio, 2) }}</td>
+                                    <td>{{ $identificador->serial }}</td>
+                                    <td class="text-right">{{ formatoMillares($identificador->cantidad, 3) }}</td>
                                     <td class="text-right">
-                                        @if($precios_id == $precio->id)
-                                            <button class="btn btn-sm text-primary m-0" wire:click="limpiarPrecios">
+                                        @if($identificadores_id == $identificador->id)
+                                            <button class="btn btn-sm text-primary m-0" wire:click="limpiarIdentificadores">
                                                 <i class="fas fa-undo"></i>
                                             </button>
                                         @else
-                                            <button class="btn btn-sm text-danger m-0" wire:click="edit({{ $precio->id }})">
+                                            <button class="btn btn-sm text-danger m-0" wire:click="edit({{ $identificador->id }})">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button class="btn btn-sm text-danger m-0" wire:click="destroy({{ $precio->id }})">
+                                            <button class="btn btn-sm text-danger m-0" wire:click="destroy({{ $identificador->id }})">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         @endif
@@ -48,8 +46,8 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="4" class="text-center text-danger">
-                                    No se ha establecido ningun Precio.
+                                <td colspan="3" class="text-center text-danger">
+                                    Sin registros guardados.
                                 </td>
                             </tr>
                         @endif
@@ -66,38 +64,20 @@
                             <td>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="custom-select custom-select-sm @error("unidades_id") is-invalid @enderror" wire:model="unidades_id" id="precios_select_unidades">
-                                            <option value="">Seleccione</option>
-                                            @foreach($listarUnidades as $unidad)
-                                                @if($unidad->ver)
-                                                    <option value="{{ $unidad->id }}">{{ $unidad->codigo }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="form-control form-control-sm @error("serial") is-invalid @enderror" wire:model="serial" placeholder="Serial">
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td style="width: 30%;">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <select class="custom-select custom-select-sm @error("moneda") is-invalid @enderror" wire:model="moneda">
-                                            <option value="">Seleccione</option>
-                                            <option value="Bolivares">Bolivares</option>
-                                            <option value="Dolares">Dolares</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control form-control-sm @error("precio") is-invalid @enderror" wire:model="precio" placeholder="precio">
+                                        <input type="text" class="form-control form-control-sm @error("cantidad") is-invalid @enderror" wire:model="cantidad" placeholder="Cantidad">
                                     </div>
                                 </div>
                             </td>
                             <td style="width: 5%;">
-                                <button type="submit" class="btn @if($precios_id) btn-primary @else btn-success @endif btn-sm"
-                                        @if(!comprobarPermisos('articulos.precios')) disabled @endif >
+                                <button type="submit" class="btn @if($identificadores_id) btn-primary @else btn-success @endif btn-sm"
+                                        @if(!comprobarPermisos('articulos.identificadores')) disabled @endif >
                                     <i class="fas fa-save"></i>
                                 </button>
                             </td>
@@ -116,7 +96,7 @@
 
             {!! verSpinner() !!}
 
-            <div class="overlay-wrapper d-none cargar_precio">
+            <div class="overlay-wrapper d-none cargar_indentificador">
                 <div class="overlay">
                     <div class="spinner-border text-navy" role="status">
                         <span class="sr-only">Loading...</span>

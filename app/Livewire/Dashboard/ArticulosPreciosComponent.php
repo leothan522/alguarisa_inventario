@@ -130,7 +130,7 @@ class ArticulosPreciosComponent extends Component
     }
 
     #[On('setUnidad')]
-    public function setUnidad()
+    public function setUnidad($id)
     {
         //JS
     }

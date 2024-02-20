@@ -46,6 +46,7 @@
         <div>
             @livewire('dashboard.articulos-unidades-component')
             @livewire('dashboard.articulos-precios-component')
+            @livewire('dashboard.articulos-identificadores-component')
         </div>
 
         {{--@include('dashboard.articulos.view_show')
@@ -61,18 +62,19 @@
     <div class="card-footer text-center @if(!$footer) d-none @endif">
 
         <button type="button" class="btn btn-default btn-sm" wire:click="btnUnidad" onclick="verArticulosUnidad()"
-        data-toggle="modal" data-target="#modal-sm-articulos-unidades" id="button_card_view_unidad"
+                data-toggle="modal" data-target="#modal-sm-articulos-unidades" id="button_card_view_unidad"
                 @if(!$estatus) disabled @endif>
             <i class="fas fa-weight-hanging"></i> Unidad
         </button>
 
         <button type="button" class="btn btn-default btn-sm" wire:click="btnPrecios" onclick="verArticulosPrecios()"
-        data-toggle="modal" data-target="#modal-sm-articulos-precios"
+                data-toggle="modal" data-target="#modal-sm-articulos-precios"
                 @if(!$estatus) disabled @endif>
             <i class="fas fa-money-bill-wave"></i> Precios
         </button>
 
-        <button type="button" class="btn btn-default btn-sm" wire:click="btnIdentificadores"
+        <button type="button" class="btn btn-default btn-sm" wire:click="btnIdentificadores" onclick="verArticulosIdentificadores()"
+                data-toggle="modal" data-target="#modal-sm-articulos-identificadores"
                 @if(!$estatus) disabled @endif>
             <i class="fas fa-barcode"></i> Identificadores
         </button>

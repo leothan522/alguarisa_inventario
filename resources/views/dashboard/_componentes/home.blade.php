@@ -166,6 +166,11 @@
             }, 500);
         });
 
+        function verArticulosIdentificadores()
+        {
+            $('.cargar_indentificador').removeClass('d-none');
+        }
+
 
         function buscar() {
             let input = $("#navbarSearch");
