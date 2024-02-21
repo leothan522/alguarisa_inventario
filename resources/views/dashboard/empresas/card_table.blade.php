@@ -5,9 +5,9 @@
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" wire:click="create" @if(!comprobarPermisos('empresas.create')) disabled @endif>
+            {{--<button type="button" class="btn btn-tool" wire:click="create" @if(!comprobarPermisos('empresas.create')) disabled @endif>
                 <i class="fas fa-file"></i> Nuevo
-            </button>
+            </button>--}}
         </div>
     </div>
     <div class="card-body table-responsive p-0" {{--style="height: 400px;"--}}>
@@ -25,7 +25,8 @@
                         <td>
                             <button type="button" class="btn @if($empresa_id == $tienda->id) text-bold @endif"
                                     wire:click="show({{ $tienda->id }})">
-                                 @if($tienda->default) <i class="fas fa-certificate text-muted text-xs"></i> @endif {{ $tienda->nombre }}
+                                @if($tienda->default) <i class="fas fa-certificate text-muted text-xs"></i> @endif
+                                     {{ mb_strtoupper($tienda->nombre) }}
                             </button>
                         </td>
                         <td class="justify-content-center pt-3" style="width: 5%;">

@@ -5,6 +5,11 @@
         </h3>
 
         <div class="card-tools">
+            @if($nuevo)
+                <button type="button" class="btn btn-tool" wire:click="create" @if(!comprobarPermisos('empresas.create')) disabled @endif>
+                    <i class="fas fa-file"></i> Nueva Tienda
+                </button>
+            @endif
             @if($btn_cancelar)
                 @if($empresa_id) @php($x = $empresa_id) @else @php($x = $empresa_default) @endif
                 <button type="button" class="btn btn-tool" wire:click="show({{ $x }})">

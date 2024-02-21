@@ -17,7 +17,7 @@ class EmpresasComponent extends Component
     use LivewireAlert;
     use WithFileUploads;
 
-    public $view = "show", $keyword, $title = "Datos de la Tienda", $btn_cancelar = false, $footer = true;
+    public $view = "show", $keyword, $title = "Datos de la Tienda", $btn_cancelar = false, $footer = true, $nuevo = true;
     public $empresa_id, $empresa_default, $verDefault, $verImagen, $img_borrar_principal, $img_principal;
     public $rif, $nombre, $jefe, $moneda, $telefonos, $email, $direccion, $photo, $default = 0, $permisos;
     public $horario, $horario_id, $lunes, $martes, $miercoles, $jueves, $viernes, $sabado, $domingo, $apertura, $cierre;
@@ -46,7 +46,7 @@ class EmpresasComponent extends Component
     public function limpiar()
     {
         $this->reset([
-            'view', 'title', 'btn_cancelar', 'footer', 'empresa_id', 'verDefault', 'verImagen', 'keyword',
+            'view', 'title', 'btn_cancelar', 'footer', 'empresa_id', 'verDefault', 'verImagen', 'keyword', 'nuevo',
             'rif', 'nombre', 'jefe', 'moneda', 'telefonos', 'email', 'direccion', 'photo', 'permisos', 'img_borrar_principal'
         ]);
     }
@@ -58,6 +58,7 @@ class EmpresasComponent extends Component
         $this->btn_cancelar = true;
         $this->view = "form";
         $this->footer = false;
+        $this->nuevo = false;
 
     }
 
@@ -113,13 +114,13 @@ class EmpresasComponent extends Component
             $almacen = true;
         }
 
-        $empresa->rif = strtoupper($this->rif);
-        $empresa->nombre = strtoupper($this->nombre);
-        $empresa->supervisor = strtoupper($this->jefe);
+        $empresa->rif = $this->rif;
+        $empresa->nombre = $this->nombre;
+        $empresa->supervisor = $this->jefe;
         $empresa->moneda = $this->moneda;
         $empresa->telefono = $this->telefonos;
-        $empresa->email = strtolower($this->email);
-        $empresa->direccion = strtoupper($this->direccion);
+        $empresa->email = $this->email;
+        $empresa->direccion = $this->direccion;
 
 
 

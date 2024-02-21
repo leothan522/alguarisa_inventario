@@ -19,7 +19,7 @@
                 <div class="card-body">
 
                     <h1 class="profile-username text-center text-bold">
-                        {{ $nombre }}
+                        {{ mb_strtoupper($nombre) }}
                     </h1>
 
                     <div class="input-group">
