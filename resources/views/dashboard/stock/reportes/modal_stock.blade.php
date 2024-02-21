@@ -1,4 +1,5 @@
-<div wire:ignore.self class="modal fade" id="modal-reportes-stock" xmlns:wire="http://www.w3.org/1999/xhtml">
+@if($empresas_id)
+    <div wire:ignore.self class="modal fade" id="modal-reportes-stock" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,3 +123,4 @@
         </div>
     </div>
 </div>
+@endif

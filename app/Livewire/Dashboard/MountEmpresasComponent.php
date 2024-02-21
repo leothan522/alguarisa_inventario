@@ -11,7 +11,7 @@ use Livewire\Component;
 class MountEmpresasComponent extends Component
 {
 
-    public $empresaID, $empresa, $listarEmpresas;
+    public $empresaID, $empresa, $listarEmpresas, $rows;
 
     public function mount()
     {
@@ -27,7 +27,7 @@ class MountEmpresasComponent extends Component
 
     public function getEmpresaDefault()
     {
-        if (comprobarPermisos(null)) {
+        if (auth()->user()->role == 100) {
             $empresa = Empresa::where('default', 1)->first();
             if ($empresa) {
                 $this->empresaID = $empresa->id;
@@ -47,14 +47,17 @@ class MountEmpresasComponent extends Component
     public function getEmpresas()
     {
         $empresas = Empresa::get();
-        $array = array();
-        foreach ($empresas as $empresa) {
-            $acceso = comprobarAccesoEmpresa($empresa->permisos, auth()->id());
-            if ($acceso) {
-                array_push($array, $empresa);
+        if ($empresas->isNotEmpty()) {
+            $array = array();
+            foreach ($empresas as $empresa) {
+                $acceso = comprobarAccesoEmpresa($empresa->permisos, auth()->id());
+                if ($acceso) {
+                    array_push($array, $empresa);
+                }
             }
+            $this->listarEmpresas = dataSelect2($array);
         }
-        $this->listarEmpresas = dataSelect2($array);
+        $this->rows = $empresas->count();
     }
 
     #[On('updatedEmpresaID')]
