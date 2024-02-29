@@ -35,7 +35,7 @@
                     @if(auth()->user()->role == 100)
                         <li class="list-group-item">
                             <b>empresas_id</b> <a
-                                    class="float-right">{{ $empresa_id }}</a>
+                                    class="float-right">{{ $empresas_id }}</a>
                         </li>
                     @endif
                     @if($verDefault)
@@ -90,7 +90,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12">
-                        @if(estatusTienda($empresa_id))
+                        @if(estatusTienda($empresas_id))
                             <div class="alert alert-success">
                                 <h5><i class="icon fas fa-check"></i> ¡Abierto!</h5>
                                 Hora actual: <strong>{{ date('h:i a') }}</strong>. Estatus: <strong> OPEN </strong>

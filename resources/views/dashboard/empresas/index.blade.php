@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0 text-dark"><i class="fas fa-store-alt"></i> Tiendas</h1>
+                <h1 class="m-0 text-dark"><i class="fas fa-store-alt"></i> Empresas</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     {{--<li class="breadcrumb-item"><a href="#">Home</a></li>--}}
-                    <li class="breadcrumb-item active">Tiendas Registradas</li>
+                    <li class="breadcrumb-item active">Empresas Registradas</li>
                 </ol>
             </div>
         </div>
@@ -37,6 +37,10 @@
 @section('js')
     <script src="{{ asset("js/app.js") }}"></script>
     <script>
+
+        function verSpinnerOculto() {
+            $('.cargar_empresas').removeClass('d-none');
+        }
 
         function imgEmpresa()
         {

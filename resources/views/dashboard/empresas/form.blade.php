@@ -209,8 +209,8 @@
 
         <div class="col-md-12">
             <div class="col-md-4 float-right">
-                <button type="submit" class="btn btn-block btn-success">
-                    <i class="fas fa-save"></i> Guardar
+                <button type="submit" class="btn btn-block @if($empresas_id) btn-primary @else btn-success @endif">
+                    <i class="fas fa-save"></i> Guardar @if($empresas_id) Cambios @endif
                 </button>
             </div>
         </div>
