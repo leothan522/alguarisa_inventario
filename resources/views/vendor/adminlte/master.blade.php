@@ -106,7 +106,6 @@
     @yield('adminlte_js')
     @include('sweetalert::alert')
     <x-livewire-alert::scripts />
-
 </body>
 
 </html>
