@@ -76,7 +76,7 @@
             </div>
 
             <div class="modal-footer justify-content-between">
-                <button type="submit" class="btn btn-success">
+                <button type="submit" class="btn @if($viewParroquia != "create") btn-primary @else btn-success @endif ">
                     <i class="fas fa-save"></i> Guardar @if($viewParroquia != "create") Cambios @endif
                 </button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="parroquia_btn_cerrar">{{ __('Close') }}</button>

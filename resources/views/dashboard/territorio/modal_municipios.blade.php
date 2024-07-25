@@ -18,7 +18,7 @@
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text text-bold">Nombre{{--<i class="fas fa-code"></i>--}}</span>
+                                <span class="input-group-text text-bold">Nombre</span>
                             </div>
                             <input type="text" class="form-control" wire:model="municipioNombre" placeholder="[string]">
                             @error('municipioNombre')
@@ -61,8 +61,10 @@
                 </div>
 
                 <div class="modal-footer justify-content-between">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save"></i> Guardar @if($viewMunicipio != 'create')
+                    <button type="submit" class="btn @if($viewMunicipio != 'create') btn-primary @else btn-success @endif ">
+                        <i class="fas fa-save"></i>
+                        Guardar
+                        @if($viewMunicipio != 'create')
                             Cambios
                         @endif
                     </button>

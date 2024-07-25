@@ -15,7 +15,7 @@ return [
     */
 
     'title' => 'Alguarisa',
-    'title_prefix' => '',
+    'title_prefix' => ''.mb_strtoupper(env('APP_NAME', 'Laravel')).' | ',
     'title_postfix' => '',
 
     /*
@@ -238,8 +238,8 @@ return [
     'right_sidebar' => true,
     'right_sidebar_icon' => 'fas fa-th-large',
     'right_sidebar_theme' => 'dark',
-    'right_sidebar_slide' => true,
-    'right_sidebar_push' => false,
+    'right_sidebar_slide' => false,
+    'right_sidebar_push' => true,
     'right_sidebar_scrollbar_theme' => 'os-theme-light',
     'right_sidebar_scrollbar_auto_hide' => 'l',
 
@@ -355,7 +355,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Usuarios',
-                    'icon' => 'fas fa-fw fa-users',
+                    'icon' => 'fas fa-fw fa-users-cog',
                     'route'  => 'usuarios.index',
                     'can'  => 'usuarios',
                 ],

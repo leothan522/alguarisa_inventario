@@ -45,7 +45,7 @@
                 @endif
 
             </div>
-            <div class="modal-footer row col-12 justify-content-between">
+            <div class="modal-footer {{--row col-12--}} justify-content-between">
                 <button type="button" class="btn btn-danger btn-sm" wire:click="destroy({{ $roles_id }})">
                     <i class="fas fa-trash-alt"></i>
                 </button>

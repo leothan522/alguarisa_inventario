@@ -2,22 +2,25 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keywordMunicipios)
-                Resultados de la Busqueda { <b class="text-danger">{{ $keywordMunicipios }}</b> }
+                Busqueda { <b class="text-danger">{{ $keywordMunicipios }}</b> }
                 <button class="btn btn-tool text-danger" wire:click="limpiarMunicipios"><i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Municipios
+                <small>Registrados</small> [ <b class="text-warning">{{ $rowsMunicipios }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
-            <ul class="pagination pagination-sm float-right m-1">
-                {{ $listarMunicipios->links() }}
-            </ul>
+            <button type="button" class="btn btn-tool" wire:click="limpiarMunicipios">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+            <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows >= $rowsMunicipios) disabled @endif >
+                <i class="fas fa-sort-amount-down-alt"></i> Ver más
+            </button>
         </div>
     </div>
-    <div class="card-body table-responsive p-0" {{--style="height: 400px;"--}}>
-        <table class="table {{--table-head-fixed--}} table-hover text-nowrap">
+    <div class="card-body table-responsive p-0" @if($listarMunicipios->count() > $numero) style="height: 72vh;" @endif >
+        <table class="table table-sm table-head-fixed table-hover text-nowrap">
             <thead>
             <tr class="text-navy">
                 <th class="text-center">#</th>
@@ -30,12 +33,13 @@
             </thead>
             <tbody>
             @if($listarMunicipios->isNotEmpty())
+                @php($itemMunicipio = 0)
                 @foreach($listarMunicipios as $municipio)
                     @php($itemMunicipio++)
                     <tr>
                         <td class="text-center">{{ $itemMunicipio }}</td>
-                        <td>{{ $municipio->nombre }}</td>
-                        <td>{{ $municipio->mini }}</td>
+                        <td class="text-uppercase">{{ $municipio->nombre }}</td>
+                        <td class="text-uppercase">{{ $municipio->mini }}</td>
                         <td class="text-right">{{ formatoMillares($municipio->familias, 0) }}</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-success btn-sm" wire:click="filtrarParroquias({{ $municipio->id }})">
@@ -46,9 +50,9 @@
                             <div class="btn-group">
                                 <button wire:click="estatusMunicipio({{ $municipio->id }})" class="btn btn-primary btn-sm">
                                     @if($municipio->estatus)
-                                        <i class="fas fa-eye"></i>
+                                        <i class="fas fa-check"></i>
                                     @else
-                                        <i class="fas fa-eye-slash"></i>
+                                        <i class="fas fa-ban"></i>
                                     @endif
                                 </button>
                                 <button wire:click="editMunicipio({{ $municipio->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-municipios"
@@ -77,6 +81,9 @@
 
             </tbody>
         </table>
+    </div>
+    <div class="card-footer">
+        <small>Mostrando {{ $listarMunicipios->count() }}</small>
     </div>
     {!! verSpinner() !!}
 </div>
