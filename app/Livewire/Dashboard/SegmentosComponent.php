@@ -51,7 +51,7 @@ class SegmentosComponent extends Component
     public function save()
     {
         $rules = [
-            'nombre' => ['required', 'min:4', 'max:15', 'alpha_num:ascii', Rule::unique('ajustes_segmentos', 'descripcion')->ignore($this->segmentos_id)],
+            'nombre' => ['required', 'min:4', 'max:15'/*, 'alpha_dash:ascii'*/, Rule::unique('ajustes_segmentos', 'descripcion')->ignore($this->segmentos_id)],
         ];
         $messages = [
             'nombre.required' => 'El campo descripción es obligatorio.',
@@ -72,23 +72,25 @@ class SegmentosComponent extends Component
             $tipo = AjusSegmento::find($this->segmentos_id);
             $message = "Segmento Actualizado.";
         }
-        $tipo->descripcion = ucfirst($this->nombre);
-        $tipo->save();
 
-        $this->edit($tipo->id);
-
-        $this->alert(
-            'success',
-            $message
-        );
+        if ($tipo){
+            $tipo->descripcion = ucfirst($this->nombre);
+            $tipo->save();
+            $this->limpiarSegmentos();
+            $this->alert('success', $message);
+        }else{
+            $this->limpiarSegmentos();
+        }
 
     }
 
     public function edit($id)
     {
         $tipo = AjusSegmento::find($id);
-        $this->segmentos_id = $tipo->id;
-        $this->nombre = $tipo->descripcion;
+        if ($tipo){
+            $this->segmentos_id = $tipo->id;
+            $this->nombre = $tipo->descripcion;
+        }
     }
 
     public function destroy($id)
@@ -114,7 +116,7 @@ class SegmentosComponent extends Component
 
         //codigo para verificar si realmente se puede borrar, dejar false si no se requiere validacion
         $vinculado = false;
-        $detalles = Ajuste::where('segmentos_id', $tipo->id)->first();
+        $detalles = Ajuste::where('segmentos_id', $this->segmentos_id)->first();
 
         if ($detalles){
             $vinculado = true;
@@ -132,11 +134,10 @@ class SegmentosComponent extends Component
                 'confirmButtonText' => 'OK',
             ]);
         } else {
-            $tipo->delete();
-            $this->alert(
-                'success',
-                'Segmento Eliminado.'
-            );
+            if ($tipo){
+                $tipo->delete();
+                $this->alert('success', 'Segmento Eliminado.');
+            }
             $this->limpiarSegmentos();
         }
     }

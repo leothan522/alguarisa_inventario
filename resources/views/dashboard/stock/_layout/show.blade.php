@@ -1,6 +1,6 @@
 @if($stockAlmacenes->isNotEmpty())
     @foreach($stockAlmacenes as $almacen)
-        <div class="col-md-3" xmlns:wire="http://www.w3.org/1999/xhtml">
+        <div class="col-md-5" xmlns:wire="http://www.w3.org/1999/xhtml">
 
             <div class="card card-navy card-outline direct-chat">
 
@@ -8,13 +8,18 @@
                     <i class="fas fa-times"></i>
                 </button>
 
-                <div class="card-body box-profile">
+                <div class="card-body box-profile" style="height: 60vh;">
                     <div class="text-center mt-3">
                         <img class="profile-user-img img-fluid img-circle" src="{{ asset('img/warehouse_702455.png') }}"
                              alt="Almacen">
                     </div>
                     <h3 class="profile-username text-center text-uppercase">{{ $almacen->nombre }}</h3>
-                    <p class="text-muted text-center text-uppercase">{{ $almacen->codigo }}</p>
+                    <p class="text-muted text-center text-uppercase">
+                        {{ $almacen->codigo }}
+                        <button type="button" class="row btn btn-tool" wire:click="setLimit" @if($rows > $almacen->rows) disabled @endif >
+                            <i class="fas fa-sort-amount-down-alt"></i> Ver más
+                        </button>
+                    </p>
                     <ul class="list-group list-group-unbordered">
                         <li class="dropdown-divider ml-3 mr-3"></li>
                         <!-- Conversations are loaded here -->

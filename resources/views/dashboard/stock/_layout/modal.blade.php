@@ -74,7 +74,9 @@
                                             @php($total = $total + $stock->actual)
                                         @endforeach
                                         <tr>
-                                            <th colspan="2" class="text-right"><span class="text-muted mr-3">Total:</span><span class="text-navy">{{ formatoMillares($total, 0) }}</span></th>
+                                            <th colspan="2" class="text-right">
+                                                <span class="text-muted mr-3">Total:</span>
+                                                <span class="text-navy">{{ formatoMillares($total, 0) }}</span></th>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -90,7 +92,7 @@
             </div>
             <div class="modal-footer justify-content-between">
                 <button type="button" class="btn btn-default btn-sm" wire:click="verArticulo({{ $modalArticulo->id ?? 0 }}, {{ $modalUnidad->id ?? 0 }})">
-                    <i class="fas fa-sync"></i> Actualizar
+                    <i class="fas fa-sync-alt"></i> Actualizar
                 </button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">{{ __('Close') }}</button>
             </div>

@@ -5,16 +5,16 @@
 @section('title', 'Stock')
 
 @section('content_header')
-    {{--<h1>Pagina de Prueba</h1>--}}
+
     <div class="row mb-2">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <h1 class="m-0 text-dark"><i class="fas fa-boxes"></i> Stock</h1>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
             <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
                     onclick="showRow('ajustes')" id="button_ajustes"
                 {{--wire:click="verAjustes" @if($view == "ajustes" || !comprobarPermisos('ajustes.index')) disabled @endif--}}>
-                <i class="fas fa-list"></i> Ajustes
+                <i class="fas fa-list"></i> Ajustes de Entrada y Salida
             </button>
             <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
                     onclick="showRow('stock')" id="button_stock" disabled
@@ -23,7 +23,7 @@
             </button>
             <button type="button" class="btn btn-default btn-sm float-right ml-1 mr-1"
                     onclick="actualizar()" >
-                <i class="fas fa-sync"></i> Actualizar
+                <i class="fas fa-sync-alt"></i> Actualizar
             </button>
         </div>
     </div>
@@ -32,17 +32,16 @@
 @section('content')
     {{--<p>Welcome to this beautiful admin panel.</p>--}}
     @livewire('dashboard.mount-empresas-component')
-    <div class="d-none" id="row_button_ajustes">
-        @livewire('dashboard.ajustes-component')
-    </div>
     <div id="row_button_stock">
         @livewire('dashboard.stock-component')
+    </div>
+    <div class="d-none" id="row_button_ajustes">
+        @livewire('dashboard.ajustes-component')
     </div>
     <div class="row">
         @livewire('dashboard.tipos-ajustes-component')
         @livewire('dashboard.almacenes-component')
         @livewire('dashboard.segmentos-component')
-        @livewire('dashboard.cuotas-component')
         @livewire('dashboard.reportes-component')
     </div>
 
@@ -69,14 +68,13 @@
         }
 
         $(document).ready(function () {
-            verSpinnerOculto();
+            //verSpinnerOculto();
             Livewire.dispatch('updatedEmpresaID');
         });
 
         function showRow(row) {
             let ajustes = $('#row_button_ajustes');
             let stock = $('#row_button_stock');
-            let compartirQR = $('#right_sidebar_btn_compartir');
 
             $('#button_ajustes').prop("disabled",false);
             $('#button_stock').prop("disabled",false);
@@ -84,11 +82,9 @@
             if (row === 'ajustes'){
                 ajustes.removeClass('d-none');
                 stock.addClass('d-none');
-                compartirQR.addClass('d-none')
             }else {
                 ajustes.addClass('d-none');
                 stock.removeClass('d-none');
-                compartirQR.removeClass('d-none');
             }
 
             $('#button_' + row).prop("disabled",true);
@@ -96,14 +92,14 @@
         }
 
         function actualizar() {
-            verSpinnerOculto();
+            //verSpinnerOculto();
             $('.cargar_ajustes').removeClass('d-none');
             Livewire.dispatch('showStock');
             Livewire.dispatch('showAjustes');
         }
 
         function cerrarInventarios() {
-            verSpinnerOculto();
+            //verSpinnerOculto();
             $('.cerra_inventarios').click();
         }
 
@@ -126,10 +122,6 @@
 
         function verSegmentos() {
             Livewire.dispatch('limpiarSegmentos');
-        }
-
-        function verCuotas() {
-            Livewire.dispatch('limpiarCuota');
         }
 
         function select_2(id, data)
@@ -156,23 +148,14 @@
             });
         }
 
-        Livewire.on('selectCuotasCodigo', ({ codigos }) => {
-            select_2('select_cuotas_codigo', codigos);
-        });
-
-        Livewire.on('setCuotaSelect', ({ codigo }) => {
-            $('#select_cuotas_codigo').val(codigo).trigger('change');
-        });
-
-        function compartirQr() {
-            Livewire.dispatch('compartirQr');
-        }
-
         //pendiente revisar
         $('#reportes_articulos').select2({
             theme: 'bootstrap4',
         });
 
+        function compartirQr() {
+            Livewire.dispatch('compartirQr');
+        }
 
         function buscar(){
             let input = $("#navbarSearch");

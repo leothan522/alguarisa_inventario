@@ -9,17 +9,17 @@
 
     <table>
         <tr>
-            <td colspan="3">Empresa</td>
-            <td colspan="{{ $columnas }}" style="text-align: end">Usuario:</td>
+            <td colspan="4">Empresa</td>
+            {{--<td colspan="{{ $columnas }}" style="text-align: end">Usuario:</td>--}}
         </tr>
         <tr>
-            <td colspan="3">{{ $empresa->nombre }}</td>
-            <td colspan="{{ $columnas }}" style="text-align: end">{{ auth()->user()->email }}</td>
+            <td colspan="4">{{ $empresa->nombre }}</td>
+            {{--<td colspan="{{ $columnas }}" style="text-align: end">{{ auth()->user()->email }}</td>--}}
         </tr>
         <tr>
-            <td colspan="3">R.I.F: {{ $empresa->rif }}</td>
-            <td colspan="{{ $columnas }}" style="text-align: end">
-                Fecha: {{ $hoy }}</td>
+            <td colspan="4">R.I.F: {{ $empresa->rif }}</td>
+            {{--<td colspan="{{ $columnas }}" style="text-align: end">
+                Fecha: {{ $hoy }}</td>--}}
         </tr>
         <tr>
             <td colspan="{{ $columnas + 3 }}">&nbsp;</td>
@@ -72,7 +72,6 @@
             <td style="{{ $color }}{{ $border }}">Codigo</td>
             <td style="{{ $color }}{{ $border }}">Descripción</td>
             <td style="{{ $color }}{{ $border }}">Segmento</td>
-            <td style="{{ $color }}{{ $border }}">Municipio</td>
             <td style="{{ $color }}{{ $border }}">Fecha</td>
         </tr>
         @php($i = 0)
@@ -99,10 +98,6 @@
             @endif
 
             @if($segmento != "all" && $ajuste->segmentos_id != $segmento)
-                @continue
-            @endif
-
-            @if($municipio != "all" && $ajuste->municipios_id != $municipio)
                 @continue
             @endif
 
@@ -152,12 +147,7 @@
                         (*Anulado)
                     @endif
                 </td>
-                <td style="{{ $border }}">{{ $ajuste->segmentos->descripcion }}</td>
-                <td style="{{ $border }}">
-                    @if($ajuste->municipios_id)
-                        {{ $ajuste->municipios->mini }}
-                    @endif
-                </td>
+                <td style="{{ $border }}">@if($ajuste->segmentos_id) {{ $ajuste->segmentos->descripcion }} @endif</td>
                 <td style="{{ $border }}">{{ \Carbon\Carbon::parse($ajuste->fecha)->format('d-m-Y h:i a') }}</td>
             </tr>
         @endforeach
@@ -171,17 +161,17 @@
 
     <table>
         <tr>
-            <td colspan="3">Empresa</td>
-            <td colspan="{{ $columnas + 1 }}" style="text-align: end">Usuario:</td>
+            <td colspan="7">Empresa</td>
+            {{--<td colspan="{{ $columnas + 1 }}" style="text-align: end">Usuario:</td>--}}
         </tr>
         <tr>
-            <td colspan="3">{{ $empresa->nombre }}</td>
-            <td colspan="{{ $columnas + 1 }}" style="text-align: end">{{ auth()->user()->email }}</td>
+            <td colspan="7">{{ $empresa->nombre }}</td>
+            {{--<td colspan="{{ $columnas + 1 }}" style="text-align: end">{{ auth()->user()->email }}</td>--}}
         </tr>
         <tr>
-            <td colspan="3">R.I.F: {{ $empresa->rif }}</td>
-            <td colspan="{{ $columnas + 1 }}" style="text-align: end">
-                Fecha: {{ $hoy }}</td>
+            <td colspan="7">R.I.F: {{ $empresa->rif }}</td>
+            {{--<td colspan="{{ $columnas + 1 }}" style="text-align: end">
+                Fecha: {{ $hoy }}</td>--}}
         </tr>
         <tr>
             <td colspan="{{ $columnas + 3 }}">&nbsp;</td>
@@ -245,7 +235,6 @@
                 <td style="{{ $color }}{{ $border }}">Codigo</td>
                 <td style="{{ $color }}{{ $border }}">Descripción</td>
                 <td style="{{ $color }}{{ $border }}">Segmento</td>
-                <td style="{{ $color }}{{ $border }}">Municipio</td>
                 <td style="{{ $color }}{{ $border }}">Fecha</td>
                 <td style="{{ $color }}{{ $border }}">Tipo</td>
                 <td style="{{ $color }}{{ $border }}">Almacen</td>
@@ -274,10 +263,6 @@
                 @endif
 
                 @if($segmento != "all" && $detalle->ajustes->segmentos_id != $segmento)
-                    @continue
-                @endif
-
-                @if($municipio != "all" && $detalle->ajustes->municipios_id != $municipio)
                     @continue
                 @endif
 
@@ -324,12 +309,11 @@
                             (*Anulado)
                         @endif
                     </td>
-                    <td style="{{ $border }}">{{ $detalle->ajustes->segmentos->descripcion }}</td>
                     <td style="{{ $border }}">
-                        @if($detalle->ajustes->municipios_id)
-                            {{ $detalle->ajustes->municipios->nombre }}
+						@if($detalle->ajustes->segmentos_id)
+                            {{ $detalle->ajustes->segmentos->descripcion }}
                         @endif
-                    </td>
+					</td>
                     <td style="{{ $border }}">{{ verFecha($detalle->ajustes->fecha, 'd/m/Y h:i a') }}</td>
                     <td style="{{ $border }}">{{ $detalle->tipo->codigo }}</td>
                     <td style="{{ $border }}">{{ $detalle->almacen->codigo }}</td>
@@ -344,7 +328,7 @@
             @endforeach
 
             <tr>
-                <td colspan="5">&nbsp;</td>
+                <td colspan="4">&nbsp;</td>
                 <td>Totales</td>
                 <td>&nbsp;</td>
                 <td>{{ $ajuste->total }}</td>

@@ -3,12 +3,12 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados para { <b class="text-warning">{{ $keyword }}</b> }
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
                 <button class="btn btn-tool text-warning" wire:click="showAjustes">
                     <i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Ajustes [Entrada y Salida]
+                Ajustes [ <b class="text-warning">{{ $rowsAjustes }}</b> ]
             @endif
         </h3>
 
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div class="card-body table-responsive p-0" style="height: 76vh;">
+    <div class="card-body table-responsive p-0" @if($tableStyle) style="height: 68vh;" @endif>
 
         <table class="table table-head-fixed table-hover text-nowrap sticky-top">
             <thead>
@@ -37,14 +37,14 @@
         <ul class="todo-list" data-widget="todo-list">
             @if($listarAjustes->isNotEmpty())
                 @foreach($listarAjustes as $ajuste)
-                    <li class=" @if(!$ajuste->estatus) done @endif @if($ajuste->id == $ajuste_id) text-warning @endif ""
+                    <li class=" @if(!$ajuste->estatus) done @endif @if($ajuste->id == $ajustes_id) text-warning @endif ""
                     >
                     <!-- todo text -->
-                    <span class="text">
+                    <span class="text text-uppercase">
                             {{ $ajuste->codigo }}
                         </span>
                     <!-- Emphasis label -->
-                    <small class="badge {{--badge-danger--}}">
+                    <small class="badge {{--badge-danger--}} text-uppercase">
                         {{ $ajuste->descripcion }}
                     </small>
                     <!-- General tools such as edit or delete-->

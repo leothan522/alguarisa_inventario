@@ -39,16 +39,11 @@
                     <div class="col-2">
                         <label>Descripción:</label>
                     </div>
-                    <div class="col-5">
+                    <div class="col-6">
                         <span class="border badge-pill text-uppercase">{{ $ajuste_descripcion }}</span>
                     </div>
-                    <div class="col-2">
-                        <span class="border badge-pill text-uppercase">{{ $ajuste_label_segmento }}</span>
-                    </div>
-                    <div class="col-3">
-                        @if($ajuste_label_municipio)
-                            <span class="border badge-pill text-uppercase">{{ $ajuste_label_municipio }}</span>
-                        @endif
+                    <div class="col-4">
+                        @if($ajuste_label_segmento) <span class="border badge-pill text-uppercase">{{ $ajuste_label_segmento }}</span> @endif
                     </div>
                 </div>
 
@@ -95,7 +90,7 @@
                                                                 @if($detalle->tipo->tipo == 2)
                                                                     <span>-</span>
                                                                 @endif
-                                                                {{ formatoMillares($detalle->cantidad, 3) }}
+                                                                {{ formatoMillares($detalle->cantidad, 0) }}
                                                             </td>
                                                         </tr>
                                                         @php($i++)

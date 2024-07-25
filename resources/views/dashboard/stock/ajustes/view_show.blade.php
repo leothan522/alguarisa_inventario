@@ -1,16 +1,16 @@
-@if($ajuste_id)
+@if($ajustes_id)
     <div class="row col-12 mb-2">
         <div class="col-md-2">
             <label>Código:</label>
         </div>
         <div class="col-md-5 mb-2">
-            <span class="border badge-pill">{{ $ajuste_codigo }}</span>
+            <span class="border badge-pill text-uppercase">{{ $codigo }}</span>
         </div>
         <div class="col-md-2 text-md-right">
             <label>Fecha:</label>
         </div>
         <div class="col-md-3">
-            <span class="border badge-pill text-nowrap">{{ verFecha($ajuste_fecha, 'd/m/Y h:i a') }}</span>
+            <span class="border badge-pill text-nowrap">{{ verFecha($fecha, 'd/m/Y h:i a') }}</span>
         </div>
     </div>
 
@@ -18,17 +18,14 @@
         <div class="col-md-2">
             <label>Descripción:</label>
         </div>
-        <div class="col-md-5">
-            <span class="border badge-pill text-uppercase">{{ $ajuste_descripcion }}</span>
+        <div class="col-md-6">
+            <span class="border badge-pill text-uppercase">{{ $descripcion }}</span>
         </div>
-        <div class="col-md-2">
-            <span class="border badge-pill text-uppercase text-nowrap">{{ $ajuste_label_segmento }}</span>
-        </div>
-        <div class="col-md-3">
-            @if($ajuste_label_municipio)
-                <span class="border badge-pill text-uppercase">{{ $ajuste_label_municipio }}</span>
-            @endif
-        </div>
+        @if($verSegmento)
+            <div class="col-md-4">
+                <span class="border badge-pill text-uppercase text-nowrap">{{ $verSegmento }}</span>
+            </div>
+        @endif
     </div>
 
     <div class="col-12">
@@ -54,7 +51,7 @@
                                     <tr class="text-navy">
                                         <th style="width: 5%">#</th>
                                         <th>Tipo</th>
-                                        <th>Articulo</th>
+                                        <th>Artículo</th>
                                         <th>Descripción</th>
                                         <th>Almacén</th>
                                         <th>Unidad</th>
