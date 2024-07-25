@@ -11,6 +11,7 @@ use App\Models\Empresa;
 use App\Models\Municipio;
 use App\Models\Stock;
 use App\Models\Unidad;
+use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -19,7 +20,8 @@ class CompartirComponent extends Component
 {
     use LivewireAlert;
 
-    public $empresa_id, $empresa;
+    public $rows = 0, $numero = 14, $empresas_id, $tableStyle = false;
+    public $empresa;
     public $view = "stock", $viewMovimientos = false;
     public $modalEmpresa, $modalArticulo, $modalStock, $modalUnidad;
     public $getNombre, $getAjustes, $getAlmacen, $getLimit = 15, $getSaldo, $modulo = 'compartir';
@@ -27,24 +29,38 @@ class CompartirComponent extends Component
     public $viewCuota = false, $municipios, $cuotaMes, $cuotaCodigo, $cuotaFecha, $cuotaAnterior;
     public $modalMunicipio, $modalCenso, $modalDeudaAnterior, $modalDespacho, $modalDeudaTotal, $modalDuedaAcumulada;
 
-    public function mount($empresa_id)
+    public $rowsMovimientos = 0, $listarMovimientos;
+    public $almacenes_id, $almacen;
+
+    public function mount($empresas_id)
     {
-        $this->empresa_id = $empresa_id;
+        $this->empresas_id = $empresas_id;
+        $this->setLimit();
     }
 
     public function render()
     {
-        $this->empresa = Empresa::find($this->empresa_id);
+        $this->empresa = Empresa::find($this->empresas_id);
         //stock
-        $stockAlmacenes = Almacen::where('empresas_id', $this->empresa_id)->get();
+        $stockAlmacenes = Almacen::where('empresas_id', $this->empresas_id)->get();
         $stockAlmacenes->each(function ($almacen){
-            $stock = Stock::where('empresas_id', $this->empresa_id)
+            $stock = Stock::where('empresas_id', $this->empresas_id)
                 ->where('almacenes_id', $almacen->id)->orderBy('actual', 'DESC')->limit(100)->get();
             $almacen->stock = $stock;
         });
 
         return view('livewire.dashboard.compartir-component')
             ->with('stockAlmacenes', $stockAlmacenes);
+    }
+
+    public function setLimit()
+    {
+        if (numRowsPaginate() < $this->numero) {
+            $rows = $this->numero;
+        } else {
+            $rows = numRowsPaginate();
+        }
+        $this->rows = $this->rows + $rows;
     }
 
     public function limpiarStock()
@@ -72,7 +88,7 @@ class CompartirComponent extends Component
         $this->modalEmpresa = $this->empresa;
         $this->modalArticulo = Articulo::find($id);
         $this->modalUnidad = Unidad::find($unidad);
-        $this->modalStock = Stock::where('empresas_id', $this->empresa_id)
+        $this->modalStock = Stock::where('empresas_id', $this->empresas_id)
             ->where('articulos_id', $id)
             ->where('unidades_id', $unidad)
             ->get();
@@ -80,15 +96,144 @@ class CompartirComponent extends Component
 
     public function verMovimientos($id)
     {
-        $this->getAlmacen = $id;
-        $almacen = Almacen::find($this->getAlmacen);
-        $this->getNombre = $almacen->nombre;
-        $this->getAjustes = Ajuste::where('empresas_id', $this->empresa_id)->orderBy('fecha', 'DESC')->get();
-        $this->getAjustes->each( function ($ajuste){
-            $ajuste->detalles = AjusDetalle::where('ajustes_id', $ajuste->id)
-                ->where('almacenes_id', $this->getAlmacen)->get();
-            $ajuste->detalles->each(function ($detalle){
-                $stock = Stock::where('empresas_id', $this->empresa_id)
+        $this->almacenes_id = $id;
+        $this->almacen = Almacen::find($this->almacenes_id);
+
+        $ajustes = Ajuste::where('empresas_id', $this->empresas_id)
+            ->where('estatus', 1)
+            ->orderBy('created_at', 'DESC')
+            ->limit($this->rows)
+            ->get();
+        $i = 0;
+        $listarMovimientos = [];
+        foreach ($ajustes as $ajuste){
+
+            $ajustes_id = $ajuste->id;
+            $code = $ajuste->codigo;
+            $fecha = Carbon::parse($ajuste->created_at)->format('Y-m-d H:i:s');;
+            $segmento = null;
+            if ($ajuste->segmentos_id){
+                $segmento = $ajuste->segmentos->descripcion;
+            }
+
+            $detalles = AjusDetalle::where('ajustes_id', $ajuste->id)->where('almacenes_id', $this->almacenes_id)->get();
+            $y = 0;
+            $listarDetalles = [];
+            foreach ($detalles as $detalle){
+                $tipo = $detalle->tipo->codigo;
+                $articulos_id = $detalle->articulos_id;
+                $codigo = $detalle->articulo->codigo;
+                $articulo = $detalle->articulo->descripcion;
+                $unidades_id = $detalle->unidades_id;
+                $unidad = $detalle->unidad->codigo;
+                $cantidad = $detalle->cantidad;
+                if ($detalle->tipo->tipo == 1){
+                    $entrada = true;
+                }else{
+                    $entrada = false;
+                }
+                $listarDetalles[$y] = [
+                    'tipo' => $tipo,
+                    'codigo' => $codigo,
+                    'articulo' => $articulo,
+                    'unidad' => $unidad,
+                    'cantidad' => $cantidad,
+                    'entrada' => $entrada,
+                    'articulos_id' => $articulos_id,
+                    'almacenes_id' => $this->almacenes_id,
+                    'unidades_id' => $unidades_id
+                ];
+                $y++;
+                $this->rowsMovimientos++;
+            }
+
+            $listarMovimientos[$i] = [
+                'tabla' => 'ajustes',
+                'id' => $ajustes_id,
+                'codigo' => $code,
+                'fecha' => $fecha,
+                'segmento' => $segmento,
+                'detalles' => $listarDetalles
+            ];
+            $i++;
+        }
+
+        $arrayAjustes = $listarMovimientos;
+
+        /*$despachos = Despacho::where('empresas_id', $this->empresas_id)
+            ->where('estatus', 1)
+            ->orderBy('created_at', 'DESC')
+            ->limit($this->rows)
+            ->get();
+
+        $i = 0;*/
+        $listarMovimientos = [];
+        /*foreach ($despachos as $despacho){
+
+            $despachos_id = $despacho->id;
+            $code = $despacho->codigo;
+            $fecha = Carbon::parse($despacho->created_at)->format('Y-m-d H:i:s');
+            $segmento = null;
+            if ($despacho->segmentos_id){
+                $segmento = $despacho->segmentos->descripcion;
+            }
+
+            $detalles = DespDetalle::where('despachos_id', $despacho->id)->where('almacenes_id', $this->almacenes_id)->get();
+
+            foreach ($detalles as $detalle){
+                $getTipo = AjusTipo::where('tipo', 2)->first();
+                if ($getTipo){
+                    $tipo = $getTipo->codigo;
+                }else{
+                    $tipo = 'S01';
+                }
+
+                $recetas = ReceDetalle::where('recetas_id', $detalle->recetas_id)->get();
+                $y = 0;
+                $listarDetalles = [];
+                foreach ($recetas as $receta){
+                    $articulos_id = $receta->articulos_id;
+                    $codigo = $receta->articulo->codigo;
+                    $articulo = $receta->articulo->descripcion;
+                    $unidades_id = $receta->unidades_id;
+                    $unidad = $receta->unidad->codigo;
+                    $cantidad = $detalle->cantidad * $receta->cantidad;
+                    $listarDetalles[$y] = [
+                        'tipo' => $tipo,
+                        'codigo' => $codigo,
+                        'articulo' => $articulo,
+                        'unidad' => $unidad,
+                        'cantidad' => $cantidad,
+                        'entrada' => false,
+                        'articulos_id' => $articulos_id,
+                        'almacenes_id' => $this->almacenes_id,
+                        'unidades_id' => $unidades_id
+                    ];
+                    $y++;
+                    $this->rowsMovimientos++;
+                }
+            }
+
+            $listarMovimientos[$i] = [
+                'tabla' => 'despachos',
+                'id' => $despachos_id,
+                'codigo' => $code,
+                'fecha' => $fecha,
+                'segmento' => $segmento,
+                'detalles' => $listarDetalles
+            ];
+            $i++;
+        }*/
+
+        $arrayDespachos = $listarMovimientos;
+
+        $arrayCombinados = array_merge($arrayAjustes, $arrayDespachos);
+
+        $this->listarMovimientos = collect($arrayCombinados)->sortByDesc('fecha');
+
+        //dd($listarMovimientos);
+
+        /*$stock = Stock::where('empresas_id', $this->empresas_id)
                     ->where('articulos_id', $detalle->articulos_id)
                     ->where('almacenes_id', $detalle->almacenes_id)
                     ->where('unidades_id', $detalle->unidades_id)
@@ -97,16 +242,14 @@ class CompartirComponent extends Component
                     $this->getSaldo = $stock->actual;
                 }else{
                     $this->getSaldo = 0;
-                }
-            });
-        });
-        $this->viewMovimientos = true;
-    }
+                }*/
 
-    public function aumetarLimit()
-    {
-        $this->getLimit = $this->getLimit * 2;
-        $this->verMovimientos($this->getAlmacen);
+        //dd($this->rowsMovimientos);
+
+        if ($this->rowsMovimientos > $this->numero) {
+            $this->tableStyle = true;
+        }
+        $this->viewMovimientos = true;
     }
 
     #[On('verAjuste')]
@@ -147,7 +290,7 @@ class CompartirComponent extends Component
             if ($this->cuotaAnterior){
 
                 //cuota Anterior
-                $ajustes = Ajuste::where('empresas_id', $this->empresa_id)
+                $ajustes = Ajuste::where('empresas_id', $this->empresas_id)
                     ->where('codigo', '>=', $this->cuotaAnterior)
                     ->where('codigo', '<', $this->cuotaCodigo)
                     ->where('segmentos_id', 1)
@@ -181,7 +324,7 @@ class CompartirComponent extends Component
             if ($this->cuotaCodigo){
 
                 //cuota Actual
-                $ajustes = Ajuste::where('empresas_id', $this->empresa_id)
+                $ajustes = Ajuste::where('empresas_id', $this->empresas_id)
                     ->where('codigo', '>=', $this->cuotaCodigo)
                     ->where('segmentos_id', 1)
                     ->where('municipios_id', $municipio->id)

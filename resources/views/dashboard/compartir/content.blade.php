@@ -10,7 +10,7 @@
             <span class="info-box-number">
                 <button type="button" wire:click="actualizar" class="btn btn-default btn-xs float-right"
                         id="header_btn_actualizar" {{--style="margin-right: 5px;"--}}>
-                    <i class="fas fa-sync"></i> Actualizar
+                    <i class="fas fa-sync-alt"></i> Actualizar
                 </button>
                 <button type="button" wire:click="verCuota" class="btn btn-default btn-xs float-right mr-3 @if($viewCuota) d-none @endif"
                         {{--id="header_btn_actualizar"--}} {{--style="margin-right: 5px;"--}}>
@@ -25,15 +25,19 @@
 
 {{-- VISTAS STOCK --}}
 <div class="row justify-content-around @if($viewMovimientos || $viewCuota) d-none @endif">
-    @include('dashboard.stock.show_stock')
+    @include('dashboard.stock._layout.show')
 </div>
-<div class="row justify-content-center @if(!$viewMovimientos || $viewCuota) d-none @endif">
-    @include('dashboard.stock.show_movimientos')
+<div class="row justify-content-center @if(!$viewMovimientos) d-none @endif">
+    @include('dashboard.stock._layout.show_movimientos')
 </div>
-@include('dashboard.compartir.modal_ver_ajuste')
 
+<div class="row">
+    @include('dashboard.stock._layout.modal')
+    @include('dashboard.compartir.modal_ver_cuota')
+    @include('dashboard.compartir.modal_ver_ajuste')
+</div>
 <div class="row justify-content-center @if(!$viewCuota) d-none @endif">
     @include('dashboard.compartir.show_cuota')
 </div>
-@include('dashboard.compartir.modal_ver_cuota')
+
 

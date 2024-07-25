@@ -6,7 +6,7 @@
 
 @section('content')
 
- @livewire('dashboard.compartir-component', ['empresa_id' => $empresa_id])
+ @livewire('dashboard.compartir-component', ['empresas_id' => $empresa_id])
 
 @endsection
 

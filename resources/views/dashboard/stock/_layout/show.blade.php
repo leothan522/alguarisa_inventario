@@ -1,6 +1,6 @@
 @if($stockAlmacenes->isNotEmpty())
     @foreach($stockAlmacenes as $almacen)
-        <div class="col-md-5" xmlns:wire="http://www.w3.org/1999/xhtml">
+        <div class="col-md-5 col-lg-4" xmlns:wire="http://www.w3.org/1999/xhtml">
 
             <div class="card card-navy card-outline direct-chat">
 
@@ -8,15 +8,15 @@
                     <i class="fas fa-times"></i>
                 </button>
 
-                <div class="card-body box-profile" style="height: 60vh;">
+                <div class="card-body box-profile" {{--style="height: 60vh;"--}}>
                     <div class="text-center mt-3">
-                        <img class="profile-user-img img-fluid img-circle" src="{{ asset('img/warehouse_702455.png') }}"
+                        <img class="d-none d-md-block profile-user-img img-fluid img-circle" src="{{ asset('img/warehouse_702455.png') }}"
                              alt="Almacen">
                     </div>
                     <h3 class="profile-username text-center text-uppercase">{{ $almacen->nombre }}</h3>
-                    <p class="text-muted text-center text-uppercase">
+                    <p class="d-none d-md-block text-muted text-center text-uppercase">
                         {{ $almacen->codigo }}
-                        <button type="button" class="row btn btn-tool" wire:click="setLimit" @if($rows > $almacen->rows) disabled @endif >
+                        <button type="button" class="{{--row--}} btn btn-tool" wire:click="setLimit" @if($rows > $almacen->rows) disabled @endif >
                             <i class="fas fa-sort-amount-down-alt"></i> Ver más
                         </button>
                     </p>
@@ -31,7 +31,7 @@
                                         data-toggle="modal" data-target="#modal-lg-stock-nuevo"
                                         style="cursor: pointer;">
                                         <b class="text-uppercase">{{ $stock->articulo->descripcion }}</b>
-                                        <a class="">{{ formatoMillares($stock->actual, 0) }} {{ $stock->unidad->codigo }}</a>
+                                        <a class="btn-link">{{ formatoMillares($stock->actual, 0) }} {{ $stock->unidad->codigo }}</a>
                                     </li>
                                 @endforeach
                             @else
