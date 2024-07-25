@@ -43,7 +43,7 @@
                                     </div>
                                     <select class="form-control form-group-sm" name="reporte">
                                         <option value="unidades">Articulos con sus Unidades</option>
-                                        <option value="precios">Articulos con sus Precios</option>
+                                        {{--<option value="precios">Articulos con sus Precios</option>--}}
                                         {{--<option value="identificadores">Articulos con sus Identificadores</option>--}}
                                     </select>
                                     @error('reporte')
@@ -180,7 +180,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="hidden" name="empresa_id" wire:model="empresas_id">
+                                <input type="text" class="d-none" name="empresa_id" wire:model="empresas_id">
                                 <button type="submit" class="btn btn-block btn-primary"
                                         @if(!comprobarPermisos('articulos.reportes')) disabled @endif >
                                     <i class="fas fa-file-excel"></i> Generar Reporte

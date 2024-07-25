@@ -39,8 +39,12 @@ class ArticulosController extends Controller
         $label = str_replace(':', '-', $hoy);
 
         $empresa = Empresa::find($empresa_id);
+        if (!$empresa){
+            return redirect()->route('articulos.index');
+        }
+        //dd($empresa);
 
-        $articulos = Articulo::orderBy('codigo', 'asc')->get();
+        $articulos = Articulo::where('empresas_id', $empresa_id)->orderBy('codigo', 'asc')->get();
         foreach ($articulos as $articulo){
             $unidades = ArtUnid::where('articulos_id', $articulo->id)->get();
             $articulo->get_unidades = $unidades;

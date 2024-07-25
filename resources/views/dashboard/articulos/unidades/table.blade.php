@@ -2,15 +2,18 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados de la Busqueda { <b class="text-warning">{{ $keyword }}</b> }
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
                 <button class="btn btn-tool text-warning" wire:click="limpiarUnidades"><i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Unidades Registradas [ <b class="text-warning">{{ $rowsUnidades }}</b> ]
+                Unidades [ <b class="text-warning">{{ $rowsUnidades }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" wire:click="limpiarUnidades">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsUnidades) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
@@ -29,8 +32,8 @@
             @if($listarUnidades->isNotEmpty())
                 @foreach($listarUnidades as $unidad)
                     <tr>
-                        <td>{{ $unidad->codigo }}</td>
-                        <td>{{ $unidad->nombre }}</td>
+                        <td class="text-uppercase">{{ $unidad->codigo }}</td>
+                        <td class="text-uppercase">{{ $unidad->nombre }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">
                                 <button wire:click="edit({{ $unidad->id }})" class="btn btn-primary btn-sm"

@@ -2,15 +2,18 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados de la Busqueda { <b class="text-warning">{{ $keyword }}</b> }
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
                 <button class="btn btn-tool text-warning" wire:click="limpiarProcedencias"><i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Procedencias Registradas [ <b class="text-warning">{{ $rowsProcedencias }}</b> ]
+                Procedencias [ <b class="text-warning">{{ $rowsProcedencias }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" wire:click="limpiarProcedencias">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsProcedencias) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
@@ -29,8 +32,8 @@
             @if($listarProcedencias->isNotEmpty())
                 @foreach($listarProcedencias as $procedencia)
                     <tr>
-                        <td>{{ $procedencia->codigo }}</td>
-                        <td>{{ $procedencia->nombre }}</td>
+                        <td class="text-uppercase">{{ $procedencia->codigo }}</td>
+                        <td class="text-uppercase">{{ $procedencia->nombre }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">
                                 <button wire:click="edit({{ $procedencia->id }})" class="btn btn-primary btn-sm"

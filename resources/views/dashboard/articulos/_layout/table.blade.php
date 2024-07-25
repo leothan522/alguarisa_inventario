@@ -3,15 +3,18 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados de la Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
-                <button class="btn btn-tool text-warning" wire:click="cerrarBusqueda"><i class="fas fa-times-circle"></i>
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
+                <button class="btn btn-tool text-warning" wire:click="cerrarBusqueda" onclick="verSpinnerOculto()"><i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Artículos Registrados [ <b class="text-warning">{{ $rowsArticulos }}</b> ]
+                Artículos [ <b class="text-warning">{{ $rowsArticulos }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" wire:click="actualizar" onclick="verSpinnerOculto()">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $listarArticulos->count()) disabled @endif>
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
@@ -38,11 +41,11 @@
                 @foreach($listarArticulos as $articulo)
                     <li class=" @if(!$articulo->estatus) done @endif @if($articulo->id == $articulos_id) text-warning @endif "" >
                     <!-- todo text -->
-                    <span class="text" >
+                    <span class="text text-uppercase" >
                             {{ $articulo->codigo }}
                         </span>
                     <!-- Emphasis label -->
-                    <small class="badge {{--badge-danger--}}">
+                    <small class="badge {{--badge-danger--}} text-uppercase">
                         {{ $articulo->descripcion }}
                     </small>
                     <!-- General tools such as edit or delete-->

@@ -24,9 +24,9 @@
                                     <th style="width: 5%">#</th>
                                     <th>Almacen</th>
                                     <th style="width: 10%">Unidad</th>
-                                    <th style="width: 10%" class="text-right">Actual</th>
-                                    <th style="width: 10%" class="text-right">Comprometido</th>
-                                    <th style="width: 10%" class="text-right">Disponible</th>
+                                    <th style="width: 10%" class="text-right">Stock</th>
+                                    <th style="width: 10%" class="text-right d-none">Comprometido</th>
+                                    <th style="width: 10%" class="text-right d-none">Disponible</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -36,11 +36,11 @@
                                         @php($i++)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>{{ $stock->almacen->nombre }}</td>
-                                            <td>{{ $stock->unidad->codigo }}</td>
+                                            <td class="text-uppercase">{{ $stock->almacen->nombre }}</td>
+                                            <td class="text-uppercase">{{ $stock->unidad->codigo }}</td>
                                             <td class="text-right">{{ formatoMillares($stock->actual, 0) }}</td>
-                                            <td class="text-right">{{ formatoMillares($stock->comprometido, 0) }}</td>
-                                            <td class="text-right">{{ formatoMillares($stock->disponible, 0) }}</td>
+                                            <td class="text-right d-none">{{ formatoMillares($stock->comprometido, 0) }}</td>
+                                            <td class="text-right d-none">{{ formatoMillares($stock->disponible, 0) }}</td>
                                         </tr>
                                     @endforeach
                                     @if($listarStock->count() >=2)
@@ -48,9 +48,9 @@
                                             <th>&nbsp;</th>
                                             <th>&nbsp;</th>
                                             <th>TOTALES</th>
-                                            <th class="text-right">{{ formatoMillares($listarStock->sum('actual'), 3) }}</th>
-                                            <th class="text-right">{{ formatoMillares($listarStock->sum('comprometido'), 3) }}</th>
-                                            <th class="text-right">{{ formatoMillares($listarStock->sum('disponible'), 3) }}</th>
+                                            <th class="text-right">{{ formatoMillares($listarStock->sum('actual'), 0) }}</th>
+                                            <th class="text-right d-none">{{ formatoMillares($listarStock->sum('comprometido'), 0) }}</th>
+                                            <th class="text-right d-none">{{ formatoMillares($listarStock->sum('disponible'), 0) }}</th>
                                         </tr>
                                     @endif
                                 @else
@@ -58,11 +58,11 @@
                                         @php($i++)
                                         <tr>
                                             <td>{{ $i }}</td>
-                                            <td>{{ $almacen->nombre }}</td>
-                                            <td>{{ $principal_code }}</td>
+                                            <td class="text-uppercase">{{ $almacen->nombre }}</td>
+                                            <td class="text-uppercase">{{ $principal_code }}</td>
                                             <td class="text-right">{{ formatoMillares(0, 0) }}</td>
-                                            <td class="text-right">{{ formatoMillares(0, 0) }}</td>
-                                            <td class="text-right">{{ formatoMillares(0, 0) }}</td>
+                                            <td class="text-right d-none">{{ formatoMillares(0, 0) }}</td>
+                                            <td class="text-right d-none">{{ formatoMillares(0, 0) }}</td>
                                         </tr>
                                     @endforeach
                                 @endif

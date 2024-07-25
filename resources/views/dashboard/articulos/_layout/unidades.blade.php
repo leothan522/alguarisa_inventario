@@ -73,7 +73,7 @@
 
                 </div>
 
-                <form wire:submit="save" class="p-0">
+                <form wire:submit="save" class="p-0 @if($primaria_id && !$editar) d-none @endif">
                     <table class="table table-sm">
                         <tbody>
                         <tr>
@@ -116,7 +116,7 @@
             </div>
 
             <div class="modal-footer card-footer">
-                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="btn_modal_articulos_unidades">Cerrar</button>
             </div>
 
             {!! verSpinner() !!}

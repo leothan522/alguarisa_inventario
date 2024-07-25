@@ -2,15 +2,18 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados de la Busqueda { <b class="text-warning">{{ $keyword }}</b> }
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
                 <button class="btn btn-tool text-warning" wire:click="limpiarCategorias"><i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Categorias Registradas [ <b class="text-warning">{{ $rowsCategorias }}</b> ]
+                Categorias [ <b class="text-warning">{{ $rowsCategorias }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" wire:click="limpiarCategorias">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsCategorias) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
@@ -30,8 +33,8 @@
             @if($listarCategorias->isNotEmpty())
                 @foreach($listarCategorias as $categoria)
                     <tr>
-                        <td>{{ $categoria->codigo }}</td>
-                        <td>{{ $categoria->nombre }}</td>
+                        <td class="text-uppercase">{{ $categoria->codigo }}</td>
+                        <td class="text-uppercase">{{ $categoria->nombre }}</td>
                         <td class="text-center">{{ formatoMillares($categoria->cantidad, 0) }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">

@@ -2,15 +2,18 @@
     <div class="card-header">
         <h3 class="card-title">
             @if($keyword)
-                Resultados de la Busqueda { <b class="text-warning">{{ $keyword }}</b> }
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> }
                 <button class="btn btn-tool text-warning" wire:click="limpiarTributarios"><i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Impuestos Registrados [ <b class="text-warning">{{ $rowsTributarios }}</b> ]
+                Impuestos [ <b class="text-warning">{{ $rowsTributarios }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
+            <button type="button" class="btn btn-tool" wire:click="limpiarTributarios">
+                <i class="fas fa-sync-alt"></i>
+            </button>
             <button type="button" class="btn btn-tool" wire:click="setLimit" @if($rows > $rowsTributarios) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
@@ -29,7 +32,7 @@
             @if($listarTributarios->isNotEmpty())
                 @foreach($listarTributarios as $tributario)
                     <tr>
-                        <td>{{ $tributario->codigo }}</td>
+                        <td class="text-uppercase">{{ $tributario->codigo }}</td>
                         <td class="text-center">{{ formatoMillares($tributario->taza) }} <i class="fas fa-percentage"></i></td>
                         <td class="justify-content-end">
                             <div class="btn-group">
