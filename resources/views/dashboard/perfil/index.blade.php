@@ -62,5 +62,10 @@
 
 @section('js')
     <script src="{{ asset("js/app.js") }}"></script>
-    <script> console.log('Hi!'); </script>
+    <script>
+        $(document).ready(function () {
+            $('#navbar_usuario_activo').removeClass('d-md-inline');
+        });
+        console.log('Hi!');
+    </script>
 @endsection

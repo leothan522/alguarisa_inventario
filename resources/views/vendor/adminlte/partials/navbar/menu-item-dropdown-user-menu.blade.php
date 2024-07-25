@@ -22,7 +22,7 @@
                  class="user-image img-circle elevation-2"
                  alt="{{ Auth::user()->name }}">
         @endif
-        <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif>
+        <span @if(config('adminlte.usermenu_image')) class="d-none d-md-inline" @endif id="navbar_usuario_activo">
             {{ Auth::user()->name }}
         </span>
     </a>
