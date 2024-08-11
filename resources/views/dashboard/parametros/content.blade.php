@@ -5,6 +5,9 @@
         <ul>
             <li>numRowsPaginate[null|numero]</li>
             <li>size_codigo[tamaño|null]</li>
+            <li>proximo_codigo_ajutes[empresas_id|numero]</li>
+            <li>editable_fecha_ajutes[empresas_id|1/0]</li>
+            <li>editable_codigo_ajutes[empresas_id|1/0]</li>
             {{--<li>iva</li>
             <li>telefono_soporte</li>
             <li>codigo_pedido</li>--}}
