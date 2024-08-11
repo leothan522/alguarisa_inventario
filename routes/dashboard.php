@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\PruebaController;
 use App\Http\Controllers\FCM\FcmController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\ParametrosController;
@@ -37,6 +38,9 @@ Route::middleware([
     Route::get('parametros', [ParametrosController::class, 'index'])->name('parametros.index');
     Route::get('usuarios', [UsuariosController::class, 'index'])->name('usuarios.index');
     Route::get('export/usuarios/{buscar?}', [UsuariosController::class, 'export'])->name('usuarios.excel');
+    Route::get('pruebas', [PruebaController::class, 'index'])->name('pruebas.index');
+
+    //alguarisa
     Route::get('empresas', [EmpresasController::class, 'index'])->name('empresas.index');
     Route::get('articulos', [ArticulosController::class, 'index'])->name('articulos.index');
     Route::post('export/articulos', [ArticulosController::class, 'reporteArticulos'])->name('articulos.reportes');
@@ -45,8 +49,6 @@ Route::middleware([
     Route::post('export/stock', [StockController::class, 'reporteStock'])->name('stock.reportes');
     Route::post('export/ajustes', [StockController::class, 'reporteAjustes'])->name('ajustes.reportes');
     Route::get('ofertas', [OfertasController::class, 'index'])->name('ofertas.index');
-
-    //alguarisa
     Route::get('territorio', [TerritorioController::class, 'index'])->name('territorio.index');
 
 });
@@ -55,11 +57,6 @@ Route::get('dashboard/perfil', [UsuariosController::class, 'perfil'])->middlewar
 Route::get('chat-directo/{id?}', [ChatController::class, 'index'])->middleware(['user.android'])->name('chat.directo');
 Route::get('stock/{token}', [CompartirController::class, 'index'])->middleware(['user.android'])->name('stock.compartirqr');
 Route::get('export/{almacen}/{empresa}/{limit}/movimientos/', [CompartirController::class, 'reporteMovimientos'])->name('movimientos.reportes');
-
-Route::get('/prueba', function () {
-    //Alert::alert('Title', 'Message', 'Type');
-    return view('dashboard._componentes.home');
-})->middleware(['auth', 'user.permisos'])->name("prueba");
 
 
 

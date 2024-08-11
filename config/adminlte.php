@@ -213,7 +213,7 @@ return [
     |
     */
 
-    'sidebar_mini' => 'xs',
+    'sidebar_mini' => 'lg',
     'sidebar_collapse' => true,
     'sidebar_collapse_auto_size' => false,
     'sidebar_collapse_remember' => false,
@@ -376,6 +376,12 @@ return [
                     'icon' => 'fas fa-fw fa-list',
                     'route' => 'parametros.index',
                     'can' => 'parametros',
+                ],
+                [
+                    'text' => 'Pruebas',
+                    'icon' => 'fas fa-fw fa-tools',
+                    'route' => 'pruebas.index',
+                    'can' => 'pruebas',
                 ]
             ],
         ],
