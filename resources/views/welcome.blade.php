@@ -821,6 +821,7 @@
         #topright { position: absolute; right: 20px; top: 0; display: block; background: url({{ asset('img/logo_gobernacion.png') }}) no-repeat; text-indent: -999em; text-decoration: none; }
 
     </style>
+    @livewireStyles
 </head>
 <body class="antialiased">
 <div
@@ -5446,6 +5447,8 @@ c2NhcGUub3Jnm+48GgAAAABJRU5ErkJggg=="/>
         </div>
     </div>
 </div>
+@livewireScripts
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<x-livewire-alert::scripts />
 </body>
-@include('sweetalert::alert')
 </html>
