@@ -1,7 +1,8 @@
 {{-- Modal --}}
-<div wire:ignore.self class="modal fade" id="modal-municipios" xmlns:wire="http://www.w3.org/1999/xhtml">
-    <form wire:submit="saveMunicipio">
-        <div class="modal-dialog">
+<form wire:submit="saveMunicipio">
+    <div wire:ignore.self class="modal fade" id="modal-municipios" xmlns:wire="http://www.w3.org/1999/xhtml">
+
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header bg-navy">
                     <h4 class="modal-title">@if($viewMunicipio == 'create')
@@ -61,6 +62,7 @@
                 </div>
 
                 <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="municipio_btn_cerrar">{{ __('Close') }}</button>
                     <button type="submit" class="btn @if($viewMunicipio != 'create') btn-primary @else btn-success @endif ">
                         <i class="fas fa-save"></i>
                         Guardar
@@ -68,12 +70,12 @@
                             Cambios
                         @endif
                     </button>
-                    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="municipio_btn_cerrar">{{ __('Close') }}</button>
                 </div>
 
                 {!! verSpinner() !!}
 
             </div>
         </div>
-    </form>
-</div>
+
+    </div>
+</form>

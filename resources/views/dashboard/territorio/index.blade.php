@@ -12,8 +12,13 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    {{--<li class="breadcrumb-item"><a href="#">Home</a></li>--}}
-                    <li class="breadcrumb-item active">Municipios Registrados</li>
+                    <li class="breadcrumb-item active" id="btn_breadcrumb_municipio">
+                        Municipio
+                    </li>
+                    <li class="breadcrumb-item" id="btn_breadcrumb_parroquia">
+                        <a class="link" style="cursor: pointer" onclick="verParroquia()">Parroquias</a>
+                    </li>
+                    {{--<li class="breadcrumb-item active">Municipios Registrados</li>--}}
                 </ol>
             </div>
         </div>
@@ -25,7 +30,7 @@
 @endsection
 
 @section('right-sidebar')
-    @include('dashboard.territorio.right-sidebar')
+    @include('dashboard.right-sidebar')
 @endsection
 
 @section('footer')
@@ -40,12 +45,34 @@
     <script src="{{ asset("js/app.js") }}"></script>
     <script>
 
-        function nuevoMunicipio() {
-            Livewire.dispatch('limpiarMunicipios');
+        function verMunicipio() {
+
+            let html = '<a class="link" style="cursor: pointer" onclick="verParroquia()">Parroquias</a>';
+
+            $('#btn_breadcrumb_municipio')
+                .addClass('active')
+                .html('Municipios');
+
+            $('#btn_breadcrumb_parroquia')
+                .removeClass('active')
+                .html(html);
+
+            $('#custom-tabs-one-home-tab').click();
         }
 
-        function nuevaParroquia() {
-            Livewire.dispatch('limpiarParroquias');
+        function verParroquia() {
+
+            let html = '<a class="link" style="cursor: pointer" onclick="verMunicipio()">Municipios</a>';
+
+            $('#btn_breadcrumb_municipio')
+                .removeClass('active')
+                .html(html);
+
+            $('#btn_breadcrumb_parroquia')
+                .addClass('active')
+                .html('Parroquias');
+
+            $('#custom-tabs-one-profile-tab').click();
         }
 
         Livewire.on('cerrarModal', ({ selector }) => {
@@ -85,6 +112,15 @@
                 .val(municipio)
                 .trigger('change');
         });
+
+        Livewire.on('setBreadcrumb', () => {
+            verParroquia();
+        });
+
+        $(document).on('select2:open', () => {
+            document.querySelector('.select2-search__field').focus();
+        });
+
 
         console.log('Hi!');
     </script>
