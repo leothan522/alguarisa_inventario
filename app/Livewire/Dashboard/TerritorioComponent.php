@@ -154,11 +154,11 @@ class TerritorioComponent extends Component
             if ($municipio->estatus){
                 $municipio->estatus = 0;
                 $type = 'info';
-                $message = $municipio->mini." Inactivo.";
+                $message = $municipio->mini." INACTIVO.";
             }else{
                 $municipio->estatus = 1;
                 $type = 'success';
-                $message = $municipio->mini." Activo.";
+                $message = $municipio->mini." ACTIVO.";
 
             }
             $municipio->save();
@@ -331,15 +331,16 @@ class TerritorioComponent extends Component
             if ($parroquia->estatus){
                 $parroquia->estatus = 0;
                 $type = 'info';
-                $message = $parroquia->nombre." Inactivo.";
+                $message = $parroquia->nombre." INACTIVO.";
             }else{
                 $parroquia->estatus = 1;
                 $type = 'success';
-                $message = $parroquia->nombre." Activo.";
+                $message = $parroquia->nombre." ACTIVO.";
 
             }
             $parroquia->save();
             $this->alert($type, $message);
+            $this->tabActive('parroquia');
         }
     }
 
