@@ -95,7 +95,11 @@ class RolesComponent extends Component
         if ($rol){
             $this->roles_id = $rol->id;
             $this->nombre = $rol->nombre;
-            $this->getPermisos = $rol->valor;
+            if (json_decode($rol->valor) || empty($rol->valor)){
+                $this->getPermisos = $rol->valor;
+            }else{
+                $this->getPermisos = null;
+            }
             $this->reset('cambios');
         }else{
             $this->dispatch('removeRolList', id: $id);
