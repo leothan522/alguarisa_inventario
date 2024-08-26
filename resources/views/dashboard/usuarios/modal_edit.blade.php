@@ -2,10 +2,10 @@
     <div wire:ignore.self class="modal fade" id="modal-user-edit">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content fondo">
-                <div class="modal-header">
+                <div class="modal-header bg-navy">
                     <h4 class="modal-title">Detalles del Usuario</h4>
                     <button type="button" wire:click="limpiar" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span class="text-white" aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -91,7 +91,7 @@
                                         <h3 class="card-title">Editar Usuario</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool text-bold" wire:click="edit({{ $usuarios_id }})">
-                                                <i class="fas fa-redo"></i> Reset
+                                                <i class="fas fa-sync-alt"></i>
                                             </button>
                                         </div>
                                     </div>

@@ -33,11 +33,13 @@ class UsuariosComponent extends Component
         $roles = Parametro::where('tabla_id', '-1')->get();
 
         $users = User::buscar($this->keyword)
-            ->orderBy('role', 'DESC')
-            ->orderBy('roles_id', 'DESC')
+            /*->orderBy('role', 'DESC')
+            ->orderBy('roles_id', 'DESC')*/
             ->orderBy('created_at', 'DESC')
             ->limit($this->rows)
             ->get();
+
+        $total = User::buscar($this->keyword)->count();
 
         $rows = User::count();
 
@@ -48,7 +50,8 @@ class UsuariosComponent extends Component
         return view('livewire.dashboard.usuarios-component')
             ->with('listarRoles', $roles)
             ->with('listarUsers', $users)
-            ->with('rowsUsuarios', $rows);
+            ->with('rowsUsuarios', $rows)
+            ->with('totalBusqueda', $total);
     }
 
     public function setLimit()
@@ -65,7 +68,7 @@ class UsuariosComponent extends Component
     public function limpiar()
     {
         $this->reset([
-            'view', 'keyword', 'name', 'email', 'password', 'role', 'usuarios_id',
+            'view', 'name', 'email', 'password', 'role', 'usuarios_id',
             'edit_name', 'edit_email', 'edit_password', 'edit_role', 'edit_roles_id', 'created_at', 'estatus',
             'photo', 'empresas_id', 'rol_nombre', 'getPermisos', 'cambios'
         ]);
@@ -128,6 +131,7 @@ class UsuariosComponent extends Component
                 $usuarios->roles_id = null;
             }
             $usuarios->save();
+            $this->reset('keyword');
             $this->limpiar();
             $this->dispatch('cerrarModal', selector: 'btn_modal_default_create');
             $this->alert('success', 'Usuario Creado.');
@@ -351,6 +355,12 @@ class UsuariosComponent extends Component
     public function actualizar()
     {
         //JS
+    }
+
+    public function cerrarBusqueda()
+    {
+        $this->reset(['keyword']);
+        $this->limpiar();
     }
 
     //acceso a empresas **********************************************************************
