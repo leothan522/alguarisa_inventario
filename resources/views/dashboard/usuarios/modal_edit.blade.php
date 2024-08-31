@@ -65,13 +65,13 @@
                                                         @php($clase = "btn-success")
                                                         @php($texto = "Reactivar <br> Usuario")
                                                     @endif
-                                                    <button type="button" wire:click="cambiarEstatus({{ $usuarios_id }})" class="btn {{ $clase }} btn-block"
+                                                    <button type="button" wire:click="cambiarEstatus('{{ $rowquid }}')" class="btn {{ $clase }} btn-block"
                                                             @if(!comprobarPermisos('usuarios.estatus')) disabled @endif>
                                                         <b>{!! $texto !!}</b>
                                                     </button>
                                                 </div>
                                                 <div class="col-6">
-                                                    <button type="button" wire:click="restablecerClave({{ $usuarios_id }})" class="btn btn-block btn-secondary"
+                                                    <button type="button" wire:click="restablecerClave('{{ $rowquid }}')" class="btn btn-block btn-secondary"
                                                             @if(!comprobarPermisos('usuarios.password')) disabled @endif>
                                                         <b>Restablecer <br> Contraseña</b>
                                                     </button>
@@ -90,7 +90,7 @@
                                     <div class="card-header">
                                         <h3 class="card-title">Editar Usuario</h3>
                                         <div class="card-tools">
-                                            <button type="button" class="btn btn-tool text-bold" wire:click="edit({{ $usuarios_id }})">
+                                            <button type="button" class="btn btn-tool text-bold" wire:click="edit('{{ $rowquid }}')">
                                                 <i class="fas fa-sync-alt"></i>
                                             </button>
                                         </div>
@@ -193,8 +193,8 @@
                 {!! verSpinner() !!}
 
                 <div class="modal-footer {{--row col-12--}} justify-content-between">
-                    <button type="button" class="btn btn-danger btn-sm" wire:click="destroy({{ $usuarios_id }})"
-                            @if(!comprobarPermisos('usuarios.destroy') || !($edit_role != 1 || ($edit_role == 1 && comprobarPermisos())) || ($usuarios_id == auth()->id())) disabled @endif >
+                    <button type="button" class="btn btn-danger btn-sm" wire:click="destroy('{{ $rowquid }}')"
+                            @if(!comprobarPermisos('usuarios.destroy') || !($edit_role != 1 || ($edit_role == 1 && comprobarPermisos())) || ($users_id == auth()->id())) disabled @endif >
                         <i class="fas fa-trash-alt"></i>
                     </button>
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" wire:click="limpiar" id="button_edit_modal_cerrar">

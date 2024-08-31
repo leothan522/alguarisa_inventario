@@ -1,7 +1,7 @@
 @extends('layouts.adminlte')
 
 @section('title')
-    Chat Directo | {{ auth()->user()->name }}
+    Chat Directo
 @endsection
 
 @section('content')
@@ -41,6 +41,10 @@
 
         $(document).ready(function () {
             setInterval(refresh, 5000);
+        });
+
+        Livewire.on('cerrarModal', () => {
+            $('#btn_cerrar_modal_info_user').click();
         });
 
         console.log('Hi!')

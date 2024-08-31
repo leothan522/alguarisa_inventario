@@ -14,7 +14,7 @@
             </span>
         </div>
 
-        <img class="direct-chat-img" wire:click="showModal({{ $mensaje->users_id }})"
+        <img class="direct-chat-img" wire:click="showModal('{{ $mensaje->rowquid }}')"
              src="{{ verImagen($mensaje->user->profile_photo_path, true) }}"
              data-toggle="modal" data-target="#exampleModal" alt="Message User Image" style="cursor: pointer;">
 

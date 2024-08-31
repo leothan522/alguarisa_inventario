@@ -9,9 +9,12 @@ function buscar(){
     let keyword  = input.val();
     if (keyword.length > 0){
         input.blur();
-        //alert('Falta vincular con el componente Livewire');
         //$('#cargar_buscar').removeClass('d-none');
-        Livewire.dispatch('buscar', { keyword: keyword });
+        try {
+            Livewire.dispatch('buscar', { keyword: keyword });
+        }catch (e) {
+            alert('Falta vincular con el componente Livewire');
+        }
     }
     return false;
 }
@@ -37,5 +40,4 @@ $(function () {
     $('[data-toggle="popover"]').popover({
         html: true
     });
-});
-
+})

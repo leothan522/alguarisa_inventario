@@ -22,7 +22,7 @@
                     </div>
                 </div>
 
-                @if($usuarios_id)
+                @if($users_id)
                     @include('dashboard.usuarios.show_permisos')
                 @endif
 

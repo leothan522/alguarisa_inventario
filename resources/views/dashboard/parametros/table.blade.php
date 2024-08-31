@@ -59,11 +59,11 @@
                         </td>
                         <td class="justify-content-end">
                             <div class="btn-group">
-                                <button wire:click="edit({{ $parametro->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
+                                <button wire:click="edit('{{ $parametro->rowquid }}')" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-default">
                                     <i class="fas fa-edit"></i>
                                 </button>
 
-                                <button wire:click="destroy({{ $parametro->id }})" class="btn btn-primary btn-sm">
+                                <button wire:click="destroy('{{ $parametro->rowquid }}')" class="btn btn-primary btn-sm">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </div>

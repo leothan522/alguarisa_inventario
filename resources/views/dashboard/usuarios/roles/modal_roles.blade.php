@@ -49,7 +49,7 @@
             </div>
             <div class="modal-footer">
                 <div class="row col-12 justify-content-between">
-                    <button type="button" class="btn btn-danger btn-sm" wire:click="destroy({{ $roles_id }})">
+                    <button type="button" class="btn btn-danger btn-sm" wire:click="destroy('{{ $rowquid }}')">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                     <button type="button" class="btn btn-default btn-sm" wire:click="deletePermisos">

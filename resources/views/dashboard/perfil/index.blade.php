@@ -65,7 +65,7 @@
     <script>
         $(document).ready(function () {
             $('#navbar_usuario_activo').removeClass('d-md-inline');
+            $('#navbar_search_id').addClass('d-none');
         });
-        console.log('Hi!');
-    </script>
+        console.log('Hi!'); </script>
 @endsection

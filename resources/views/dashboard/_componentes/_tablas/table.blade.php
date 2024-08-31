@@ -1,21 +1,24 @@
 <div class="card card-navy" xmlns:wire="http://www.w3.org/1999/xhtml">
     <div class="card-header">
         <h3 class="card-title">
-            @if(/*$keyword*/false)
-                Resultados de la Busqueda { <b class="text-warning">{{ $keyword }}</b> }
-                <button class="btn btn-tool text-warning" wire:click="limpiarTipos">
+            @if($keyword)
+                Búsqueda { <b class="text-warning">{{ $keyword }}</b> } [ <b class="text-warning">{{ $totalBusqueda }}</b> ]
+                <button class="btn btn-tool text-warning" wire:click="cerrarBusqueda">
                     <i class="fas fa-times-circle"></i>
                 </button>
             @else
-                Tipos Registrados [ <b class="text-warning">{{--{{ $rowsTipos }}--}}0</b> ]
+                Registrados [ <b class="text-warning">{{ $rowsTipos }}</b> ]
             @endif
         </h3>
 
         <div class="card-tools">
-            <button type="button" class="btn btn-tool" {{--wire:click="limpiar"--}}>
+            <button type="button" class="btn btn-tool" wire:click="limpiarTipos">
                 <i class="fas fa-sync-alt"></i>
             </button>
-            <button type="button" class="btn btn-tool" {{--wire:click="setLimit" @if($rows > $rowsTipos) disabled @endif--}} >
+            <button type="button" class="btn btn-tool" wire:click="create" @if(!comprobarPermisos('tipos.create')) disabled @endif>
+                <i class="fas fa-file"></i> Nuevo
+            </button>
+            <button type="button" class="btn btn-tool" wire:click="setLimit" @if(($rows > $rowsTipos) || ($keyword && $rows > $totalBusqueda)) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
         </div>
@@ -29,10 +32,10 @@
             </tr>
             </thead>
             <tbody>
-            @if(/*$listarTipos->isNotEmpty()*/false)
+            @if($listarTipos->isNotEmpty())
                 @foreach($listarTipos as $tipo)
                     <tr>
-                        <td>{{ $tipo->nombre }}</td>
+                        <td class="text-uppercase text-truncate" style="max-width: 150px;">{{ $tipo->nombre }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">
                                 <button wire:click="edit({{ $tipo->id }})" class="btn btn-primary btn-sm"
@@ -51,7 +54,7 @@
                 @else
                 <tr class="text-center">
                     <td colspan="2">
-                        @if(/*$keyword*/false)
+                        @if($keyword)
                             <span>Sin resultados.</span>
                         @else
                             <span>Aún se se ha creado un Tipo.</span>
@@ -64,6 +67,6 @@
         </table>
     </div>
     <div class="card-footer">
-        <small>Mostrando {{--{{ $listarTipos->count() }}--}}0</small>
+        <small>Mostrando {{ $listarTipos->count() }}</small>
     </div>
 </div>

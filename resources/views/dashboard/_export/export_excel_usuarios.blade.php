@@ -16,7 +16,13 @@
             <td style="border: 1px solid #000000; text-align: center">{{ ucwords($user->name) }}</td>
             <td style="border: 1px solid #000000; text-align: center">{{ $user->email }}</td>
             <td style="border: 1px solid #000000; text-align: center">{{ verRole($user->role, $user->roles_id) }}</td>
-            <td style="border: 1px solid #000000; text-align: center">{!! verEstatusUsuario($user->estatus)  !!}</td>
+            <td style="border: 1px solid #000000; text-align: center">
+                @if($user->estatus)
+                    Activo
+                @else
+                    Inactivo
+                @endif
+            </td>
             <td style="border: 1px solid #000000; text-align: center">{{ verFecha($user->created_at) }}</td>
         </tr>
     @endforeach

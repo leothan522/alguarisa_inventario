@@ -1,12 +1,12 @@
 <div class="row justify-content-center" xmlns:wire="http://www.w3.org/1999/xhtml">
-    <div class="col-4">
+    <div class="col-sm-6 col-lg-4">
         <div class="card card-navy" style="height: inherit; width: inherit; transition: all 0.15s ease 0s;">
         <div class="card-header">
                 <h3 class="card-title">
                     Firebase Cloud Messaging (FCM)
                 </h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-tool" {{--wire:click="limpiar"--}}>
+                    <button type="button" class="btn btn-tool" wire:click="limpiar" onclick="cancelar()">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>

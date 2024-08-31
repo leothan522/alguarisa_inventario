@@ -2,7 +2,7 @@
     <div class="card card-primary card-outline direct-chat direct-chat-primary">
 
         <div class="card-header">
-            <h3 class="card-title">Direct Chat</h3>
+            <h3 class="card-title">Chat Directo</h3>
             <div class="card-tools">
                 <button class="btn btn-tool" title="{{ $new }} Mensajes Nuevos" wire:click="show">
                     <i class="far fa-bell text-sm"></i>

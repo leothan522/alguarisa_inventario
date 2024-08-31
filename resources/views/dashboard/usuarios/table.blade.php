@@ -72,12 +72,12 @@
                         <td class="d-none d-lg-table-cell text-right">{{ haceCuanto($user->created_at)  }}</td>
                         <td class="justify-content-end">
                             <div class="btn-group">
-                                <button wire:click="edit({{ $user->id }})" class="btn btn-primary btn-sm"
+                                <button wire:click="edit('{{ $user->rowquid }}')" class="btn btn-primary btn-sm"
                                         data-toggle="modal" data-target="#modal-user-edit"
                                         @if(!comprobarPermisos('usuarios.edit') || !($user->role != 1 || ($user->role ==1 && comprobarPermisos())) || ($user->id == auth()->id() && auth()->user()->role != 100)) disabled @endif>
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <button wire:click="edit({{ $user->id }})" class="btn btn-primary btn-sm"
+                                <button wire:click="edit('{{ $user->rowquid }}')" class="btn btn-primary btn-sm"
                                         data-toggle="modal" data-target="#modal-user-permisos" @if(!comprobarPermisos() || ($user->role == 1 && auth()->user()->role != 100)) disabled @endif>
                                     <i class="fas fa-user-cog"></i>
                                 </button>

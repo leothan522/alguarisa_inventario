@@ -351,7 +351,7 @@ return [
         [
             'text'      => 'Configuración',
             'icon'      => 'fas fa-fw fa-cogs',
-            'can'       => ['usuarios', 'parametros'],
+            'can'       => ['usuarios', 'empresas', 'territorio', 'parametros', 'pruebas'],
             'submenu' => [
                 [
                     'text' => 'Usuarios',
