@@ -1,0 +1,6 @@
+.img_circular{
+    width: 130px;
+    height: 130px;
+    borderRadius: 100%;
+    object-fit: cover;
+}

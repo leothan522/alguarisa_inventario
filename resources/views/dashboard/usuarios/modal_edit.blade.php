@@ -17,7 +17,7 @@
                                 <div class="card card-navy card-outline">
                                     <div class="card-body box-profile">
                                         <div class="text-center">
-                                            <img class="profile-user-img img-fluid img-circle" src="{{ verImagen($photo, true) }}" alt="User profile picture">
+                                            <img class="profile-user-img img-fluid img-circle img_circular" src="{{ verImagen($photo, true) }}" alt="User profile picture">
                                         </div>
 
                                         <h3 class="profile-username text-center">{{ ucwords($edit_name) }}</h3>
