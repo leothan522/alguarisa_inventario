@@ -1,2 +1,8 @@
 *
 !.gitignore
+!imagenes
+!articulos
+!categorias
+!empresas
+!galeria
+!profile-photos

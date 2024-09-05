@@ -329,25 +329,6 @@ return [
                 ]
             ],
         ],
-        /*[
-            'text'      => 'E-commerce',
-            'icon'      => 'fas fa-fw fa-store ',
-            'can'       => ['empresas', 'ofertas'],
-            'submenu' => [
-                [
-                    'text' => 'Ofertas',
-                    'icon' => 'fas fa-fw fa-gifts',
-                    'route' => 'ofertas.index',
-                    'can' => 'ofertas',
-                ],
-                [
-                    'text' => 'Empresas',
-                    'icon' => 'fas fa-fw fa-store-alt',
-                    'route'  => 'empresas.index',
-                    'can'  => 'empresas',
-                ]
-            ],
-        ],*/
         [
             'text'      => 'Configuración',
             'icon'      => 'fas fa-fw fa-cogs',
@@ -383,6 +364,33 @@ return [
                     'route' => 'pruebas.index',
                     'can' => 'pruebas',
                 ]
+            ],
+        ],
+        [
+            'text'      => 'View Android',
+            'icon'      => 'fas fa-fw fa-mobile-alt',
+            'can'       => ['fcm'],
+            'submenu' => [
+                [
+                    'text' => 'Cloud Messaging (FCM)',
+                    'icon' => 'fas fa-fw fa-bell',
+                    'route' => 'fcm.index',
+                    'can' => 'fcm',
+                ],
+                [
+                    'text' => 'Chat Directo',
+                    'icon' => 'fas fa-fw fa-comments',
+                    'route'  => 'chat.directo',
+                    'can'  => 'pruebas',
+                    'target' => '_blank',
+                ],
+                [
+                    'text' => 'API Android',
+                    'icon' => 'fas fa-fw fa-mobile-alt',
+                    'url' => env('APP_URL_ANDROID', '/android'),
+                    'can'  => 'pruebas',
+                    'target' => '_blank',
+                ],
             ],
         ],
     ],
