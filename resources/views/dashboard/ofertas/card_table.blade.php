@@ -36,9 +36,15 @@
                     <tr>
                         <td>{{ $oferta->id }}</td>
                         <td>
-                            @if($oferta->afectados == 0) TODOS @endif
-                            @if($oferta->afectados == 1) CATEGORIA @endif
-                            @if($oferta->afectados == 2) ARTICULO @endif
+                            @if($oferta->afectados == 0)
+                                TODOS
+                            @endif
+                            @if($oferta->afectados == 1)
+                                CATEGORIA
+                            @endif
+                            @if($oferta->afectados == 2)
+                                ARTICULO
+                            @endif
                         </td>
                         <td>
                             @if($oferta->categorias_id)
@@ -55,9 +61,9 @@
                             @endif
                         </td>
                         <td>
-                            {{ verFecha($oferta->desde, 'd/m/Y h:i a') }}
+                            {{ getFecha($oferta->desde, 'd/m/Y h:i a') }}
                         </td>
-                        <td>{{ verFecha($oferta->hasta, 'd/m/Y h:i a') }}</td>
+                        <td>{{ getFecha($oferta->hasta, 'd/m/Y h:i a') }}</td>
                         <td class="text-right">{{ $oferta->descuento }}%</td>
                         <td class="justify-content-end">
                             <div class="btn-group">

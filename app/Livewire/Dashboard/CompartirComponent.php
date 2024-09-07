@@ -267,7 +267,7 @@ class CompartirComponent extends Component
         if ($cuotas){
             $this->cuotaMes = mesEspanol($cuotas->mes);
             $this->cuotaCodigo = $cuotas->codigo;
-            $this->cuotaFecha = verFecha($cuotas->fecha);
+            $this->cuotaFecha = getFecha($cuotas->fecha);
             $year = date('Y');
             $anterior = Cuota::where('codigo', '<', $this->cuotaCodigo)
                 ->where('fecha', 'LIKE', '%'.$year.'%')

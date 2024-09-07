@@ -5,10 +5,18 @@
 @endphp
 <table>
     <thead>
-    <tr><th colspan="9">Empresa: {{ mb_strtoupper($empresa->nombre, 'utf8') }}</th></tr>
-    <tr><th colspan="9">R.I.F: {{ $empresa->rif }}</th></tr>
-    <tr><th colspan="9" style="text-align: center; font-weight: bold;">MOVIMIENTOS DEL ALMACEN</th></tr>
-    <tr><th colspan="9">{{ mb_strtoupper($getNombre, 'utf8') }}</th></tr>
+    <tr>
+        <th colspan="9">Empresa: {{ mb_strtoupper($empresa->nombre, 'utf8') }}</th>
+    </tr>
+    <tr>
+        <th colspan="9">R.I.F: {{ $empresa->rif }}</th>
+    </tr>
+    <tr>
+        <th colspan="9" style="text-align: center; font-weight: bold;">MOVIMIENTOS DEL ALMACEN</th>
+    </tr>
+    <tr>
+        <th colspan="9">{{ mb_strtoupper($getNombre, 'utf8') }}</th>
+    </tr>
     <tr>
         <th style="{{ $color }}{{ $border }}{{ $centro }}">Nro. Ajuste</th>
         <th style="{{ $color }}{{ $border }}{{ $centro }}">Descripción</th>
@@ -39,7 +47,8 @@
                         <td style="{{ $border }}">{{ $ajuste->codigo }}</td>
                         <td style="{{ $border }}">{{ mb_strtoupper($ajuste->descripcion, 'utf8') }}</td>
                         <td style="{{ $border }}">{{ $detalle->tipo->codigo }}</td>
-                        <td style="{{ $border }}">{{ diaEspanol($ajuste->fecha) }}, {{ verFecha($ajuste->fecha, 'd/m/Y h:i a') }}</td>
+                        <td style="{{ $border }}">{{ diaEspanol($ajuste->fecha) }}
+                            , {{ getFecha($ajuste->fecha, 'd/m/Y h:i a') }}</td>
                         <td style="{{ $border }}">
                             <small>({{ $detalle->articulo->codigo }})</small>&nbsp;
                             <span>{{ mb_strtoupper($detalle->articulo->descripcion, 'utf8') }}</span>

@@ -8,7 +8,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-uppercase">{{--<i class="fas fa-store-alt"></i>--}} {{ $modalEmpresa->nombre ?? '' }}</h5>
-                <button type="button" {{--wire:click="limpiar()"--}} class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" {{--wire:click="limpiar()"--}} class="close" data-dismiss="modal"
+                        aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -64,7 +65,8 @@
                             <b class="text-uppercase">Fecha</b>
                             <a class="text-navy">
                                 @if($getDetalles)
-                                    {{ diaEspanol($getDetalles->ajustes->fecha) }}, {{ verFecha($getDetalles->ajustes->fecha, 'd/m/Y h:i a') }}
+                                    {{ diaEspanol($getDetalles->ajustes->fecha) }}
+                                    , {{ getFecha($getDetalles->ajustes->fecha, 'd/m/Y h:i a') }}
                                 @endif
                             </a>
                         </li>
@@ -82,7 +84,8 @@
             {!! verSpinner() !!}
 
             <div class="modal-footer justify-content-end">
-                <button type="button" {{--wire:click="limpiar()"--}} class="btn btn-default btn-sm" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="button" {{--wire:click="limpiar()"--}} class="btn btn-default btn-sm"
+                        data-dismiss="modal">{{ __('Close') }}</button>
             </div>
 
         </div>
