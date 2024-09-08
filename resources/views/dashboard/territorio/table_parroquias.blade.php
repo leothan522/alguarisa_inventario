@@ -1,14 +1,16 @@
-<div class="card card-outline card-navy" xmlns:wire="http://www.w3.org/1999/xhtml">
+<div class="card card-navy">
     <div class="card-header">
         <h3 class="card-title">
             @if($keywordParroquia || $idMunicipio)
                 @if($keywordParroquia)
-                    Busqueda { <b class="text-danger">{{ $keywordParroquia }}</b> }
-                    <button class="btn btn-tool text-danger" wire:click="limpiarParroquias"><i class="fas fa-times-circle"></i>
+                    Parroquias { <b class="text-warning">{{ $keywordParroquia }}</b> } [ <b class="text-warning">{{ $totalParroquias }}</b> ]
+                    <button class="btn btn-tool text-warning" wire:click="cerrarBusqueda('parroquia')">
+                        <i class="fas fa-times-circle"></i>
                     </button>
                 @else
-                    Filtrando { <b class="text-danger">{{ $verMunicipio }}</b> }
-                    <button class="btn btn-tool text-danger" wire:click="limpiarParroquias"><i class="fas fa-times-circle"></i>
+                    Filtrando { <b class="text-warning">{{ $verMunicipio }}</b> } [ <b class="text-warning">{{ $totalParroquias }}</b> ]
+                    <button class="btn btn-tool text-warning" wire:click="cerrarBusqueda('parroquia')">
+                        <i class="fas fa-times-circle"></i>
                     </button>
                 @endif
             @else
@@ -29,12 +31,13 @@
                     <i class="fas fa-file"></i> Nuevo
                 </button>
             @endif
-            <button type="button" class="btn btn-tool" wire:click="setLimit('true')" @if($rows >= $rowsParroquias) disabled @endif >
+            <button type="button" class="btn btn-tool" wire:click="setLimit('true')"
+                    @if($rows >= $rowsParroquias) disabled @endif >
                 <i class="fas fa-sort-amount-down-alt"></i> Ver más
             </button>
         </div>
     </div>
-    <div class="card-body table-responsive p-0" @if($listarParroquias->count() > $numero) style="height: 72vh;" @endif >
+    <div class="card-body table-responsive p-0" @if($totalParroquias >= $numero) style="height: 67vh;" @endif >
         <table class="table table-sm table-head-fixed table-hover text-nowrap">
             <thead>
             <tr class="text-navy">
@@ -61,25 +64,29 @@
                         <td class="justify-content-end">
                             <div class="d-none d-md-block">
                                 <div class="btn-group">
-                                    <button wire:click="estatusParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm">
+                                    <button wire:click="estatusParroquia('{{ $parroquia->rowquid }}')" class="btn btn-primary btn-sm">
                                         @if($parroquia->estatus)
                                             <i class="fas fa-check"></i>
                                         @else
                                             <i class="fas fa-ban"></i>
                                         @endif
                                     </button>
-                                    <button wire:click="editParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-parroquias"
+                                    <button wire:click="editParroquia('{{ $parroquia->rowquid }}')"
+                                            class="btn btn-primary btn-sm" data-toggle="modal"
+                                            data-target="#modal-parroquias"
                                             @if(!comprobarPermisos('parroquias.edit')) disabled @endif >
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button wire:click="destroyParroquia({{ $parroquia->id }})" class="btn btn-primary btn-sm"
+                                    <button wire:click="destroyParroquia('{{ $parroquia->rowquid }}')" class="btn btn-primary btn-sm"
                                             @if(!comprobarPermisos('parroquias.destroy')) disabled @endif >
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="d-md-none">
-                                <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal-show-parroquias" wire:click="editParroquia({{ $parroquia->id }})">
+                                <button class="btn btn-primary btn-sm" data-toggle="modal"
+                                        data-target="#modal-show-parroquias"
+                                        wire:click="editParroquia('{{ $parroquia->rowquid }}')">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>

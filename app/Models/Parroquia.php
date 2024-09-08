@@ -9,13 +9,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Parroquia extends Model
 {
     use HasFactory;
+
     protected $table = "parroquias";
     protected $fillable = [
-      'nombre',
-      'mini',
-      'familias',
-      'municipios_id',
-      'estatus'
+        'nombre',
+        'mini',
+        'familias',
+        'municipios_id',
+        'estatus',
+        'rowquid'
     ];
 
     public function municipio(): BelongsTo
@@ -25,11 +27,10 @@ class Parroquia extends Model
 
     public function scopeBuscar($query, $keyword, $idMunicipio = null)
     {
-        if (is_null($idMunicipio)){
+        if (is_null($idMunicipio)) {
             return $query->where('nombre', 'LIKE', "%$keyword%")
-                ->orWhere('mini', 'LIKE', "%$keyword%")
-                ;
-        }else{
+                ->orWhere('mini', 'LIKE', "%$keyword%");
+        } else {
             return $query->where('municipios_id', '=', $idMunicipio);
         }
     }

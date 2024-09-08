@@ -87,8 +87,7 @@
                 '<select id="parroquias_select_municipios"></select>';
             $('#parroquias_div_select').html(html);
 
-            $('#parroquias_select_municipios')
-                .select2({
+            $('#parroquias_select_municipios').select2({
                     theme: 'bootstrap4',
                     data: data,
                     placeholder: 'Seleccione',

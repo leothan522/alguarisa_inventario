@@ -51,13 +51,17 @@
 
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_modal_show_parroquia">Cerrar</button>
-                <button type="button" class="btn btn-danger btn-sm" wire:click="destroyParroquia({{ $parroquia_id }})"
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btn_modal_show_parroquia">
+                    Cerrar
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" wire:click="destroyParroquia('{{ $parroquiaRowquid }}')"
                         @if(!comprobarPermisos('parroquias.destroy')) disabled @endif >
                     <i class="fas fa-trash-alt"></i>
                 </button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-parroquias" data-dismiss="modal"
-                        wire:click="editParroquia({{ $parroquia_id }})" @if(!comprobarPermisos('parroquias.edit')) disabled @endif >
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-parroquias"
+                        data-dismiss="modal"
+                        wire:click="editParroquia('{{ $parroquiaRowquid }}')"
+                        @if(!comprobarPermisos('parroquias.edit')) disabled @endif >
                     <i class="fas fa-edit"></i> Editar
                 </button>
             </div>

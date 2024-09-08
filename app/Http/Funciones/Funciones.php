@@ -439,6 +439,20 @@ function dataSelect2($rows, $text = null): array
     return $data;
 }
 
+function getDataSelect2($rows, $text, $id = "rowquid"): array
+{
+    $data = [];
+    $filas = $rows->toArray();
+    foreach ($filas as $row){
+        $option = [
+            'id' => $row[$id],
+            'text' => $row[$text]
+        ];
+        $data[] = $option;
+    }
+    return $data;
+}
+
 //********************** FUNCIONES PROPIAS DEL PROYECTO ATUAL ******************************
 
 function diaEspanol($fecha){
