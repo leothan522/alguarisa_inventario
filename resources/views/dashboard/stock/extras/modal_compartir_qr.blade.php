@@ -12,18 +12,19 @@
 
                 <div class="visible-print">
                     @if($compartirQr)
-                        {!! QrCode::size(200)->generate($compartirQr); !!}
+                        {{--{!! QrCode::size(200)->generate($compartirQr); !!}--}}
+                        {!! qrCodeGenerate($compartirQr, 200) !!}
                     @endif
                 </div>
 
             </div>
 
-            {!! verSpinner() !!}
-
             <div class="modal-footer justify-content-between">
                 <button type="button" wire:click="compartirQr('true')" class="btn btn-danger btn-sm" data-dismiss="modal">Dejar de compartir</button>
                 <button type="button" {{--wire:click="limpiar()"--}} class="btn btn-default btn-sm" data-dismiss="modal">{{ __('Close') }}</button>
             </div>
+
+            {!! verSpinner() !!}
 
         </div>
     </div>
