@@ -13,7 +13,7 @@
                 <div class="visible-print">
                     @if($compartirQr)
                         {{--{!! QrCode::size(200)->generate($compartirQr); !!}--}}
-                        {!! qrCodeGenerate($compartirQr, 200) !!}
+                        {!! qrCodeGenerate($compartirQr, 200, 'qrcodecompartir') !!}
                     @endif
                 </div>
 
