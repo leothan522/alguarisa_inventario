@@ -15,7 +15,7 @@
     <hr class="mb-2">
     <ul class="nav nav-pills flex-column">
         <li class="nav-item">
-            <span class="text-small text-muted float-right">Roles Registrados [ <span id="span_roles_rows">{{ $listarRoles->count() }}</span> ]</span>
+            <span class="text-small text-muted float-right">Roles Registrados [ <span id="span_roles_rows">{{ $listarRoles->count() - 2 }}</span> ]</span>
         </li>
         <li class="dropdown-divider"></li>
     </ul>
