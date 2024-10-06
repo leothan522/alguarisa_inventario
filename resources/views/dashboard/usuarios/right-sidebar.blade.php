@@ -22,6 +22,9 @@
     <div class="col-md-12 justify-content-center" id="div_listar_roles">
         @if($listarRoles->isNotEmpty())
             @foreach($listarRoles as $parametro)
+                @if($parametro->tabla_id == -2)
+                    @continue
+                @endif
                 <button type="button" class="btn btn-primary btn-sm btn-block m-1" data-toggle="modal"
                         data-target="#modal-roles-usuarios" onclick="showRol('{{ $parametro->rowquid }}')" id="button_role_id_{{ $parametro->rowquid }}">
                     {{ ucwords($parametro->nombre) }}
