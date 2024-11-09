@@ -13,9 +13,12 @@ use App\Models\Articulo;
 use App\Models\Empresa;
 use App\Models\Oferta;
 
-function generarStringAleatorio($largo = 10, $espacio = false): string
+function generarStringAleatorio($largo = 10, $soloNumeros = false, $espacio = false): string
 {
     $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if ($soloNumeros){
+        $caracteres = '0123456789';
+    }
     $caracteres = $espacio ? $caracteres . ' ' : $caracteres;
     $string = '';
     for ($i = 0; $i < $largo; $i++) {
@@ -94,7 +97,7 @@ function numRowsPaginate(): int
     $num = 15;
     $parametro = Parametro::where("nombre", "numRowsPaginate")->first();
     if ($parametro) {
-        if (is_int($parametro->valor)) {
+        if (intval($parametro->valor)) {
             $num = intval($parametro->valor);
         }
     }
